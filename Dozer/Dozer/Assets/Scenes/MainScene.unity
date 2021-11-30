@@ -34872,6 +34872,7 @@ GameObject:
   - component: {fileID: 1470986054}
   - component: {fileID: 1470986053}
   - component: {fileID: 1470986055}
+  - component: {fileID: 1470986056}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: Untagged
@@ -34918,6 +34919,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aba75c77719b0242b4ad50cc115fce7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxRot: 120
+--- !u!114 &1470986056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1470986052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c110685cbdffb3f42a2f356decabadff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radiusOfSteerDivider: 5
 --- !u!1001 &1472481916
 PrefabInstance:
   m_ObjectHideFlags: 0

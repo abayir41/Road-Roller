@@ -7,13 +7,14 @@ public class GameController : MonoBehaviour
     private ISteerSystem _steerSystem;
     private void Awake()
     {
+
         var paintableObjs = FindObjectsOfType<ColorChanger>().OfType<IColorChangerRandomly>().ToList();
         foreach (var paintableObj in paintableObjs)
         {
             paintableObj.SelectColorRandomly();
         }
 
-        _steerSystem = GetComponent<SteerSystem>();
+        _steerSystem = GetComponent<BasicSteerSystem>();
 
         
     }
