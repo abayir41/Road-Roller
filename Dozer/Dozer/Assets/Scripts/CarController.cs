@@ -34,6 +34,5 @@ public class CarController : MonoBehaviour
         var playerInput = Mathf.Sin(lastAngle * Mathf.Deg2Rad);
         playerInput += registeredTurns * Utilities.PosOrNeg(angle);
         _rigidbody.angularVelocity = Vector3.up * (angularVelocityMultiplier * playerInput);
-        Debug.Log(playerInput);
     }
 }

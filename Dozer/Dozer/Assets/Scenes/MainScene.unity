@@ -51536,6 +51536,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1847414479957000116, guid: 790b01b7606da304197450acf4585446, type: 3}
+      propertyPath: velocityMultiplier
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1847414479957000116, guid: 790b01b7606da304197450acf4585446, type: 3}
       propertyPath: angularVelocityMultiplier
       value: 1
       objectReference: {fileID: 0}
@@ -51622,5 +51626,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c110685cbdffb3f42a2f356decabadff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radiusOfSteerDivider: 10
+  radiusOfSteerDivider: 20
   minThreshold: 1

@@ -41,7 +41,11 @@ public class BasicSteerSystem : MonoBehaviour,ISteerSystem
                     _registeredTurn = (int) Math.Abs(lengthOfTouch) / _radiusOfSteer;
                     lengthOfTouch = (Math.Abs(lengthOfTouch) % _radiusOfSteer) * Utilities.PosOrNeg(lengthOfTouch);
                 }
-                
+                else
+                {
+                    _registeredTurn = 0;
+                }
+
                 float angle = Mathf.Acos(lengthOfTouch / _radiusOfSteer);
                 float angleInDegrees = angle * Mathf.Rad2Deg;
 
