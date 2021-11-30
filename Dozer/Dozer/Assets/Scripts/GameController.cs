@@ -1,26 +1,25 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
+﻿using System.Linq;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
     public float power;
+    private ISteerSystem _steerSystem;
     private void Awake()
     {
-
         var paintableObjs = FindObjectsOfType<ColorChanger>().OfType<IColorChangerRandomly>().ToList();
         foreach (var paintableObj in paintableObjs)
         {
             paintableObj.SelectColorRandomly();
         }
+
+        _steerSystem = GetComponent<SteerSystem>();
+
+        
     }
 
     private void Update()
     {
-        
-        Camera.main.gameObject.transform.position += new Vector3(0,0,1) * Time.deltaTime * power;
+        Debug.Log(_steerSystem.Angle);
     }
 }
