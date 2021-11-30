@@ -48,5 +48,9 @@ public class SteerSystem : MonoBehaviour,ISteerSystem
                 }
             }
         }
+        else
+        {
+            _angle = 0;
+        }
     }
 }

@@ -11,9 +11,11 @@ public class BasicSteerSystem : MonoBehaviour,ISteerSystem
     private float _angle;
     private Vector2 _startPos;
     private int _radiusOfSteer;
+    private int _registeredTurn;
 
-    [SerializeField]
-    private float radiusOfSteerDivider;
+
+    [SerializeField] private float radiusOfSteerDivider;
+    [SerializeField] private float minThreshold = 1f;
 
     private void Start()
     {
@@ -36,22 +38,29 @@ public class BasicSteerSystem : MonoBehaviour,ISteerSystem
                 var lengthOfTouch = direction.x;
                 if (Math.Abs(lengthOfTouch) > _radiusOfSteer)
                 {
-                    if (lengthOfTouch > 0)
-                    {
-                        lengthOfTouch = _radiusOfSteer;
-                    }
-                    else
-                    {
-                        lengthOfTouch = -_radiusOfSteer;
-                    }
+                    _registeredTurn = (int) Math.Abs(lengthOfTouch) / _radiusOfSteer;
+                    lengthOfTouch = (Math.Abs(lengthOfTouch) % _radiusOfSteer) * Utilities.PosOrNeg(lengthOfTouch);
                 }
-
                 
-                float angle = Mathf.Acos(lengthOfTouch / _radiusOfSteer);;
+                float angle = Mathf.Acos(lengthOfTouch / _radiusOfSteer);
                 float angleInDegrees = angle * Mathf.Rad2Deg;
 
                 _angle = 90 - angleInDegrees;
+                _angle += _registeredTurn * 90 * Utilities.PosOrNeg(_angle);
             }
         }
+        else
+        {
+            _registeredTurn = 0;
+            _angle = 0;
+        }
+
+        if (Math.Abs(_angle) < minThreshold)
+        {
+            _angle = 0;
+        }
     }
+
+
 }
+
