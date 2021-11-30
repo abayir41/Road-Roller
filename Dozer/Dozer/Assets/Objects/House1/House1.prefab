@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 553714112556976446}
   - component: {fileID: 2507176982175032121}
   - component: {fileID: 5785599945003663269}
+  - component: {fileID: 1190296727826022532}
+  - component: {fileID: 1594005704761524921}
   m_Layer: 0
   m_Name: Firtree.1
   m_TagString: Untagged
@@ -100,6 +102,35 @@ MonoBehaviour:
   - {r: 0, g: 0.8962264, b: 0.13413747, a: 0}
   - {r: 0.04185582, g: 0.7924528, b: 0, a: 0}
   - {r: 0, g: 0.6415094, b: 0.0014268496, a: 0}
+--- !u!65 &1190296727826022532
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 145605880094678416}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8022253, y: 2.7521503, z: 0.80222523}
+  m_Center: {x: -0.502302, y: 0.18302089, z: 2.0535376}
+--- !u!54 &1594005704761524921
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 145605880094678416}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &535268636965380093
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,6 +266,8 @@ GameObject:
   - component: {fileID: 8299628784476839680}
   - component: {fileID: 5376619959776390002}
   - component: {fileID: 5750656403335881727}
+  - component: {fileID: 657387314560488954}
+  - component: {fileID: 6112932447404822746}
   m_Layer: 0
   m_Name: Firtree.4
   m_TagString: Untagged
@@ -323,6 +356,35 @@ MonoBehaviour:
   - {r: 0, g: 0.8962264, b: 0.13413747, a: 0}
   - {r: 0.04185582, g: 0.7924528, b: 0, a: 0}
   - {r: 0, g: 0.6415094, b: 0.0014268496, a: 0}
+--- !u!65 &657387314560488954
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991512229188139905}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.73194766, y: 3.0146003, z: 0.73194754}
+  m_Center: {x: -2.1495, y: 0.42569983, z: 1.8846254}
+--- !u!54 &6112932447404822746
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991512229188139905}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &2434387884341514134
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,6 +561,8 @@ GameObject:
   - component: {fileID: 5731435984029823721}
   - component: {fileID: 945157402929515445}
   - component: {fileID: 1187445773022252990}
+  - component: {fileID: 7660866658811016563}
+  - component: {fileID: 1863470143565135321}
   m_Layer: 0
   m_Name: Firtree.2
   m_TagString: Untagged
@@ -587,6 +651,35 @@ MonoBehaviour:
   - {r: 0, g: 0.8962264, b: 0.13413747, a: 0}
   - {r: 0.04185582, g: 0.7924528, b: 0, a: 0}
   - {r: 0, g: 0.6415094, b: 0.0014268496, a: 0}
+--- !u!65 &7660866658811016563
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3900736222453029889}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.7534433, y: 2.8949728, z: 0.7534435}
+  m_Center: {x: 0.18659721, y: 0.37479794, z: 1.9286371}
+--- !u!54 &1863470143565135321
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3900736222453029889}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &3926452371674539104
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,6 +792,8 @@ GameObject:
   - component: {fileID: 6577563248785827827}
   - component: {fileID: 4125115713178990512}
   - component: {fileID: 2864451271620094845}
+  - component: {fileID: 825254857284467115}
+  - component: {fileID: 6903132174342380535}
   m_Layer: 0
   m_Name: Firtree.47
   m_TagString: Untagged
@@ -787,6 +882,35 @@ MonoBehaviour:
   - {r: 0, g: 0.8962264, b: 0.13413747, a: 0}
   - {r: 0.04185582, g: 0.7924528, b: 0, a: 0}
   - {r: 0, g: 0.6415094, b: 0.0014268496, a: 0}
+--- !u!65 &825254857284467115
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4661023423773071595}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.9336622, y: 1.8841553, z: 0.9336623}
+  m_Center: {x: 1.6655929, y: -0.36851725, z: 2.0501485}
+--- !u!54 &6903132174342380535
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4661023423773071595}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &5378431675136338459
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,6 +923,8 @@ GameObject:
   - component: {fileID: 8880690288593781467}
   - component: {fileID: 5925765523958527789}
   - component: {fileID: 6744807469552712368}
+  - component: {fileID: 1737085977115576972}
+  - component: {fileID: 577730634933131507}
   m_Layer: 0
   m_Name: House_1
   m_TagString: Untagged
@@ -893,6 +1019,35 @@ MonoBehaviour:
   - {r: 1, g: 0.2235294, b: 0.92280585, a: 1}
   - {r: 0.41667628, g: 0.19215685, b: 1, a: 1}
   - {r: 1, g: 0.19215685, b: 0.5050299, a: 1}
+--- !u!54 &1737085977115576972
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5378431675136338459}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!65 &577730634933131507
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5378431675136338459}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.453034, y: 4.716723, z: 2.7937834}
+  m_Center: {x: -0.022386169, y: 1.2291135, z: -0.6762231}
 --- !u!1 &5706314764338940897
 GameObject:
   m_ObjectHideFlags: 0
@@ -986,6 +1141,8 @@ GameObject:
   - component: {fileID: 5497248022573283476}
   - component: {fileID: 2225378337846222925}
   - component: {fileID: 2840186751892096722}
+  - component: {fileID: 2911285105166050952}
+  - component: {fileID: 1878662998637283322}
   m_Layer: 0
   m_Name: Firtree.3
   m_TagString: Untagged
@@ -1074,6 +1231,35 @@ MonoBehaviour:
   - {r: 0, g: 0.8962264, b: 0.13413747, a: 0}
   - {r: 0.04185582, g: 0.7924528, b: 0, a: 0}
   - {r: 0, g: 0.6415094, b: 0.0014268496, a: 0}
+--- !u!65 &2911285105166050952
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6507730400542022726}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.7994167, y: 1.1732687, z: 0.799417}
+  m_Center: {x: 0.9122688, y: -0.5252093, z: 1.8860848}
+--- !u!54 &1878662998637283322
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6507730400542022726}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &6960931620242398087
 GameObject:
   m_ObjectHideFlags: 0
@@ -1086,6 +1272,8 @@ GameObject:
   - component: {fileID: 5329135997526384054}
   - component: {fileID: 4171782020016551724}
   - component: {fileID: 741213722671259291}
+  - component: {fileID: 2183409289387246704}
+  - component: {fileID: 1607141291531569470}
   m_Layer: 0
   m_Name: Firtree
   m_TagString: Untagged
@@ -1174,3 +1362,32 @@ MonoBehaviour:
   - {r: 0, g: 0.8962264, b: 0.13413747, a: 0}
   - {r: 0.04185582, g: 0.7924528, b: 0, a: 0}
   - {r: 0, g: 0.6415094, b: 0.0014268496, a: 0}
+--- !u!54 &2183409289387246704
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6960931620242398087}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!65 &1607141291531569470
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6960931620242398087}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6178766, y: 2.1197155, z: 0.6178765}
+  m_Center: {x: -1.2979479, y: -0.18127102, z: 1.9954967}

@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 7082261048710405302}
   - component: {fileID: 8759284022906536997}
   - component: {fileID: 7441832920635937388}
+  - component: {fileID: 3338334252677374949}
+  - component: {fileID: 7227864373593981715}
   m_Layer: 0
   m_Name: Car2
   m_TagString: Untagged
@@ -104,3 +106,32 @@ MonoBehaviour:
   - {r: 1, g: 0.2216981, b: 0.2216981, a: 1}
   - {r: 0.19339621, g: 0.36402804, b: 1, a: 1}
   - {r: 0.98374146, g: 1, b: 0.23113209, a: 1}
+--- !u!65 &3338334252677374949
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4759825729611391488}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.7932706, y: 0.99945205, z: 1.851155}
+  m_Center: {x: 3.7440178, y: -0.69762015, z: 0.7715974}
+--- !u!54 &7227864373593981715
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4759825729611391488}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0

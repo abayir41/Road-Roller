@@ -94,6 +94,8 @@ GameObject:
   - component: {fileID: 3933215697190475606}
   - component: {fileID: 7196346963268245049}
   - component: {fileID: 5317382471790697430}
+  - component: {fileID: 626744686535284815}
+  - component: {fileID: 1549773121562974204}
   m_Layer: 0
   m_Name: Tree:1
   m_TagString: Untagged
@@ -182,6 +184,35 @@ MonoBehaviour:
   - {r: 0.24719654, g: 0.9528302, b: 0.3519631, a: 0}
   - {r: 0.24624039, g: 1, b: 0.2028302, a: 0}
   - {r: 0.20198467, g: 0.8396226, b: 0.20198467, a: 0}
+--- !u!54 &626744686535284815
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87124357974269615}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!65 &1549773121562974204
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87124357974269615}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.48257923, y: 1.607831, z: 0.4835329}
+  m_Center: {x: 9.259315, y: -0.44299984, z: 6.605764}
 --- !u!1 &467542995030205027
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,6 +225,8 @@ GameObject:
   - component: {fileID: 1292042151808531776}
   - component: {fileID: 8817692324531673275}
   - component: {fileID: 8326495255158606356}
+  - component: {fileID: 5884249794337830052}
+  - component: {fileID: 6977754784297905540}
   m_Layer: 0
   m_Name: Tree:3_1
   m_TagString: Untagged
@@ -282,6 +315,35 @@ MonoBehaviour:
   - {r: 0.24719654, g: 0.9528302, b: 0.3519631, a: 0}
   - {r: 0.24624039, g: 1, b: 0.2028302, a: 0}
   - {r: 0.20198467, g: 0.8396226, b: 0.20198467, a: 0}
+--- !u!54 &5884249794337830052
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467542995030205027}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!65 &6977754784297905540
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467542995030205027}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.76465225, y: 2.1142583, z: 0.7372179}
+  m_Center: {x: 11.658183, y: -0.1475079, z: 12.061947}
 --- !u!1 &632245680725854602
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,6 +456,8 @@ GameObject:
   - component: {fileID: 2237888289558285277}
   - component: {fileID: 2007025271036739490}
   - component: {fileID: 3620228236564190931}
+  - component: {fileID: 7157848699907855494}
+  - component: {fileID: 3689668310761003636}
   m_Layer: 0
   m_Name: Tree:3
   m_TagString: Untagged
@@ -482,6 +546,35 @@ MonoBehaviour:
   - {r: 0.24719654, g: 0.9528302, b: 0.3519631, a: 0}
   - {r: 0.24624039, g: 1, b: 0.2028302, a: 0}
   - {r: 0.20198467, g: 0.8396226, b: 0.20198467, a: 0}
+--- !u!54 &7157848699907855494
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1425073945615117457}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!65 &3689668310761003636
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1425073945615117457}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5461788, y: 1.5101845, z: 0.5265846}
+  m_Center: {x: 11.662908, y: -0.4799222, z: 6.7876487}
 --- !u!1 &1727814369175884432
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,6 +586,8 @@ GameObject:
   - component: {fileID: 3422997054080126318}
   - component: {fileID: 7599099817282380242}
   - component: {fileID: 7377663734238660773}
+  - component: {fileID: 6344596631673300671}
+  - component: {fileID: 376424458012101510}
   m_Layer: 0
   m_Name: Trash
   m_TagString: Untagged
@@ -563,6 +658,35 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!54 &6344596631673300671
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1727814369175884432}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!65 &376424458012101510
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1727814369175884432}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.20839977, y: 0.31812865, z: 0.20840073}
+  m_Center: {x: 8.904847, y: -1.1149117, z: 10.415075}
 --- !u!1 &1741354648170510220
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,6 +699,8 @@ GameObject:
   - component: {fileID: 5121334573645300421}
   - component: {fileID: 6667643412369938662}
   - component: {fileID: 4021035747965098875}
+  - component: {fileID: 9177910934473627037}
+  - component: {fileID: 820814366169814329}
   m_Layer: 0
   m_Name: Bushes.2_1
   m_TagString: Untagged
@@ -662,6 +788,35 @@ MonoBehaviour:
   - {r: 0.24719654, g: 0.9528302, b: 0.3519631, a: 0}
   - {r: 0.24624039, g: 1, b: 0.2028302, a: 0}
   - {r: 0.20198467, g: 0.8396226, b: 0.20198467, a: 0}
+--- !u!54 &9177910934473627037
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741354648170510220}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!65 &820814366169814329
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741354648170510220}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2709217, y: 0.44106668, z: 0.584754}
+  m_Center: {x: 9.527835, y: -1.0028821, z: 11.921576}
 --- !u!1 &1870618032231401338
 GameObject:
   m_ObjectHideFlags: 0
@@ -674,6 +829,8 @@ GameObject:
   - component: {fileID: 4195277614662969337}
   - component: {fileID: 713548954149727752}
   - component: {fileID: 9183468903727419243}
+  - component: {fileID: 2365641077305622448}
+  - component: {fileID: 7909456511788602781}
   m_Layer: 0
   m_Name: Bushes.15
   m_TagString: Untagged
@@ -761,6 +918,35 @@ MonoBehaviour:
   - {r: 0.24719654, g: 0.9528302, b: 0.3519631, a: 0}
   - {r: 0.24624039, g: 1, b: 0.2028302, a: 0}
   - {r: 0.20198467, g: 0.8396226, b: 0.20198467, a: 0}
+--- !u!54 &2365641077305622448
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870618032231401338}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!65 &7909456511788602781
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870618032231401338}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.1788521, y: 0.4545713, z: 0.5132961}
+  m_Center: {x: 11.513826, y: -1.0306262, z: 6.6062922}
 --- !u!1 &2297162321967711608
 GameObject:
   m_ObjectHideFlags: 0
@@ -773,6 +959,8 @@ GameObject:
   - component: {fileID: 3870025743321120038}
   - component: {fileID: 3904979011724939900}
   - component: {fileID: 3942726668983532094}
+  - component: {fileID: 4134924037687077560}
+  - component: {fileID: 8049278886426154824}
   m_Layer: 0
   m_Name: Tree:2_1
   m_TagString: Untagged
@@ -861,6 +1049,35 @@ MonoBehaviour:
   - {r: 0.24719654, g: 0.9528302, b: 0.3519631, a: 0}
   - {r: 0.24624039, g: 1, b: 0.2028302, a: 0}
   - {r: 0.20198467, g: 0.8396226, b: 0.20198467, a: 0}
+--- !u!54 &4134924037687077560
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2297162321967711608}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!65 &8049278886426154824
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2297162321967711608}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.62183857, y: 1.8122213, z: 0.6574259}
+  m_Center: {x: 10.223008, y: -0.313715, z: 12.091021}
 --- !u!1 &2451823345201025880
 GameObject:
   m_ObjectHideFlags: 0
@@ -873,6 +1090,8 @@ GameObject:
   - component: {fileID: 8967504867927656482}
   - component: {fileID: 2048253477756395143}
   - component: {fileID: 1708644115403295822}
+  - component: {fileID: 8364874491049402666}
+  - component: {fileID: 1068997222141147934}
   m_Layer: 0
   m_Name: Tree:2
   m_TagString: Untagged
@@ -961,6 +1180,35 @@ MonoBehaviour:
   - {r: 0.24719654, g: 0.9528302, b: 0.3519631, a: 0}
   - {r: 0.24624039, g: 1, b: 0.2028302, a: 0}
   - {r: 0.20198467, g: 0.8396226, b: 0.20198467, a: 0}
+--- !u!54 &8364874491049402666
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2451823345201025880}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!65 &1068997222141147934
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2451823345201025880}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6900587, y: 2.1529148, z: 0.7295513}
+  m_Center: {x: 10.223897, y: -0.30753767, z: 6.6351047}
 --- !u!1 &2486055532683739364
 GameObject:
   m_ObjectHideFlags: 0
@@ -973,6 +1221,8 @@ GameObject:
   - component: {fileID: 4522503813907345187}
   - component: {fileID: 4152362637910678799}
   - component: {fileID: 6996786889857753156}
+  - component: {fileID: 3385277795143509095}
+  - component: {fileID: 8450494089690394386}
   m_Layer: 0
   m_Name: Bushes_1
   m_TagString: Untagged
@@ -1060,6 +1310,35 @@ MonoBehaviour:
   - {r: 0.24719654, g: 0.9528302, b: 0.3519631, a: 0}
   - {r: 0.24624039, g: 1, b: 0.2028302, a: 0}
   - {r: 0.20198467, g: 0.8396226, b: 0.20198467, a: 0}
+--- !u!54 &3385277795143509095
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2486055532683739364}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!65 &8450494089690394386
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2486055532683739364}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2709208, y: 0.44106668, z: 0.584754}
+  m_Center: {x: 10.445081, y: -1.0028821, z: 11.921576}
 --- !u!1 &4468456666662580242
 GameObject:
   m_ObjectHideFlags: 0
@@ -1072,6 +1351,8 @@ GameObject:
   - component: {fileID: 4116658074658754791}
   - component: {fileID: 1498477138095571648}
   - component: {fileID: 8144224862855248521}
+  - component: {fileID: 7201205491340300891}
+  - component: {fileID: 3938746106892491089}
   m_Layer: 0
   m_Name: Shop
   m_TagString: Untagged
@@ -1164,6 +1445,35 @@ MonoBehaviour:
   - {r: 0, g: 0.12562495, b: 0.8490566, a: 0}
   - {r: 0, g: 0.8301887, b: 0.58405006, a: 0}
   - {r: 0.8490566, g: 0.028034903, b: 0.028034903, a: 0}
+--- !u!54 &7201205491340300891
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4468456666662580242}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!65 &3938746106892491089
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4468456666662580242}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.0003283, y: 1.7995404, z: 3.7440007}
+  m_Center: {x: 10.573809, y: -0.30095714, z: 9.299082}
 --- !u!1 &4576323537825250307
 GameObject:
   m_ObjectHideFlags: 0
@@ -1175,6 +1485,8 @@ GameObject:
   - component: {fileID: 2971952655982936489}
   - component: {fileID: 1232343527260895387}
   - component: {fileID: 8589591902213693516}
+  - component: {fileID: 7486581237114095573}
+  - component: {fileID: 2821321167369355267}
   m_Layer: 0
   m_Name: Trash_1
   m_TagString: Untagged
@@ -1245,6 +1557,35 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!54 &7486581237114095573
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4576323537825250307}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!65 &2821321167369355267
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4576323537825250307}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.20839977, y: 0.3181287, z: 0.20840073}
+  m_Center: {x: 8.904847, y: -1.1149117, z: 9.130881}
 --- !u!1 &4669376349126775522
 GameObject:
   m_ObjectHideFlags: 0
@@ -1357,6 +1698,8 @@ GameObject:
   - component: {fileID: 7560163015429902898}
   - component: {fileID: 4282657656670976152}
   - component: {fileID: 8145490856998533483}
+  - component: {fileID: 8264948999147379824}
+  - component: {fileID: 935181811959042318}
   m_Layer: 0
   m_Name: Bushes.2
   m_TagString: Untagged
@@ -1444,6 +1787,35 @@ MonoBehaviour:
   - {r: 0.24719654, g: 0.9528302, b: 0.3519631, a: 0}
   - {r: 0.24624039, g: 1, b: 0.2028302, a: 0}
   - {r: 0.20198467, g: 0.8396226, b: 0.20198467, a: 0}
+--- !u!54 &8264948999147379824
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5871053906908356093}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!65 &935181811959042318
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5871053906908356093}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2709217, y: 0.44106668, z: 0.58475447}
+  m_Center: {x: 9.527835, y: -1.0028821, z: 6.552126}
 --- !u!1 &6820873941995991958
 GameObject:
   m_ObjectHideFlags: 0
@@ -1456,6 +1828,8 @@ GameObject:
   - component: {fileID: 2026308031185675697}
   - component: {fileID: 5296694579710778328}
   - component: {fileID: 4580895640606591175}
+  - component: {fileID: 5102760275435432466}
+  - component: {fileID: 4823322153892165909}
   m_Layer: 0
   m_Name: Bushes
   m_TagString: Untagged
@@ -1543,6 +1917,35 @@ MonoBehaviour:
   - {r: 0.24719654, g: 0.9528302, b: 0.3519631, a: 0}
   - {r: 0.24624039, g: 1, b: 0.2028302, a: 0}
   - {r: 0.20198467, g: 0.8396226, b: 0.20198467, a: 0}
+--- !u!54 &5102760275435432466
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6820873941995991958}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!65 &4823322153892165909
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6820873941995991958}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2709208, y: 0.44106668, z: 0.58475447}
+  m_Center: {x: 10.445081, y: -1.0028821, z: 6.552125}
 --- !u!1 &6975726758584849873
 GameObject:
   m_ObjectHideFlags: 0
@@ -1555,6 +1958,8 @@ GameObject:
   - component: {fileID: 4696754968745064956}
   - component: {fileID: 6417495364179017147}
   - component: {fileID: 5294737413790554959}
+  - component: {fileID: 1120384083979861416}
+  - component: {fileID: 8415565369019537887}
   m_Layer: 0
   m_Name: Tree:1_1
   m_TagString: Untagged
@@ -1643,6 +2048,35 @@ MonoBehaviour:
   - {r: 0.24719654, g: 0.9528302, b: 0.3519631, a: 0}
   - {r: 0.24624039, g: 1, b: 0.2028302, a: 0}
   - {r: 0.20198467, g: 0.8396226, b: 0.20198467, a: 0}
+--- !u!54 &1120384083979861416
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6975726758584849873}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!65 &8415565369019537887
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6975726758584849873}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5599842, y: 1.8234198, z: 0.54908085}
+  m_Center: {x: 9.281158, y: -0.32439098, z: 11.978346}
 --- !u!1 &7621412991820668080
 GameObject:
   m_ObjectHideFlags: 0
@@ -1655,6 +2089,8 @@ GameObject:
   - component: {fileID: 3131005569824351734}
   - component: {fileID: 8353469501931913121}
   - component: {fileID: 1128032341183644028}
+  - component: {fileID: 2515141338307887044}
+  - component: {fileID: 4373636990991196697}
   m_Layer: 0
   m_Name: Bushes.15_1
   m_TagString: Untagged
@@ -1742,6 +2178,35 @@ MonoBehaviour:
   - {r: 0.24719654, g: 0.9528302, b: 0.3519631, a: 0}
   - {r: 0.24624039, g: 1, b: 0.2028302, a: 0}
   - {r: 0.20198467, g: 0.8396226, b: 0.20198467, a: 0}
+--- !u!54 &2515141338307887044
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7621412991820668080}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!65 &4373636990991196697
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7621412991820668080}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.1788521, y: 0.4545713, z: 0.5132971}
+  m_Center: {x: 11.513826, y: -1.0306262, z: 11.975742}
 --- !u!1 &7701565689276796215
 GameObject:
   m_ObjectHideFlags: 0
