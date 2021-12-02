@@ -49,6 +49,7 @@ GameObject:
   - component: {fileID: 8288406062438993473}
   - component: {fileID: 2747980659145444437}
   - component: {fileID: 8527757209391535633}
+  - component: {fileID: 1384094434516874676}
   m_Layer: 0
   m_Name: Bed
   m_TagString: Untagged
@@ -132,11 +133,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de9b6b1cb15acd4bb6ecc8d51cb63bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialIndex: 1
   presetColors:
   - {r: 0.24719654, g: 0.9528302, b: 0.3519631, a: 0}
   - {r: 0.24624039, g: 1, b: 0.2028302, a: 0}
   - {r: 0.20198467, g: 0.8396226, b: 0.20198467, a: 0}
+--- !u!114 &1384094434516874676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2362525340821025992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c88d25e844c62f49b545af745fd1187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialIndexes: 01000000
 --- !u!1 &4063239527036093577
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,6 +162,7 @@ GameObject:
   - component: {fileID: 1536680914624288727}
   - component: {fileID: 8555978243102579052}
   - component: {fileID: 7141884340472463907}
+  - component: {fileID: 7347356562208998659}
   m_Layer: 0
   m_Name: Bed_1
   m_TagString: Untagged
@@ -232,11 +246,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de9b6b1cb15acd4bb6ecc8d51cb63bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialIndex: 1
   presetColors:
   - {r: 0.24719654, g: 0.9528302, b: 0.3519631, a: 0}
   - {r: 0.24624039, g: 1, b: 0.2028302, a: 0}
   - {r: 0.20198467, g: 0.8396226, b: 0.20198467, a: 0}
+--- !u!114 &7347356562208998659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4063239527036093577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c88d25e844c62f49b545af745fd1187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialIndexes: 01000000
 --- !u!1 &6505155961219760288
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,9 +440,10 @@ GameObject:
   - component: {fileID: 738102947161359921}
   - component: {fileID: 6698293576022357494}
   - component: {fileID: 2220777861716939503}
+  - component: {fileID: 7905473467699291958}
   m_Layer: 0
   m_Name: House
-  m_TagString: Untagged
+  m_TagString: House
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -504,11 +531,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de9b6b1cb15acd4bb6ecc8d51cb63bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialIndex: 1
   presetColors:
   - {r: 0.6509434, g: 0.37391633, b: 0, a: 1}
-  - {r: 0.16950469, g: 0.9150943, b: 0, a: 0}
-  - {r: 0.10879157, g: 0, b: 0.7264151, a: 0}
+  - {r: 0.16950469, g: 0.9150943, b: 0, a: 1}
+  - {r: 0.10879157, g: 0, b: 0.7264151, a: 1}
 --- !u!65 &6698293576022357494
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -538,6 +564,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &7905473467699291958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8201246027691798260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c88d25e844c62f49b545af745fd1187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialIndexes: 01000000
 --- !u!1 &8711053016186552199
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,6 +591,7 @@ GameObject:
   - component: {fileID: 8500042706315265215}
   - component: {fileID: 8453263141640399062}
   - component: {fileID: 6307139383110577271}
+  - component: {fileID: 6662207268972707588}
   m_Layer: 0
   m_Name: Bushes.3_1
   m_TagString: Untagged
@@ -634,7 +674,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de9b6b1cb15acd4bb6ecc8d51cb63bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialIndex: 0
   presetColors:
   - {r: 0, g: 0.8962264, b: 0.13413747, a: 0}
   - {r: 0.04185582, g: 0.7924528, b: 0, a: 0}
@@ -668,6 +707,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &6662207268972707588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8711053016186552199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c88d25e844c62f49b545af745fd1187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialIndexes: 00000000
 --- !u!1 &8902738519074449365
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,6 +734,7 @@ GameObject:
   - component: {fileID: 9012399183161606309}
   - component: {fileID: 8990247637768666626}
   - component: {fileID: 7438502437651051348}
+  - component: {fileID: 1406389524903644836}
   m_Layer: 0
   m_Name: Bushes.3
   m_TagString: Untagged
@@ -764,7 +817,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de9b6b1cb15acd4bb6ecc8d51cb63bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialIndex: 0
   presetColors:
   - {r: 0, g: 0.8962264, b: 0.13413747, a: 0}
   - {r: 0.04185582, g: 0.7924528, b: 0, a: 0}
@@ -798,3 +850,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &1406389524903644836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8902738519074449365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c88d25e844c62f49b545af745fd1187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialIndexes: 00000000

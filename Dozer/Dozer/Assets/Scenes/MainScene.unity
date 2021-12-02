@@ -23533,6 +23533,36 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6865572597100625000, guid: 3dab0c80cc7f53643bf27ed43165d7e8, type: 3}
   m_PrefabInstance: {fileID: 992978898}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &993727597
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 993727598}
+  m_Layer: 0
+  m_Name: Dozer_Follower
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &993727598
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 993727597}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2623.1409, y: 14.416011, z: -274.7297}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &993899743
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34891,6 +34921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dozerGameObject: {fileID: 8971242722936087708}
+  dozerFollower: {fileID: 993727598}
 --- !u!4 &1470986054
 Transform:
   m_ObjectHideFlags: 0
@@ -51535,17 +51566,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5549156558291021702, guid: 790b01b7606da304197450acf4585446, type: 3}
-      propertyPath: m_TagString
-      value: Roller
-      objectReference: {fileID: 0}
     - target: {fileID: 5810240144904009790, guid: 790b01b7606da304197450acf4585446, type: 3}
       propertyPath: m_Name
       value: Dozer
       objectReference: {fileID: 0}
     - target: {fileID: 6623051278530896516, guid: 790b01b7606da304197450acf4585446, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6623051278530896516, guid: 790b01b7606da304197450acf4585446, type: 3}
       propertyPath: m_LocalPosition.x

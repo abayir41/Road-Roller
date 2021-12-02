@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5785599945003663269}
   - component: {fileID: 1190296727826022532}
   - component: {fileID: 1594005704761524921}
+  - component: {fileID: 3250981735877086523}
   m_Layer: 0
   m_Name: Firtree.1
   m_TagString: Untagged
@@ -97,7 +98,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de9b6b1cb15acd4bb6ecc8d51cb63bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialIndex: 1
   presetColors:
   - {r: 0, g: 0.8962264, b: 0.13413747, a: 0}
   - {r: 0.04185582, g: 0.7924528, b: 0, a: 0}
@@ -131,6 +131,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &3250981735877086523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 145605880094678416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c88d25e844c62f49b545af745fd1187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialIndexes: 01000000
 --- !u!1 &535268636965380093
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,6 +281,7 @@ GameObject:
   - component: {fileID: 5750656403335881727}
   - component: {fileID: 657387314560488954}
   - component: {fileID: 6112932447404822746}
+  - component: {fileID: 6970411083151633452}
   m_Layer: 0
   m_Name: Firtree.4
   m_TagString: Untagged
@@ -351,7 +365,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de9b6b1cb15acd4bb6ecc8d51cb63bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialIndex: 1
   presetColors:
   - {r: 0, g: 0.8962264, b: 0.13413747, a: 0}
   - {r: 0.04185582, g: 0.7924528, b: 0, a: 0}
@@ -385,6 +398,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &6970411083151633452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991512229188139905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c88d25e844c62f49b545af745fd1187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialIndexes: 01000000
 --- !u!1 &2434387884341514134
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,6 +589,7 @@ GameObject:
   - component: {fileID: 1187445773022252990}
   - component: {fileID: 7660866658811016563}
   - component: {fileID: 1863470143565135321}
+  - component: {fileID: 6723081873220733851}
   m_Layer: 0
   m_Name: Firtree.2
   m_TagString: Untagged
@@ -646,7 +673,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de9b6b1cb15acd4bb6ecc8d51cb63bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialIndex: 1
   presetColors:
   - {r: 0, g: 0.8962264, b: 0.13413747, a: 0}
   - {r: 0.04185582, g: 0.7924528, b: 0, a: 0}
@@ -680,6 +706,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &6723081873220733851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3900736222453029889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c88d25e844c62f49b545af745fd1187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialIndexes: 01000000
 --- !u!1 &3926452371674539104
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,6 +731,7 @@ GameObject:
   - component: {fileID: 5623057527803471778}
   - component: {fileID: 9188798545095209205}
   - component: {fileID: 6468968115322950575}
+  - component: {fileID: 9075843245934192778}
   m_Layer: 0
   m_Name: Cube.7
   m_TagString: Untagged
@@ -775,11 +815,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de9b6b1cb15acd4bb6ecc8d51cb63bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialIndex: 1
   presetColors:
   - {r: 0.24719654, g: 0.9528302, b: 0.3519631, a: 0}
   - {r: 0.24624039, g: 1, b: 0.2028302, a: 0}
   - {r: 0.20198467, g: 0.8396226, b: 0.20198467, a: 0}
+--- !u!114 &9075843245934192778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3926452371674539104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c88d25e844c62f49b545af745fd1187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialIndexes: 01000000
 --- !u!1 &4661023423773071595
 GameObject:
   m_ObjectHideFlags: 0
@@ -794,6 +846,7 @@ GameObject:
   - component: {fileID: 2864451271620094845}
   - component: {fileID: 825254857284467115}
   - component: {fileID: 6903132174342380535}
+  - component: {fileID: 8997297306078190928}
   m_Layer: 0
   m_Name: Firtree.47
   m_TagString: Untagged
@@ -877,7 +930,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de9b6b1cb15acd4bb6ecc8d51cb63bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialIndex: 1
   presetColors:
   - {r: 0, g: 0.8962264, b: 0.13413747, a: 0}
   - {r: 0.04185582, g: 0.7924528, b: 0, a: 0}
@@ -911,6 +963,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &8997297306078190928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4661023423773071595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c88d25e844c62f49b545af745fd1187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialIndexes: 01000000
 --- !u!1 &5378431675136338459
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,9 +990,10 @@ GameObject:
   - component: {fileID: 6744807469552712368}
   - component: {fileID: 1737085977115576972}
   - component: {fileID: 577730634933131507}
+  - component: {fileID: 3441715074399112530}
   m_Layer: 0
   m_Name: House_1
-  m_TagString: Untagged
+  m_TagString: House
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1014,7 +1080,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de9b6b1cb15acd4bb6ecc8d51cb63bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialIndex: 0
   presetColors:
   - {r: 1, g: 0.2235294, b: 0.92280585, a: 1}
   - {r: 0.41667628, g: 0.19215685, b: 1, a: 1}
@@ -1048,6 +1113,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.453034, y: 4.716723, z: 2.7937834}
   m_Center: {x: -0.022386169, y: 1.2291135, z: -0.6762231}
+--- !u!114 &3441715074399112530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5378431675136338459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c88d25e844c62f49b545af745fd1187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialIndexes: 00000000
 --- !u!1 &5706314764338940897
 GameObject:
   m_ObjectHideFlags: 0
@@ -1143,6 +1221,7 @@ GameObject:
   - component: {fileID: 2840186751892096722}
   - component: {fileID: 2911285105166050952}
   - component: {fileID: 1878662998637283322}
+  - component: {fileID: 2457665264120526244}
   m_Layer: 0
   m_Name: Firtree.3
   m_TagString: Untagged
@@ -1226,7 +1305,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de9b6b1cb15acd4bb6ecc8d51cb63bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialIndex: 1
   presetColors:
   - {r: 0, g: 0.8962264, b: 0.13413747, a: 0}
   - {r: 0.04185582, g: 0.7924528, b: 0, a: 0}
@@ -1260,6 +1338,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &2457665264120526244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6507730400542022726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c88d25e844c62f49b545af745fd1187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialIndexes: 01000000
 --- !u!1 &6960931620242398087
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,6 +1365,7 @@ GameObject:
   - component: {fileID: 741213722671259291}
   - component: {fileID: 2183409289387246704}
   - component: {fileID: 1607141291531569470}
+  - component: {fileID: 1624452242510788107}
   m_Layer: 0
   m_Name: Firtree
   m_TagString: Untagged
@@ -1357,7 +1449,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de9b6b1cb15acd4bb6ecc8d51cb63bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialIndex: 1
   presetColors:
   - {r: 0, g: 0.8962264, b: 0.13413747, a: 0}
   - {r: 0.04185582, g: 0.7924528, b: 0, a: 0}
@@ -1391,3 +1482,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.6178766, y: 2.1197155, z: 0.6178765}
   m_Center: {x: -1.2979479, y: -0.18127102, z: 1.9954967}
+--- !u!114 &1624452242510788107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6960931620242398087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c88d25e844c62f49b545af745fd1187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialIndexes: 01000000

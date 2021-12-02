@@ -14,6 +14,9 @@ GameObject:
   - component: {fileID: 8282708042539689963}
   - component: {fileID: 1451587305854313231}
   - component: {fileID: 1018225617100344507}
+  - component: {fileID: 3919357669324595223}
+  - component: {fileID: -775960531495158915}
+  - component: {fileID: 4567812181599102707}
   m_Layer: 0
   m_Name: Car1
   m_TagString: Untagged
@@ -99,7 +102,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de9b6b1cb15acd4bb6ecc8d51cb63bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialIndex: 0
   presetColors:
   - {r: 1, g: 0.2216981, b: 0.2216981, a: 1}
   - {r: 0.19339621, g: 0.36402804, b: 1, a: 1}
@@ -133,3 +135,42 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.4738584, y: 0.60929865, z: 0.7440696}
   m_Center: {x: 7.059393, y: -0.8944187, z: 6.720546}
+--- !u!114 &3919357669324595223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6794565545998714528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e352af6db00f804ab8a4dd445b40295, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-775960531495158915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6794565545998714528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f6db4b812fd8814b9a0e5e87d43f0a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultDestroyable: 0
+  destroyThreshold: 0
+--- !u!114 &4567812181599102707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6794565545998714528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c88d25e844c62f49b545af745fd1187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialIndexes: 00000000
