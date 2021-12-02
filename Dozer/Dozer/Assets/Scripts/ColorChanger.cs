@@ -7,17 +7,15 @@ using Random = UnityEngine.Random;
 
 public interface IColorChanger
 {
-    void ChangeColor(Color color);
+    void ChangeColor(Color color, int materialIndex);
 }
 
 public interface IColorChangerRandomly : IColorChanger
 {
-    void SelectColorRandomly();
+    void SelectColorRandomly(int materialIndex);
 }
 public class ColorChanger : MonoBehaviour, IColorChangerRandomly
 {
-    [SerializeField] 
-    private int materialIndex;
     [SerializeField]
     private Color[] presetColors;
     private Renderer _renderer;
@@ -28,14 +26,14 @@ public class ColorChanger : MonoBehaviour, IColorChangerRandomly
         _materialProperty = new MaterialPropertyBlock();
     }
 
-    public void ChangeColor(Color color)
+    public void ChangeColor(Color color, int materialIndex)
     {
         _materialProperty.SetColor("_Color",color);
         _renderer.SetPropertyBlock(_materialProperty,materialIndex);
     }
 
-    public void SelectColorRandomly()
+    public void SelectColorRandomly(int materialIndex)
     {
-        ChangeColor(presetColors[Random.Range(0, presetColors.Length)]);
+        ChangeColor(presetColors[Random.Range(0, presetColors.Length)],materialIndex);
     }
 }

@@ -7,7 +7,7 @@ public class CollisionTrigger : MonoBehaviour
 {
  private void OnCollisionEnter(Collision other)
  {
-  if (other.collider.gameObject.CompareTag("Roller"))
+  if (other.collider.gameObject.CompareTag(GameController.DozerTag))
   {
    var interactable = GetComponent<IInteractable>();
    var dozer = other.gameObject.GetComponent<IInteractable>();
