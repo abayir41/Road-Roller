@@ -8,6 +8,8 @@ public class InteractableObj : MonoBehaviour, IInteractable
 {
     [SerializeField] private bool defaultDestroyable;
     [SerializeField] private float destroyThreshold;
+    [SerializeField] private GameObject particleEffect;
+    [SerializeField] private Transform particlePos;
     public void Interact(Collider collider)
     {
         if (defaultDestroyable || collider.bounds.size.magnitude > destroyThreshold)
@@ -18,6 +20,8 @@ public class InteractableObj : MonoBehaviour, IInteractable
 
     private void Interaction()
     {
+        var particle = Instantiate(particleEffect);
+        particle.transform.position = particlePos.position;
         Destroy(gameObject);
         Debug.Log("Interacted");
     }
