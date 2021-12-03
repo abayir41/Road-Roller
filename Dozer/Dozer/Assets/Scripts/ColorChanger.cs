@@ -12,14 +12,17 @@ public interface IColorChanger
 
 public interface IColorChangerRandomly : IColorChanger
 {
-    void SelectColorRandomly(int materialIndex);
+    Color[] Colors { get; }
+    void SelectColorRandomly(Color[] presetColors,int materialIndex);
 }
 public class ColorChanger : MonoBehaviour, IColorChangerRandomly
 {
+    public Color[] Colors => presetColors;
     [SerializeField]
     private Color[] presetColors;
     private Renderer _renderer;
     private MaterialPropertyBlock _materialProperty;
+    private Dictionary<int, Color> _materialInColors;
     private void Awake()
     {
         _renderer = GetComponent<Renderer>();
@@ -32,7 +35,7 @@ public class ColorChanger : MonoBehaviour, IColorChangerRandomly
         _renderer.SetPropertyBlock(_materialProperty,materialIndex);
     }
 
-    public void SelectColorRandomly(int materialIndex)
+    public void SelectColorRandomly(Color[] colors,int materialIndex)
     {
         ChangeColor(presetColors[Random.Range(0, presetColors.Length)],materialIndex);
     }

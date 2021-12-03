@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
 
 public class GameController : MonoBehaviour
 {
@@ -11,12 +13,18 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject dozerGameObject;
     [SerializeField] private List<Transform> dozerFollowers;
     private Dictionary<Transform,Vector3> _dozerFollowersAndFarFromDozer;
+    private Dictionary<IColorChanger, Dictionary<int, Color>> _randomlyChangedMaterialsListAndColours;
     private Vector3 _cameraFarFromDozer;
     private Transform _dozerTrans;
     private Transform _cameraTrans;
     private Camera _camera;
+
+    private GameObject _fadedHouse;
+    private bool _houseTriggered;
+    
     private void Awake()
     {
+        _randomlyChangedMaterialsListAndColours = new Dictionary<IColorChanger, Dictionary<int, Color>>();
         //Paint the all buildings, cars, trees...
         var paintableObjs = FindObjectsOfType<ColorChanger>().ToList();
         foreach (var paintableObj in paintableObjs)
@@ -24,7 +32,11 @@ public class GameController : MonoBehaviour
             var materialIndexes = paintableObj.gameObject.GetComponent<IRandomlyPaintedMaterialIndex>().MaterialIndexes;
             foreach (var materialIndex in materialIndexes)
             {
-                paintableObj.gameObject.GetComponent<IColorChangerRandomly>().SelectColorRandomly(materialIndex);
+                var colorChangerRandomly = paintableObj.gameObject.GetComponent<IColorChangerRandomly>();
+                var colors = colorChangerRandomly.Colors;
+                var randomInt = Random.Range(0, colors.Length);
+                colorChangerRandomly.ChangeColor(colors[randomInt],materialIndex);
+                _randomlyChangedMaterialsListAndColours.Add(colorChangerRandomly,new Dictionary<int, Color>(){{materialIndex,colors[randomInt]}});
             }
         }
 
@@ -57,24 +69,44 @@ public class GameController : MonoBehaviour
         ObjectFollower(_cameraFarFromDozer,dozerTransPosition,_cameraTrans);
 
         
-        var house = Looking_Any_Big_House();
-        if (!(house is null))
+        _fadedHouse = Looking_Any_Big_House();
+        
+        if (!(_fadedHouse is null) && !_houseTriggered)
         {
-            Renderer houseRenderer = house.GetComponent<Renderer>();
-            var materials = houseRenderer.sharedMaterials;
-            for (int i = 0; i < materials.Length; i++)
-            {
-                var material = materials[i];
-                Color color = material.color;
-                color.a = 0.5f;
-                var ColorChange = house.GetComponent<IColorChanger>();
-                ColorChange.ChangeColor(color,i);
-            }
+            _houseTriggered = true;
+            AlphaChanger(_fadedHouse,0.3f);
         }
         
     }
 
-    void ObjectFollower(Vector3 distance, Vector3 from, Transform obj)
+    private void AlphaChanger(GameObject obj,float alphaAmount)
+    {
+
+        var randomlyChangedMaterialIndexes = new List<int>();
+        var houseRenderer = obj.GetComponent<Renderer>();
+
+        var colorChanger = obj.GetComponent<IColorChanger>();
+        foreach (var indexColorPair in _randomlyChangedMaterialsListAndColours[colorChanger])
+        {
+            var color = indexColorPair.Value;
+            color.a = alphaAmount;
+            colorChanger.ChangeColor(color, indexColorPair.Key);
+            randomlyChangedMaterialIndexes.Add(indexColorPair.Key);
+        }
+
+
+        var materials = houseRenderer.sharedMaterials;
+        for (var i = 0; i < materials.Length; i++)
+        {
+            if (randomlyChangedMaterialIndexes.Contains(i)) continue;
+            var material = materials[i];
+            var color = material.color;
+            color.a = alphaAmount;
+            colorChanger.ChangeColor(color, i);
+        }
+    }
+
+    private static void ObjectFollower(Vector3 distance, Vector3 from, Transform obj)
     {
         obj.position = distance + from;
     }
@@ -95,6 +127,11 @@ public class GameController : MonoBehaviour
             }
             else
             {
+                if (_houseTriggered)
+                {
+                    AlphaChanger(_fadedHouse,1f);
+                    _houseTriggered = false;
+                }
                 return null;
             }
                
@@ -103,5 +140,4 @@ public class GameController : MonoBehaviour
         return savedGameObject;
 
     }
-    
 }
