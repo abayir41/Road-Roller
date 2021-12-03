@@ -86,14 +86,16 @@ public class GameController : MonoBehaviour
         var houseRenderer = obj.GetComponent<Renderer>();
 
         var colorChanger = obj.GetComponent<IColorChanger>();
-        foreach (var indexColorPair in _randomlyChangedMaterialsListAndColours[colorChanger])
+        if (_randomlyChangedMaterialsListAndColours.ContainsKey(colorChanger))
         {
-            var color = indexColorPair.Value;
-            color.a = alphaAmount;
-            colorChanger.ChangeColor(color, indexColorPair.Key);
-            randomlyChangedMaterialIndexes.Add(indexColorPair.Key);
+            foreach (var indexColorPair in _randomlyChangedMaterialsListAndColours[colorChanger])
+            {
+                var color = indexColorPair.Value;
+                color.a = alphaAmount;
+                colorChanger.ChangeColor(color, indexColorPair.Key);
+                randomlyChangedMaterialIndexes.Add(indexColorPair.Key);
+            }
         }
-
 
         var materials = houseRenderer.sharedMaterials;
         for (var i = 0; i < materials.Length; i++)
