@@ -14,7 +14,8 @@ public class InteractableObj : MonoBehaviour, IInteractable
     [SerializeField] private GameObject particleEffect;
     [SerializeField] private GameObject crashGameObject;
     [SerializeField] private Transform crashPos;
-    [SerializeField] private Transform particlePos;
+    [SerializeField] private float particleCount;
+    [SerializeField] private float particleSize;
 
     public void Interact(Collider collider)
     {
@@ -26,7 +27,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
 
     private void Interaction()
     {
-        StartCoroutine(IEInteraction(0.3f));
+        StartCoroutine(IEInteraction(0.15f));
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
@@ -34,6 +35,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
     {
         SpawnParticle();
         GetComponent<MeshRenderer>().enabled = false;
+        yield return new WaitForSeconds(0.15f);
         GetComponent<BoxCollider>().enabled = false;
         yield return new WaitForSeconds(delay);
         SpawnCrash();
@@ -41,18 +43,29 @@ public class InteractableObj : MonoBehaviour, IInteractable
     }
     private void SpawnParticle()
     {
-        if (particleEffect == null  ||  particlePos == null) return;
+        if (particleEffect == null) return;
         var mainTransform = transform;
         var particle = Instantiate(particleEffect,mainTransform);
         particle.transform.localPosition = Vector3.zero;
         particle.transform.localRotation = Quaternion.Euler(Vector3.zero);
         particle.transform.localScale = Vector3.one;
         particle.transform.parent = null;
+        
         var particleSys = particle.GetComponent<ParticleSystem>();
         var boxCollider = GetComponent<BoxCollider>();
+        
         var shape = particleSys.shape;
         shape.position = boxCollider.center;
         shape.scale = boxCollider.size;
+
+        var emissionRateOverTime = new ParticleSystem.MinMaxCurve(particleCount - 1, particleCount); 
+        var emission = particleSys.emission;
+        emission.rateOverTime = emissionRateOverTime;
+        
+        var starSizeMinMax = new ParticleSystem.MinMaxCurve(particleSize-1,particleSize);
+        var particleSysMain = particleSys.main; 
+        particleSysMain.startSize = starSizeMinMax;
+        
         particleSys.Play();
     }
 
