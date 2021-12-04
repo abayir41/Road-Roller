@@ -15,7 +15,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
     [SerializeField] private GameObject crashGameObject;
     [SerializeField] private Transform crashPos;
     [SerializeField] private Transform particlePos;
-    
+
     public void Interact(Collider collider)
     {
         if (defaultDestroyable || collider.bounds.size.magnitude > destroyThreshold)
@@ -42,8 +42,18 @@ public class InteractableObj : MonoBehaviour, IInteractable
     private void SpawnParticle()
     {
         if (particleEffect == null  ||  particlePos == null) return;
-        var particle = Instantiate(particleEffect);
-        particle.transform.position = particlePos.position;
+        var mainTransform = transform;
+        var particle = Instantiate(particleEffect,mainTransform);
+        particle.transform.localPosition = Vector3.zero;
+        particle.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        particle.transform.localScale = Vector3.one;
+        particle.transform.parent = null;
+        var particleSys = particle.GetComponent<ParticleSystem>();
+        var boxCollider = GetComponent<BoxCollider>();
+        var shape = particleSys.shape;
+        shape.position = boxCollider.center;
+        shape.scale = boxCollider.size;
+        particleSys.Play();
     }
 
     private void SpawnCrash()
