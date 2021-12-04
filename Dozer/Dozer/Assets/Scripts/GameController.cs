@@ -13,6 +13,10 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject dozerGameObject;
     [SerializeField] private List<Transform> dozerFollowers;
     private Dictionary<Transform,Vector3> _dozerFollowersAndFarFromDozer;
+
+    public Dictionary<IColorChanger, Dictionary<int, Color>> randomlyChangedMaterialsListAndColours =>
+        _randomlyChangedMaterialsListAndColours;
+    
     private Dictionary<IColorChanger, Dictionary<int, Color>> _randomlyChangedMaterialsListAndColours;
     private Vector3 _cameraFarFromDozer;
     private Transform _dozerTrans;
