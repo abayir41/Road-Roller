@@ -51675,7 +51675,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1847414479957000116, guid: 790b01b7606da304197450acf4585446, type: 3}
       propertyPath: velocityMultiplier
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5810240144904009790, guid: 790b01b7606da304197450acf4585446, type: 3}
       propertyPath: m_Name

@@ -35,6 +35,7 @@ Transform:
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children:
+  - {fileID: 2765845630007799796}
   - {fileID: 4157702858635185676}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -162,7 +163,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultDestroyable: 0
   destroyThreshold: 0
-  particleEffect: {fileID: 0}
+  particleEffect: {fileID: 1188961861353072, guid: b3e61abd193079a42b293e43bcf414a1, type: 3}
+  crashGameObject: {fileID: 7107377379377871735, guid: 29e4f0870272b9f4c958103301a894da, type: 3}
+  crashPos: {fileID: 2765845630007799796}
   particlePos: {fileID: 4157702858635185676}
 --- !u!114 &3727102122165260398
 MonoBehaviour:
@@ -203,6 +206,36 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.024, y: -0.858, z: 5.173}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5773529258313747925}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3928621624602174599
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2765845630007799796}
+  m_Layer: 0
+  m_Name: CrashPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2765845630007799796
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3928621624602174599}
+  m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 3.223, y: -1.1489999, z: 5.245}
+  m_LocalScale: {x: 22.681118, y: 22.681118, z: 8.449622}
   m_Children: []
   m_Father: {fileID: 5773529258313747925}
   m_RootOrder: 0
