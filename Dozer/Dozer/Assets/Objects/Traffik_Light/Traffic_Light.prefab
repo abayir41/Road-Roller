@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 1488978745550385285}
   - component: {fileID: 5125805698445617047}
   - component: {fileID: 4994024629028491886}
+  - component: {fileID: 4506445543781174865}
+  - component: {fileID: 2215867572522144822}
   m_Layer: 0
   m_Name: Traffic_Light
   m_TagString: Untagged
@@ -112,3 +114,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &4506445543781174865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3006084215355729077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e352af6db00f804ab8a4dd445b40295, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2215867572522144822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3006084215355729077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f6db4b812fd8814b9a0e5e87d43f0a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultDestroyable: 0
+  destroyThreshold: 0
+  particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
+  crashGameObject: {fileID: 0}
+  crashPos: {fileID: 0}
+  particleCount: 80
+  particleSize: 0.5

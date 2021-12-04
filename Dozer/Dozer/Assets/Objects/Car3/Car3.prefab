@@ -163,10 +163,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultDestroyable: 0
   destroyThreshold: 0
-  particleEffect: {fileID: 1188961861353072, guid: b3e61abd193079a42b293e43bcf414a1, type: 3}
+  particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   crashGameObject: {fileID: 7107377379377871735, guid: 29e4f0870272b9f4c958103301a894da, type: 3}
   crashPos: {fileID: 2765845630007799796}
-  particlePos: {fileID: 4157702858635185676}
+  particleCount: 200
+  particleSize: 0.6
 --- !u!114 &3727102122165260398
 MonoBehaviour:
   m_ObjectHideFlags: 0
