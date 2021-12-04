@@ -18281,6 +18281,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1644736828856199906, guid: df8087ec514a8d541b3990cb644e1f3d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6794565545998714528, guid: df8087ec514a8d541b3990cb644e1f3d, type: 3}
       propertyPath: m_Name
       value: Car1
@@ -34975,7 +34979,7 @@ GameObject:
   - component: {fileID: 1470986053}
   m_Layer: 0
   m_Name: Game Controller
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
