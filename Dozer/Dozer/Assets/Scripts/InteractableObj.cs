@@ -14,6 +14,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
     [SerializeField] private GameObject particleEffect;
     [SerializeField] private GameObject crashGameObject;
     [SerializeField] private Transform crashPos;
+    [SerializeField] private float particleVolumeMultiplier = 1f;
     [SerializeField] private float particleCount;
     [SerializeField] private float particleSize;
 
@@ -33,7 +34,8 @@ public class InteractableObj : MonoBehaviour, IInteractable
     // ReSharper disable Unity.PerformanceAnalysis
     private IEnumerator IEInteraction(float delay)
     {
-        SpawnParticle();
+        var particle = SpawnParticle();
+        Destroy(particle,2f);
         GetComponent<MeshRenderer>().enabled = false;
         yield return new WaitForSeconds(0.15f);
         GetComponent<BoxCollider>().enabled = false;
@@ -41,9 +43,9 @@ public class InteractableObj : MonoBehaviour, IInteractable
         SpawnCrash();
         Destroy(gameObject);
     }
-    private void SpawnParticle()
+    private GameObject SpawnParticle()
     {
-        if (particleEffect == null) return;
+        if (particleEffect == null) return null;
         var mainTransform = transform;
         var particle = Instantiate(particleEffect,mainTransform);
         particle.transform.localPosition = Vector3.zero;
@@ -56,7 +58,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
         
         var shape = particleSys.shape;
         shape.position = boxCollider.center;
-        shape.scale = boxCollider.size;
+        shape.scale = boxCollider.size * particleVolumeMultiplier;
 
         var emissionRateOverTime = new ParticleSystem.MinMaxCurve(particleCount - 1, particleCount); 
         var emission = particleSys.emission;
@@ -67,16 +69,18 @@ public class InteractableObj : MonoBehaviour, IInteractable
         particleSysMain.startSize = starSizeMinMax;
         
         particleSys.Play();
+        return particle;
     }
 
     private void SpawnCrash()
     {
         if (crashGameObject == null || crashPos == null) return;
-        var crash = Instantiate(crashGameObject);
+        var crash = Instantiate(crashGameObject,crashPos);
         ChangeCrashColor(crash);
-        crash.transform.position = crashPos.position;
-        crash.transform.rotation = crashPos.rotation;
-        crash.transform.localScale = crashPos.localScale;
+        crash.transform.localPosition = Vector3.zero;
+        crash.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        crash.transform.localScale = Vector3.one;
+        crash.transform.parent = null;
     }
 
     private void ChangeCrashColor(GameObject crash)
