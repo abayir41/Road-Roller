@@ -34958,11 +34958,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77eb8a74faedf4d4199addf970674ba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  houseTag: House
   dozerGameObject: {fileID: 8971242722936087708}
   dozerFollowers:
   - {fileID: 993727598}
   - {fileID: 622328710}
+  cameraDistanceDivider: 100
+  houseTag: House
+  levelThresholds: 00000000320000006400000096000000c8000000
+  multipleStepPointConstant: 1000
+  totalCrashPoint: 0
+  maxCrashPoint: 0
 --- !u!4 &1470986054
 Transform:
   m_ObjectHideFlags: 0
@@ -51703,7 +51708,8 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 2.44
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4408361410061428661, guid: 790b01b7606da304197450acf4585446, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 790b01b7606da304197450acf4585446, type: 3}
 --- !u!1 &8971242722936087708 stripped
 GameObject:
