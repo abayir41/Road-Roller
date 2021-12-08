@@ -512,7 +512,6 @@ MonoBehaviour:
   bodyGrowingPoint: {fileID: 5310531986341161442}
   rollerGrowingPoint: {fileID: 1626146510877928853}
   rotationPoint: {fileID: 5124702448135579751}
-  calculationPoint: {fileID: 0}
   animationDuration: 0.3
   growingAnimShapeCurve:
     serializedVersion: 2
@@ -538,8 +537,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  multipleStepPointConstant: 1000
-  maxCrashPoint: 100000
+  maxGrowPoint: 100000
 --- !u!1 &6336306279089747723
 GameObject:
   m_ObjectHideFlags: 0

@@ -171,7 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f6db4b812fd8814b9a0e5e87d43f0a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultDestroyable: 0
+  defaultDestroyable: 1
   destroyThreshold: 0
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   crashGameObject: {fileID: 2394975533840621568, guid: 0848ba7b896387847aa52371d638a8f0, type: 3}
@@ -179,6 +179,8 @@ MonoBehaviour:
   particleVolumeMultiplier: 1
   particleCount: 170
   particleSize: 0.6
+  objectType: 0
+  objectHitPoint: 10
 --- !u!1 &6485828751340261104
 GameObject:
   m_ObjectHideFlags: 0

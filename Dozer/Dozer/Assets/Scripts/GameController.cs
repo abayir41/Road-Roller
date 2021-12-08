@@ -15,12 +15,12 @@ public class GameController : MonoBehaviour
     [SerializeField] private List<Transform> dozerFollowers;
     
     [SerializeField] private int multipleStepPointConstant;
-    [SerializeField] private int maxCrashPoint;
-    public int MaxCrashPoint
+    [SerializeField] private int totalCrashPoint;
+
+    public int TotalCrashPoint
     {
-        get { return maxCrashPoint; }
+        get { return totalCrashPoint; }
     }
-    
     public int MultipleStepPointConstant
     {
         get { return multipleStepPointConstant; }

@@ -11,9 +11,7 @@ public class CarSystem : MonoBehaviour
 
     [SerializeField] private float animationDuration;
     [SerializeField] private AnimationCurve growingAnimShapeCurve;
-    
-    
-    private float _totalCrashPoint;
+    [SerializeField] private int maxGrowPoint;
 
     private void OnEnable()
     {
@@ -30,13 +28,10 @@ public class CarSystem : MonoBehaviour
         _transform = GetComponent<Transform>();
     }
 
-    public void Interact(IInteractable interactable)
+    private void Interact(IInteractable interactable)
     {
-        Debug.Log("Car Interaction");
-        var x = 10f;
-        if (_totalCrashPoint >= GameController.Instance.MaxCrashPoint) return;
-        _totalCrashPoint += x; 
-        StartCoroutine(GrowAnim(bodyGrowingPoint,x));
+        if (GameController.Instance.TotalCrashPoint >= maxGrowPoint) return;
+        StartCoroutine(GrowAnim(bodyGrowingPoint,interactable.ObjectHitPoint));
     }
 
     private IEnumerator GrowAnim(Transform growPart,float growAmount)
