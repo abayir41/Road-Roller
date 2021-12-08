@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -112,7 +113,26 @@ public class GameController : MonoBehaviour
 
     private void Interaction(IInteractable interactable)
     {
-        Debug.Log("Controller Interaction");
+       StartCoroutine(CameraDistanceIncreaser(interactable.ObjectHitPoint));
+    }
+    
+    private IEnumerator CameraDistanceIncreaser(float distance)
+    {
+        float timeElapsed = 0;
+
+        var newDistance = _cameraFarFromDozer+_cameraFarFromDozer.normalized * distance;
+        
+        var cachedFar = _cameraFarFromDozer;
+
+        while (timeElapsed < 0.2f)
+        {
+            var lerpRatio = timeElapsed / 0.2f;
+            _cameraFarFromDozer = Vector3.Lerp(cachedFar, newDistance, lerpRatio);
+            timeElapsed += Time.deltaTime;
+
+            yield return null;
+        }
+        
     }
 
     private void AlphaChanger(GameObject obj,float alphaAmount)
