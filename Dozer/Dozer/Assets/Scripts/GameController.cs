@@ -9,15 +9,36 @@ using Random = UnityEngine.Random;
 public class GameController : MonoBehaviour
 {
     public static GameController Instance;
-    public static string DozerTag = "Roller";
     
-    [SerializeField] private string houseTag = "House";
+    //Dozer Movement and process 
+    public static string DozerTag = "Roller";
     [SerializeField] private GameObject dozerGameObject;
     [SerializeField] private List<Transform> dozerFollowers;
+    private Transform _dozerTrans;
+    private Dictionary<Transform,Vector3> _dozerFollowersAndFarFromDozer;
     
+    //Coloring Building, objects ...
+    public Dictionary<IColorChanger, Dictionary<int, Color>> randomlyChangedMaterialsListAndColours =>
+        _randomlyChangedMaterialsListAndColours;
+    private Dictionary<IColorChanger, Dictionary<int, Color>> _randomlyChangedMaterialsListAndColours;
+    
+    //Camera Movement
+    [SerializeField] private int cameraDistanceDivider;
+    private Camera _camera;
+    private Transform _cameraTrans;
+    private Vector3 _cameraFarFromDozer;
+    
+    //Transparency System
+    [SerializeField] private string houseTag = "House";
+    private GameObject _fadedHouse;
+    private bool _houseTriggered;
+    
+    //ScoreSystem
+    private ScoreSystem _scoreSystem;
+    [SerializeField] private List<int> levelThresholds; //This has to begin with 0
     [SerializeField] private int multipleStepPointConstant;
     [SerializeField] private int totalCrashPoint;
-
+    [SerializeField] private int maxCrashPoint;
     public int TotalCrashPoint
     {
         get { return totalCrashPoint; }
@@ -27,20 +48,6 @@ public class GameController : MonoBehaviour
         get { return multipleStepPointConstant; }
     }
     
-    private Dictionary<Transform,Vector3> _dozerFollowersAndFarFromDozer;
-
-    public Dictionary<IColorChanger, Dictionary<int, Color>> randomlyChangedMaterialsListAndColours =>
-        _randomlyChangedMaterialsListAndColours;
-    
-    private Dictionary<IColorChanger, Dictionary<int, Color>> _randomlyChangedMaterialsListAndColours;
-    private Vector3 _cameraFarFromDozer;
-    private Transform _dozerTrans;
-    private Transform _cameraTrans;
-    private Camera _camera;
-
-    private GameObject _fadedHouse;
-    private bool _houseTriggered;
-
     private void Awake()
     {
         if (Instance == null)
@@ -48,13 +55,13 @@ public class GameController : MonoBehaviour
         
         _randomlyChangedMaterialsListAndColours = new Dictionary<IColorChanger, Dictionary<int, Color>>();
         //Paint the all buildings, cars, trees...
-        var paintableObjs = FindObjectsOfType<ColorChanger>().ToList();
-        foreach (var paintableObj in paintableObjs)
+        var colorableObjs = FindObjectsOfType<ColorChanger>().ToList();
+        foreach (var colorableObj in colorableObjs)
         {
-            var materialIndexes = paintableObj.gameObject.GetComponent<IRandomlyPaintedMaterialIndex>().MaterialIndexes;
+            var materialIndexes = colorableObj.gameObject.GetComponent<IRandomlyPaintedMaterialIndex>().MaterialIndexes;
             foreach (var materialIndex in materialIndexes)
             {
-                var colorChangerRandomly = paintableObj.gameObject.GetComponent<IColorChangerRandomly>();
+                var colorChangerRandomly = colorableObj.gameObject.GetComponent<IColorChangerRandomly>();
                 var colors = colorChangerRandomly.Colors;
                 var randomInt = Random.Range(0, colors.Length);
                 colorChangerRandomly.ChangeColor(colors[randomInt],materialIndex);
@@ -77,6 +84,8 @@ public class GameController : MonoBehaviour
             var dozerFollowerFarFromDozer = followerTrans.position - dozerTransPosition;
             _dozerFollowersAndFarFromDozer.Add(followerTrans,dozerFollowerFarFromDozer);
         });
+
+        _scoreSystem = new ScoreSystem(levelThresholds, maxCrashPoint);
     }
 
     private void Update()
@@ -104,23 +113,35 @@ public class GameController : MonoBehaviour
     private void OnEnable()
     {
         ActionSys.ObjectGotHit += Interaction;
+        ActionSys.LevelUpped += LevelUpped;
+        ActionSys.MaxLevelReached += () => Debug.Log("MaxLevelReached");
+        ActionSys.MaxScoreReached += () => Debug.Log("MaxScoreReached");
     }
     
     private void OnDisable()
     {
-        ActionSys.ObjectGotHit += Interaction;
+        ActionSys.ObjectGotHit -= Interaction;
+        ActionSys.LevelUpped -= LevelUpped;
     }
 
-    private void Interaction(IInteractable interactable)
+    void LevelUpped()
     {
-       StartCoroutine(CameraDistanceIncreaser(interactable.ObjectHitPoint));
+        var score = _scoreSystem.CurrentScore;
+        var level = _scoreSystem.CurrentLevel;
+        Debug.Log("Level Upped " + score + " " + level);
     }
     
-    private IEnumerator CameraDistanceIncreaser(float distance)
+    private void Interaction(IInteractable interactable)
+    {
+        _scoreSystem.AddScore(interactable.ObjectHitPoint);
+       StartCoroutine(CameraDistanceIncrease(interactable.ObjectHitPoint));
+    }
+    
+    private IEnumerator CameraDistanceIncrease(float distance)
     {
         float timeElapsed = 0;
 
-        var newDistance = _cameraFarFromDozer+_cameraFarFromDozer.normalized * distance;
+        var newDistance = _cameraFarFromDozer+_cameraFarFromDozer.normalized * distance / cameraDistanceDivider;
         
         var cachedFar = _cameraFarFromDozer;
 
@@ -175,7 +196,6 @@ public class GameController : MonoBehaviour
         foreach (var keyValuePair in _dozerFollowersAndFarFromDozer)
         {
             var followerTrans = keyValuePair.Key;
-            var distance = keyValuePair.Value;
             Ray ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(followerTrans.position));
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit) && hit.collider.gameObject.CompareTag(houseTag))
@@ -196,5 +216,62 @@ public class GameController : MonoBehaviour
 
         return savedGameObject;
 
+    }
+}
+
+public class ScoreSystem
+{
+    public int CurrentLevel
+    {
+        get { return _currentLevel; }
+    }
+
+    public int CurrentScore
+    {
+        get { return _currentScore; }
+    }
+    
+    private readonly List<int> _levelThresholds;
+    private int _currentLevel = 1;
+    private int _currentScore = 0;
+    private readonly int _maxScore;
+    private bool _maxLevelReached;
+    
+    public ScoreSystem(List<int> levelThresholds,int maxScore)
+    {
+        _levelThresholds = levelThresholds;
+        _maxScore = maxScore;
+    }
+
+    public void AddScore(int score)
+    {
+        if(_currentScore >= _maxScore)
+            return;
+        
+        _currentScore += score;
+
+        if (!_maxLevelReached)
+        {
+            while (_currentScore >= _levelThresholds[_currentLevel])
+            {
+                _currentLevel += 1;
+                if (_currentLevel == _levelThresholds.Count)
+                {
+                    _maxLevelReached = true;
+                    ActionSys.MaxLevelReached();
+                    break;
+                }
+                else
+                {
+                    ActionSys.LevelUpped();
+                }
+            }
+        }
+        
+        if (_currentScore >= _maxScore)
+        {
+            _currentScore = _maxScore;
+            ActionSys.MaxScoreReached();
+        }
     }
 }
