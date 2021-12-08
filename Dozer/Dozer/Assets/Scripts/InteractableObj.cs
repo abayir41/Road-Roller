@@ -5,11 +5,12 @@ using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
+using UnityEngine.Serialization;
 using Debug = UnityEngine.Debug;
 
 public class InteractableObj : MonoBehaviour, IInteractable
 {
-    [SerializeField] private bool defaultDestroyable;
+    [SerializeField] private bool defaultDestroyable = true;
     [SerializeField] private float destroyThreshold;
     [SerializeField] private GameObject particleEffect;
     [SerializeField] private GameObject crashGameObject;
@@ -17,15 +18,28 @@ public class InteractableObj : MonoBehaviour, IInteractable
     [SerializeField] private float particleVolumeMultiplier = 1f;
     [SerializeField] private float particleCount;
     [SerializeField] private float particleSize;
-
-    public void Interact(Collider collider)
+    [SerializeField] private ObjectType objectType = ObjectType.Small;
+    [SerializeField] private int objectHitPoint = 10;
+    
+    public ObjectType ObjectType
     {
-        if (defaultDestroyable || collider.bounds.size.magnitude > destroyThreshold)
+        get { return objectType; }
+    }
+    public int ObjectHitPoint
+    {
+        get { return objectHitPoint; }
+    }
+    
+    public void Interact()
+    {
+        defaultDestroyable = true;
+        if (defaultDestroyable)
         {
+            ActionSys.ObjectGotHit(this);
             Interaction();
         }
     }
-
+    
     private void Interaction()
     {
         StartCoroutine(IEInteraction(0.15f));
@@ -86,7 +100,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
     private void ChangeCrashColor(GameObject crash)
     {
         if (GetComponent<IColorChangerRandomly>() == null || crash.GetComponent<IColorChanger>() == null) return;
-        var gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();
+        var gameController = GameController.Instance;
         var colorInterface = GetComponent<IColorChangerRandomly>();
         var colorChanger = crash.GetComponent<IColorChanger>();
         var colorDict = gameController.randomlyChangedMaterialsListAndColours[colorInterface];

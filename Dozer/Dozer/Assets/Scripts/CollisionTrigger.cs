@@ -10,9 +10,7 @@ public class CollisionTrigger : MonoBehaviour
   if (other.collider.gameObject.CompareTag(GameController.DozerTag))
   {
    var interactable = GetComponent<IInteractable>();
-   var dozer = other.gameObject.GetComponent<IInteractable>();
-   dozer.Interact(other.collider);
-   interactable.Interact(other.collider);
+   interactable.Interact();
   }
  }
 }

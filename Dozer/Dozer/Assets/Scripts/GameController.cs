@@ -7,11 +7,25 @@ using Random = UnityEngine.Random;
 
 public class GameController : MonoBehaviour
 {
+    public static GameController Instance;
     public static string DozerTag = "Roller";
     
     [SerializeField] private string houseTag = "House";
     [SerializeField] private GameObject dozerGameObject;
     [SerializeField] private List<Transform> dozerFollowers;
+    
+    [SerializeField] private int multipleStepPointConstant;
+    [SerializeField] private int maxCrashPoint;
+    public int MaxCrashPoint
+    {
+        get { return maxCrashPoint; }
+    }
+    
+    public int MultipleStepPointConstant
+    {
+        get { return multipleStepPointConstant; }
+    }
+    
     private Dictionary<Transform,Vector3> _dozerFollowersAndFarFromDozer;
 
     public Dictionary<IColorChanger, Dictionary<int, Color>> randomlyChangedMaterialsListAndColours =>
@@ -25,9 +39,12 @@ public class GameController : MonoBehaviour
 
     private GameObject _fadedHouse;
     private bool _houseTriggered;
-    
+
     private void Awake()
     {
+        if (Instance == null)
+            Instance = this;
+        
         _randomlyChangedMaterialsListAndColours = new Dictionary<IColorChanger, Dictionary<int, Color>>();
         //Paint the all buildings, cars, trees...
         var paintableObjs = FindObjectsOfType<ColorChanger>().ToList();
@@ -82,6 +99,21 @@ public class GameController : MonoBehaviour
         }
         
     }
+    
+    private void OnEnable()
+    {
+        ActionSys.ObjectGotHit += Interaction;
+    }
+    
+    private void OnDisable()
+    {
+        ActionSys.ObjectGotHit += Interaction;
+    }
+
+    private void Interaction(IInteractable interactable)
+    {
+        Debug.Log("Controller Interaction");
+    }
 
     private void AlphaChanger(GameObject obj,float alphaAmount)
     {
@@ -116,7 +148,6 @@ public class GameController : MonoBehaviour
     {
         obj.position = distance + from;
     }
-
     
     private GameObject Looking_Any_Big_House()
     {

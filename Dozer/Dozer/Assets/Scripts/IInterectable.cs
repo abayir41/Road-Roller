@@ -1,7 +1,17 @@
 ﻿
 using UnityEngine;
 
-interface IInteractable
+public enum ObjectType
 {
-    void Interact(Collider collider);
+    Small,
+    House
+}
+
+public interface IInteractable
+{
+    ObjectType ObjectType { get; }
+    
+    int ObjectHitPoint { get; }
+    
+    void Interact();
 }
