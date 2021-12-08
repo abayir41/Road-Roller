@@ -20,7 +20,7 @@ public class CarSystem : MonoBehaviour
     
     private void OnDisable()
     {
-        ActionSys.ObjectGotHit += Interact;
+        ActionSys.ObjectGotHit -= Interact;
     }
 
     private void Awake()
