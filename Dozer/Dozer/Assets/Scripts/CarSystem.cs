@@ -39,14 +39,6 @@ public class CarSystem : MonoBehaviour
         float timeElapsed = 0;
         var increase = growAmount / GameController.Instance.MultipleStepPointConstant;
 
-
-        var localScale = growPart.localScale;
-        var x = localScale.x;
-        var y = localScale.y;
-        var z = localScale.z;
-
-        var scale = new Vector3(x, y, z);
-
         var goalScale = Vector3.one * increase;
 
         var cachedGrow = Vector3.zero;
