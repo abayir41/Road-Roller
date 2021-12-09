@@ -7,9 +7,8 @@ public static class ActionSys
 {
     public static Action<IInteractable> ObjectGotHit;
 
-    public static Action LevelUpped;
+    public static Action<int> LevelUpped;
 
     public static Action MaxLevelReached;
-
-    public static Action MaxScoreReached;
+    
 }
