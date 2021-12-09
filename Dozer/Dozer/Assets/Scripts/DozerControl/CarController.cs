@@ -9,19 +9,17 @@ public class CarController : MonoBehaviour
     [SerializeField] private float angularVelocityMultiplier;
     private Rigidbody _rigidbody;
     private ISteerSystem _steerSystem;
-    
+
+    public void SetVelocity(int maxGrowPoint)
+    {
+        velocityMultiplier = (float)GameController.Instance.TotalCrashPoint / maxGrowPoint * 20f + 3f;
+    }
     // Start is called before the first frame update
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.inertiaTensorRotation = Quaternion.identity;
         _steerSystem = GetComponent<BasicSteerSystem>();
-    }
-
-    void Start()
-    {
-        _rigidbody.velocity = transform.forward * velocityMultiplier;
-        
     }
 
     private void Update()
