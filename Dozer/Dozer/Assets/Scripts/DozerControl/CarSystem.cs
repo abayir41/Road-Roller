@@ -12,32 +12,51 @@ public class CarSystem : MonoBehaviour
     [SerializeField] private float animationDuration;
     [SerializeField] private AnimationCurve growingAnimShapeCurve;
     [SerializeField] private int maxGrowPoint;
+    private CarController _carController;
 
     private void OnEnable()
     {
         ActionSys.ObjectGotHit += Interact;
+        ActionSys.LevelUpped += Interact;
     }
     
     private void OnDisable()
     {
         ActionSys.ObjectGotHit -= Interact;
+        ActionSys.LevelUpped -= Interact;
     }
 
     private void Awake()
     {
+        _carController = GetComponent<CarController>();
         _transform = GetComponent<Transform>();
+        
     }
 
+    private void Start()
+    {
+        if (!(Camera.main is null)) Camera.main.transform.LookAt(bodyGrowingPoint);
+        _carController.SetVelocity(maxGrowPoint);
+    }
+
+    private void Interact(int reward)
+    {
+        if (GameController.Instance.TotalCrashPoint >= maxGrowPoint) return;
+        _carController.SetVelocity(maxGrowPoint);
+        StartCoroutine(GrowAnim(bodyGrowingPoint,reward));
+    }
+    
     private void Interact(IInteractable interactable)
     {
         if (GameController.Instance.TotalCrashPoint >= maxGrowPoint) return;
+        _carController.SetVelocity(maxGrowPoint);
         StartCoroutine(GrowAnim(bodyGrowingPoint,interactable.ObjectHitPoint));
     }
 
     private IEnumerator GrowAnim(Transform growPart,float growAmount)
     {
         float timeElapsed = 0;
-        var increase = growAmount / GameController.Instance.MultipleStepPointConstant;
+        var increase = growAmount / 1000;
 
         var goalScale = Vector3.one * increase;
 
