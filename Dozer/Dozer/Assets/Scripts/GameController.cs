@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject dozerGameObject;
     [SerializeField] private List<Transform> dozerFollowers;
     private Transform _dozerTrans;
-    private Dictionary<Transform,Vector3> _dozerFollowersAndFarFromDozer;
+
     
     //Coloring Building, objects ...
     public Dictionary<IColorChanger, Dictionary<int, Color>> randomlyChangedMaterialsListAndColours =>
@@ -36,18 +36,13 @@ public class GameController : MonoBehaviour
     //ScoreSystem
     private ScoreSystem _scoreSystem;
     [SerializeField] private List<int> levelThresholds; //This has to begin with 0
-    [SerializeField] private int multipleStepPointConstant;
-    [SerializeField] private int totalCrashPoint;
+    [SerializeField] private List<int> rewardPoints; //This lenght has to equals to lenght of levelThresholds - 1 
     [SerializeField] private int maxCrashPoint;
     public int TotalCrashPoint
     {
-        get { return totalCrashPoint; }
+        get { return _scoreSystem.CurrentScore; }
     }
-    public int MultipleStepPointConstant
-    {
-        get { return multipleStepPointConstant; }
-    }
-    
+
     private void Awake()
     {
         if (Instance == null)
@@ -72,31 +67,20 @@ public class GameController : MonoBehaviour
         //Getting Camera 
         if (!(Camera.main is null)) _camera = Camera.main; 
         _cameraTrans = _camera.transform;
-        
+
         //Caching
         _dozerTrans = dozerGameObject.transform;
         var dozerTransPosition = _dozerTrans.position;
         _cameraFarFromDozer = _cameraTrans.position - dozerTransPosition;
 
-        _dozerFollowersAndFarFromDozer = new Dictionary<Transform, Vector3>();
-        dozerFollowers.ForEach(followerTrans =>
-        {
-            var dozerFollowerFarFromDozer = followerTrans.position - dozerTransPosition;
-            _dozerFollowersAndFarFromDozer.Add(followerTrans,dozerFollowerFarFromDozer);
-        });
-
-        _scoreSystem = new ScoreSystem(levelThresholds, maxCrashPoint);
+        _scoreSystem = new ScoreSystem(levelThresholds,rewardPoints, maxCrashPoint);
+        
+        
     }
 
     private void Update()
     {
         var dozerTransPosition = _dozerTrans.position;
-        foreach (var keyValuePair in _dozerFollowersAndFarFromDozer)
-        {
-            var followerTrans = keyValuePair.Key;
-            var distance = keyValuePair.Value;
-            ObjectFollower(distance,dozerTransPosition,followerTrans);
-        }
         ObjectFollower(_cameraFarFromDozer,dozerTransPosition,_cameraTrans);
 
         
@@ -115,7 +99,6 @@ public class GameController : MonoBehaviour
         ActionSys.ObjectGotHit += Interaction;
         ActionSys.LevelUpped += LevelUpped;
         ActionSys.MaxLevelReached += () => Debug.Log("MaxLevelReached");
-        ActionSys.MaxScoreReached += () => Debug.Log("MaxScoreReached");
     }
     
     private void OnDisable()
@@ -124,11 +107,9 @@ public class GameController : MonoBehaviour
         ActionSys.LevelUpped -= LevelUpped;
     }
 
-    void LevelUpped()
+    void LevelUpped(int reward)
     {
-        var score = _scoreSystem.CurrentScore;
-        var level = _scoreSystem.CurrentLevel;
-        Debug.Log("Level Upped " + score + " " + level);
+        StartCoroutine(CameraDistanceIncrease(reward / 3f));
     }
     
     private void Interaction(IInteractable interactable)
@@ -140,15 +121,22 @@ public class GameController : MonoBehaviour
     private IEnumerator CameraDistanceIncrease(float distance)
     {
         float timeElapsed = 0;
-
-        var newDistance = _cameraFarFromDozer+_cameraFarFromDozer.normalized * distance / cameraDistanceDivider;
         
-        var cachedFar = _cameraFarFromDozer;
+        var goalScale = _cameraFarFromDozer.normalized * distance / cameraDistanceDivider;
+
+        var cachedGrow = Vector3.zero;
 
         while (timeElapsed < 0.2f)
         {
+
+            
             var lerpRatio = timeElapsed / 0.2f;
-            _cameraFarFromDozer = Vector3.Lerp(cachedFar, newDistance, lerpRatio);
+
+            var newGrow = Vector3.Lerp(Vector3.zero, goalScale, lerpRatio);
+            
+            _cameraFarFromDozer += newGrow - cachedGrow;
+            cachedGrow = newGrow;
+            
             timeElapsed += Time.deltaTime;
 
             yield return null;
@@ -193,9 +181,8 @@ public class GameController : MonoBehaviour
     private GameObject Looking_Any_Big_House()
     {
         GameObject savedGameObject = null;
-        foreach (var keyValuePair in _dozerFollowersAndFarFromDozer)
+        foreach (var followerTrans in dozerFollowers)
         {
-            var followerTrans = keyValuePair.Key;
             Ray ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(followerTrans.position));
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit) && hit.collider.gameObject.CompareTag(houseTag))
@@ -232,13 +219,15 @@ public class ScoreSystem
     }
     
     private readonly List<int> _levelThresholds;
+    private readonly List<int> _rewardPoints;
     private int _currentLevel = 1;
-    private int _currentScore = 0;
+    private int _currentScore;
     private readonly int _maxScore;
     private bool _maxLevelReached;
     
-    public ScoreSystem(List<int> levelThresholds,int maxScore)
+    public ScoreSystem(List<int> levelThresholds,List<int> rewardPoints,int maxScore)
     {
+        _rewardPoints = rewardPoints;
         _levelThresholds = levelThresholds;
         _maxScore = maxScore;
     }
@@ -254,6 +243,7 @@ public class ScoreSystem
         {
             while (_currentScore >= _levelThresholds[_currentLevel])
             {
+                ActionSys.LevelUpped(_rewardPoints[_currentLevel - 1]);
                 _currentLevel += 1;
                 if (_currentLevel == _levelThresholds.Count)
                 {
@@ -261,17 +251,14 @@ public class ScoreSystem
                     ActionSys.MaxLevelReached();
                     break;
                 }
-                else
-                {
-                    ActionSys.LevelUpped();
-                }
+                
+                
             }
         }
         
         if (_currentScore >= _maxScore)
         {
             _currentScore = _maxScore;
-            ActionSys.MaxScoreReached();
         }
     }
 }
