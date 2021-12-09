@@ -20,6 +20,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
     [SerializeField] private float particleSize;
     [SerializeField] private ObjectType objectType = ObjectType.Small;
     [SerializeField] private int objectHitPoint = 10;
+    [SerializeField] private int sizeOfObj = 5;
     
     public ObjectType ObjectType
     {
@@ -29,7 +30,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
     {
         get { return objectHitPoint; }
     }
-    
+
     public void Interact()
     {
         defaultDestroyable = true;
@@ -42,7 +43,16 @@ public class InteractableObj : MonoBehaviour, IInteractable
     
     private void Interaction()
     {
-        StartCoroutine(IEInteraction(0.15f));
+        var delay = 0.03f;
+        if (GameController.Instance.TotalCrashPoint != 0)
+        {
+            delay = (float)sizeOfObj / GameController.Instance.TotalCrashPoint;
+            if (delay > 0.3f)
+            {
+                delay = 0.3f;
+            }
+        }
+        StartCoroutine(IEInteraction(delay));
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
@@ -51,9 +61,9 @@ public class InteractableObj : MonoBehaviour, IInteractable
         var particle = SpawnParticle();
         Destroy(particle,2f);
         GetComponent<MeshRenderer>().enabled = false;
-        yield return new WaitForSeconds(0.15f);
-        GetComponent<BoxCollider>().enabled = false;
         yield return new WaitForSeconds(delay);
+        GetComponent<BoxCollider>().enabled = false;
+        yield return new WaitForSeconds(0.3f - delay);
         SpawnCrash();
         Destroy(gameObject);
     }
