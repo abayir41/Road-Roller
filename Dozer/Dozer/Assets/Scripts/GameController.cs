@@ -42,6 +42,14 @@ public class GameController : MonoBehaviour
     {
         get { return _scoreSystem.CurrentScore; }
     }
+    public int CurrentLevel
+    {
+        get { return _scoreSystem.CurrentLevel; }
+    }
+    public float RatioOfBetweenLevels
+    {
+        get { return _scoreSystem.RatioOfBetweenLevels(); }
+    }
 
     private void Awake()
     {
@@ -232,6 +240,14 @@ public class ScoreSystem
         _maxScore = maxScore;
     }
 
+    public float RatioOfBetweenLevels()
+    {
+        if (_maxLevelReached) return 0f;
+        var diffBetweenLevel = _levelThresholds[_currentLevel] - _levelThresholds[_currentLevel - 1];
+        var ourPoint = _currentScore - _levelThresholds[_currentLevel - 1];
+        var result = (float) ourPoint / diffBetweenLevel;
+        return result;
+    }
     public void AddScore(int score)
     {
         if(_currentScore >= _maxScore)
