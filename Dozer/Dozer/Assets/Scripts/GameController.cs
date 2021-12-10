@@ -34,28 +34,29 @@ public class GameController : MonoBehaviour
     private bool _houseTriggered;
     
     //ScoreSystem
-    private ScoreSystem _scoreSystem;
     [SerializeField] private List<int> levelThresholds; //This has to begin with 0
-    [SerializeField] private List<int> rewardPoints; //This lenght has to equals to lenght of levelThresholds - 1 
+    [SerializeField] private List<int> rewardPoints;
     [SerializeField] private int maxCrashPoint;
-    public int TotalCrashPoint
+    public List<int> LevelThreshold
     {
-        get { return _scoreSystem.CurrentScore; }
+        get { return levelThresholds; }
     }
-    public int CurrentLevel
+
+    public List<int> RewardPoints
     {
-        get { return _scoreSystem.CurrentLevel; }
+        get { return rewardPoints; }
     }
-    public float RatioOfBetweenLevels
+
+    public int MaxCrashPoint
     {
-        get { return _scoreSystem.RatioOfBetweenLevels(); }
+        get { return maxCrashPoint; }
     }
 
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
-        
+ 
         _randomlyChangedMaterialsListAndColours = new Dictionary<IColorChanger, Dictionary<int, Color>>();
         //Paint the all buildings, cars, trees...
         var colorableObjs = FindObjectsOfType<ColorChanger>().ToList();
@@ -80,9 +81,6 @@ public class GameController : MonoBehaviour
         _dozerTrans = dozerGameObject.transform;
         var dozerTransPosition = _dozerTrans.position;
         _cameraFarFromDozer = _cameraTrans.position - dozerTransPosition;
-
-        _scoreSystem = new ScoreSystem(levelThresholds,rewardPoints, maxCrashPoint);
-        
         
     }
 
@@ -106,7 +104,7 @@ public class GameController : MonoBehaviour
     {
         ActionSys.ObjectGotHit += Interaction;
         ActionSys.LevelUpped += LevelUpped;
-        ActionSys.MaxLevelReached += () => Debug.Log("MaxLevelReached");
+        ActionSys.MaxLevelReached += () => {Debug.Log("MaxLevelReached");};
     }
     
     private void OnDisable()
@@ -122,7 +120,6 @@ public class GameController : MonoBehaviour
     
     private void Interaction(IInteractable interactable)
     {
-        _scoreSystem.AddScore(interactable.ObjectHitPoint);
        StartCoroutine(CameraDistanceIncrease(interactable.ObjectHitPoint));
     }
     
@@ -214,67 +211,3 @@ public class GameController : MonoBehaviour
     }
 }
 
-public class ScoreSystem
-{
-    public int CurrentLevel
-    {
-        get { return _currentLevel; }
-    }
-
-    public int CurrentScore
-    {
-        get { return _currentScore; }
-    }
-    
-    private readonly List<int> _levelThresholds;
-    private readonly List<int> _rewardPoints;
-    private int _currentLevel = 1;
-    private int _currentScore;
-    private readonly int _maxScore;
-    private bool _maxLevelReached;
-    
-    public ScoreSystem(List<int> levelThresholds,List<int> rewardPoints,int maxScore)
-    {
-        _rewardPoints = rewardPoints;
-        _levelThresholds = levelThresholds;
-        _maxScore = maxScore;
-    }
-
-    public float RatioOfBetweenLevels()
-    {
-        if (_maxLevelReached) return 0f;
-        var diffBetweenLevel = _levelThresholds[_currentLevel] - _levelThresholds[_currentLevel - 1];
-        var ourPoint = _currentScore - _levelThresholds[_currentLevel - 1];
-        var result = (float) ourPoint / diffBetweenLevel;
-        return result;
-    }
-    public void AddScore(int score)
-    {
-        if(_currentScore >= _maxScore)
-            return;
-        
-        _currentScore += score;
-
-        if (!_maxLevelReached)
-        {
-            while (_currentScore >= _levelThresholds[_currentLevel])
-            {
-                ActionSys.LevelUpped(_rewardPoints[_currentLevel - 1]);
-                _currentLevel += 1;
-                if (_currentLevel == _levelThresholds.Count)
-                {
-                    _maxLevelReached = true;
-                    ActionSys.MaxLevelReached();
-                    break;
-                }
-                
-                
-            }
-        }
-        
-        if (_currentScore >= _maxScore)
-        {
-            _currentScore = _maxScore;
-        }
-    }
-}
