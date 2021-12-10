@@ -22,7 +22,6 @@ public class UISystem : MonoBehaviour
     private void Interaction(IInteractable obj)
     {
         var diffBetweenGoalAndSlide = GameController.Instance.RatioOfBetweenLevels - levelSlider.value;
-        Debug.Log(diffBetweenGoalAndSlide);
         StartCoroutine(SlideAnim(diffBetweenGoalAndSlide));
     }
 
@@ -49,6 +48,6 @@ public class UISystem : MonoBehaviour
     }
     private void LevelUpped(int point)
     {
-        levelSlider.value = 0;
+        StartCoroutine(SlideAnim(-levelSlider.value));
     }
 }
