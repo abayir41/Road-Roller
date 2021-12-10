@@ -13,5 +13,5 @@ public interface IInteractable
     
     int ObjectHitPoint { get; }
     
-    void Interact();
+    void Interact(PlayerController playerController);
 }
