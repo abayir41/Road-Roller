@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
 
@@ -17,14 +17,14 @@ public class CarSystem : MonoBehaviour
 
     private void OnEnable()
     {
-        ActionSys.ObjectGotHit += Interact;
-        ActionSys.LevelUpped += Interact;
+        _playerController.ActionSysCar.ObjectGotHit += Interact;
+        _playerController.ActionSysCar.LevelUpped += Interact;
     }
     
     private void OnDisable()
     {
-        ActionSys.ObjectGotHit -= Interact;
-        ActionSys.LevelUpped -= Interact;
+        _playerController.ActionSysCar.ObjectGotHit -= Interact;
+        _playerController.ActionSysCar.LevelUpped -= Interact;
     }
 
     private void Awake()
