@@ -10,8 +10,7 @@ using Debug = UnityEngine.Debug;
 
 public class InteractableObj : MonoBehaviour, IInteractable
 {
-    [SerializeField] private bool defaultDestroyable = true;
-    [SerializeField] private float destroyThreshold;
+    [SerializeField] private int destroyThreshold;
     [SerializeField] private GameObject particleEffect;
     [SerializeField] private GameObject crashGameObject;
     [SerializeField] private Transform crashPos;
@@ -31,22 +30,21 @@ public class InteractableObj : MonoBehaviour, IInteractable
         get { return objectHitPoint; }
     }
 
-    public void Interact()
+    public void Interact(PlayerController playerController)
     {
-        defaultDestroyable = true;
-        if (defaultDestroyable)
+        if (playerController.TotalCrashPoint >= destroyThreshold)
         {
-            ActionSys.ObjectGotHit(this);
-            Interaction();
+            playerController.ActionSysCar.ObjectGotHit(this);
+            Interaction(playerController);
         }
     }
     
-    private void Interaction()
+    private void Interaction(PlayerController playerController)
     {
         var delay = 0.03f;
-        if (GameController.Instance.TotalCrashPoint != 0)
+        if (playerController.TotalCrashPoint != 0)
         {
-            delay = (float)sizeOfObj / GameController.Instance.TotalCrashPoint;
+            delay = (float)sizeOfObj / playerController.TotalCrashPoint;
             if (delay > 0.3f)
             {
                 delay = 0.3f;

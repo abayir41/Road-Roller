@@ -21,7 +21,7 @@ public class UISystem : MonoBehaviour
 
     private void Interaction(IInteractable obj)
     {
-        var diffBetweenGoalAndSlide = GameController.Instance.RatioOfBetweenLevels - levelSlider.value;
+        var diffBetweenGoalAndSlide = PlayerController.Player.RatioOfBetweenLevels - levelSlider.value;
         StartCoroutine(SlideAnim(diffBetweenGoalAndSlide));
     }
 

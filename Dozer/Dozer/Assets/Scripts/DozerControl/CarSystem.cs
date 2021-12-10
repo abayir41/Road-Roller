@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -13,6 +13,7 @@ public class CarSystem : MonoBehaviour
     [SerializeField] private AnimationCurve growingAnimShapeCurve;
     [SerializeField] private int maxGrowPoint;
     private CarController _carController;
+    private PlayerController _playerController;
 
     private void OnEnable()
     {
@@ -28,6 +29,7 @@ public class CarSystem : MonoBehaviour
 
     private void Awake()
     {
+        _playerController = GetComponent<PlayerController>(); 
         _carController = GetComponent<CarController>();
         _transform = GetComponent<Transform>();
         
@@ -41,14 +43,14 @@ public class CarSystem : MonoBehaviour
 
     private void Interact(int reward)
     {
-        if (GameController.Instance.TotalCrashPoint >= maxGrowPoint) return;
+        if (_playerController.TotalCrashPoint >= maxGrowPoint) return;
         _carController.SetVelocity(maxGrowPoint);
         StartCoroutine(GrowAnim(bodyGrowingPoint,reward));
     }
     
     private void Interact(IInteractable interactable)
     {
-        if (GameController.Instance.TotalCrashPoint >= maxGrowPoint) return;
+        if (_playerController.TotalCrashPoint >= maxGrowPoint) return;
         _carController.SetVelocity(maxGrowPoint);
         StartCoroutine(GrowAnim(bodyGrowingPoint,interactable.ObjectHitPoint));
     }
