@@ -18258,6 +18258,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6865572597100625000, guid: 3dab0c80cc7f53643bf27ed43165d7e8, type: 3}
   m_PrefabInstance: {fileID: 733418282}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &736824187 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5310531986341161442, guid: 790b01b7606da304197450acf4585446, type: 3}
+  m_PrefabInstance: {fileID: 3180208848776354978}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &738881857
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35878,6 +35883,7 @@ MonoBehaviour:
   dozerFollowers:
   - {fileID: 993727598}
   - {fileID: 622328710}
+  focusPoint: {fileID: 736824187}
   cameraDistanceDivider: 60
   houseTag: House
   levelThresholds: 00000000320000006400000096000000c8000000

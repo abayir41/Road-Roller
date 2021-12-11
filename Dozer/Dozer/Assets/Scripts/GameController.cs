@@ -23,11 +23,12 @@ public class GameController : MonoBehaviour
     private Dictionary<IColorChanger, Dictionary<int, Color>> _randomlyChangedMaterialsListAndColours;
     
     //Camera Movement
+    [SerializeField] private Transform focusPoint;
     [SerializeField] private int cameraDistanceDivider;
     private Camera _camera;
     private Transform _cameraTrans;
     private Vector3 _cameraFarFromDozer;
-    
+
     //Transparency System
     [SerializeField] private string houseTag = "House";
     private GameObject _fadedHouse;
@@ -76,6 +77,7 @@ public class GameController : MonoBehaviour
         //Getting Camera 
         if (!(Camera.main is null)) _camera = Camera.main; 
         _cameraTrans = _camera.transform;
+        _cameraTrans.LookAt(focusPoint);
 
         //Caching
         _dozerTrans = dozerGameObject.transform;

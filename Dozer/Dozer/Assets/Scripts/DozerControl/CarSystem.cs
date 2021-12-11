@@ -37,7 +37,6 @@ public class CarSystem : MonoBehaviour
 
     private void Start()
     {
-        if (!(Camera.main is null)) Camera.main.transform.LookAt(bodyGrowingPoint);
         _carController.SetVelocity(maxGrowPoint);
     }
 
