@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour
 {
     public static GameController Instance;
     
-    //Dozer Movement and process. test
+    //Dozer Movement and process 
     public static string DozerTag = "Roller";
     [SerializeField] private GameObject dozerGameObject;
     [SerializeField] private List<Transform> dozerFollowers;
