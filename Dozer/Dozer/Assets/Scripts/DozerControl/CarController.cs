@@ -21,7 +21,7 @@ public class CarController : MonoBehaviour
         _playerController = GetComponent<PlayerController>();
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.inertiaTensorRotation = Quaternion.identity;
-        _steerSystem = GetComponent<BasicSteerSystem>();
+        _steerSystem = GetComponent<ISteerSystem>();
     }
 
     private void Update()
