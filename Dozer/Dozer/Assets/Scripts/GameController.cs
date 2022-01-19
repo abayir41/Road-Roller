@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -115,7 +115,7 @@ public class GameController : MonoBehaviour
         ActionSys.LevelUpped -= LevelUpped;
     }
 
-    void LevelUpped(int reward)
+    private void LevelUpped(int reward)
     {
         StartCoroutine(CameraDistanceIncrease(reward / 3f));
     }

@@ -22,7 +22,7 @@ public class BasicSteerSystem : MonoBehaviour,ISteerSystem
         _radiusOfSteer = (int)(Screen.width / radiusOfSteerDivider);
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.touchCount > 0)
         {

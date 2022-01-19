@@ -17,7 +17,6 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
     
     private Transform _selfTransform;
     
-    
     //Object
     private IObjectScanner _objectScanner;
     private GameObject _target;
@@ -32,7 +31,6 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
     private void Awake()
     {
         _objectScanner = GetComponentInChildren<IObjectScanner>();
-        Debug.Log(_objectScanner);
         _selfTransform = transform;
         _path = new NavMeshPath();
     }
@@ -47,7 +45,7 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
         if (_target == null)
         {
             _target = RandomObjectSelecter(_objectScanner.ScannedObjects);
-            Debug.Log(_target);
+            
             if (_target == null) return;
 
             var checkIfPathExist = NavMesh.CalculatePath(_selfTransform.position, _target.transform.position, NavMesh.AllAreas, _path);
@@ -65,17 +63,25 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
 
         if (_path.status != NavMeshPathStatus.PathInvalid)
         {
-            if (Vector3.Distance(_destination, _selfTransform.position) < cornerDistanceThreshold)
-            {
-                _cornerIndexer += 1;
-            }
-
             if (_cornerIndexer == _path.corners.Length - 1)
             {
                 _destination = _target.transform.position;
             }
+            
+            if (Vector3.Distance(_destination, _selfTransform.position) < cornerDistanceThreshold && _cornerIndexer < _path.corners.Length - 1)
+            {
+                _cornerIndexer += 1;
+                _destination = _path.corners[_cornerIndexer];
+            }
 
-            _angle = Vector3.Angle(_selfTransform.position, _destination);
+            var vecTowardDestination =  _destination - _selfTransform.position;
+            var dozerForwardVec = _selfTransform.forward;
+            
+            
+            _angle = Vector3.Angle(vecTowardDestination,dozerForwardVec);
+            
+            Debug.DrawLine(_destination,_destination+Vector3.up*100,Color.red);
+            Debug.Log(_target+"    "+_destination);
         }
         
     }
