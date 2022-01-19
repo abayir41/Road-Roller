@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class CarSystem : MonoBehaviour
 {
+    [Header("Dozer Body Point For Using In Animations")]
     [SerializeField] private Transform bodyGrowingPoint;
     [SerializeField] private Transform rollerGrowingPoint;
     [SerializeField] private Transform rotationPoint;
     private Transform _transform;
 
+    [Header("Animation Settings")]
     [SerializeField] private float animationDuration;
     [SerializeField] private AnimationCurve growingAnimShapeCurve;
+    
+    [Header("Car Settings")]
     [SerializeField] private int maxGrowPoint;
     private CarController _carController;
     private PlayerController _playerController;

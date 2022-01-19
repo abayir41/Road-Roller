@@ -11,11 +11,11 @@ public class GameController : MonoBehaviour
     public static GameController Instance;
     
     //Dozer Movement and process 
-    public static string DozerTag = "Roller";
+    [Header("Dozer Settings")]
     [SerializeField] private GameObject dozerGameObject;
     [SerializeField] private List<Transform> dozerFollowers;
     private Transform _dozerTrans;
-
+    public static string DozerTag = "Roller";
     
     //Coloring Building, objects ...
     public Dictionary<IColorChanger, Dictionary<int, Color>> randomlyChangedMaterialsListAndColours =>
@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour
     private Dictionary<IColorChanger, Dictionary<int, Color>> _randomlyChangedMaterialsListAndColours;
     
     //Camera Movement
+    [Header("Camera Movement")]
     [SerializeField] private Transform focusPoint;
     [SerializeField] private int cameraDistanceDivider;
     private Camera _camera;
@@ -30,11 +31,14 @@ public class GameController : MonoBehaviour
     private Vector3 _cameraFarFromDozer;
 
     //Transparency System
+    [Header("Collision Settings")]
     [SerializeField] private string houseTag = "House";
     private GameObject _fadedHouse;
     private bool _houseTriggered;
     
     //ScoreSystem
+    [Header("Score System")]
+    private ScoreSystem _scoreSystem;
     [SerializeField] private List<int> levelThresholds; //This has to begin with 0
     [SerializeField] private List<int> rewardPoints;
     [SerializeField] private int maxCrashPoint;
