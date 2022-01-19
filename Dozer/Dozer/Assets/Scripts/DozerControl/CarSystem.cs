@@ -38,23 +38,17 @@ public class CarSystem : MonoBehaviour
         _transform = GetComponent<Transform>();
         
     }
-
-    private void Start()
-    {
-        _carController.SetVelocity(maxGrowPoint);
-    }
+    
 
     private void Interact(int reward)
     {
         if (_playerController.TotalCrashPoint >= maxGrowPoint) return;
-        _carController.SetVelocity(maxGrowPoint);
         StartCoroutine(GrowAnim(bodyGrowingPoint,reward));
     }
     
     private void Interact(IInteractable interactable)
     {
         if (_playerController.TotalCrashPoint >= maxGrowPoint) return;
-        _carController.SetVelocity(maxGrowPoint);
         StartCoroutine(GrowAnim(bodyGrowingPoint,interactable.ObjectHitPoint));
     }
 
