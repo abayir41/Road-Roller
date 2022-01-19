@@ -10,17 +10,25 @@ using Debug = UnityEngine.Debug;
 
 public class InteractableObj : MonoBehaviour, IInteractable
 {
-    [SerializeField] private bool defaultDestroyable = true;
-    [SerializeField] private float destroyThreshold;
+    [Header("Collision Configurations")]
+    [SerializeField] private int destroyThreshold;
+    [SerializeField] private int objectHitPoint = 10;
+    [SerializeField] private ObjectType objectType = ObjectType.Small;
+    [Tooltip("This is the setting of Delay when dozer collide with a object")]
+    [SerializeField] private int sizeOfObj = 5;
+    
+    [Header("Particle Effect Settings")]
     [SerializeField] private GameObject particleEffect;
-    [SerializeField] private GameObject crashGameObject;
-    [SerializeField] private Transform crashPos;
     [SerializeField] private float particleVolumeMultiplier = 1f;
     [SerializeField] private float particleCount;
     [SerializeField] private float particleSize;
-    [SerializeField] private ObjectType objectType = ObjectType.Small;
-    [SerializeField] private int objectHitPoint = 10;
-    [SerializeField] private int sizeOfObj = 5;
+    
+    [Header("After Collision Object")]
+    [SerializeField] private GameObject crashGameObject;
+    [SerializeField] private Transform crashPos;
+    
+    
+    
     
     public ObjectType ObjectType
     {
