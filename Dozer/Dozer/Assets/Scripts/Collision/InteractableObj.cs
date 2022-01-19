@@ -39,6 +39,10 @@ public class InteractableObj : MonoBehaviour, IInteractable
         get { return objectHitPoint; }
     }
 
+    public Vector3 ColliderPosition
+    {
+        get { return GetComponent<Collider>().bounds.center; }
+    }
     public void Interact(PlayerController playerController)
     {
         if (playerController.TotalCrashPoint >= destroyThreshold)
