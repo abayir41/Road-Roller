@@ -13,7 +13,6 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
     }
     
     private float _angle;
-
     
     private Transform _selfTransform;
     
@@ -27,6 +26,8 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
     private NavMeshPath _path;
     private Vector3 _destination;
     private int _cornerIndexer;
+
+    public Transform target;
 
     private void Awake()
     {
@@ -42,30 +43,51 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
 
     private void Update()
     {
+        
+        var targetPosition = Vector3.zero;
+
         if (_target == null)
         {
             _target = RandomObjectSelecter(_objectScanner.ScannedObjects);
-            
+
             if (_target == null) return;
+            
+            targetPosition = _target.GetComponent<InteractableObj>().ColliderPosition;
 
-            var checkIfPathExist = NavMesh.CalculatePath(_selfTransform.position, _target.transform.position, NavMesh.AllAreas, _path);
+            NavMeshHit nearestPoint;
+            var isThereAnyNearestPoint = NavMesh.SamplePosition(target.position, out nearestPoint, 100000000.0f, NavMesh.AllAreas);
 
-            if (checkIfPathExist)
+            var checkIfPathExist = false;
+            if (isThereAnyNearestPoint)
             {
-                _cornerIndexer = 0;
-                _destination = _path.corners[_cornerIndexer];
+                checkIfPathExist = NavMesh.CalculatePath(_selfTransform.position, nearestPoint.position, NavMesh.AllAreas, _path);
             }
             else
             {
-                Debug.LogError("Path is not exist");
+                Debug.LogError("Nearest Point does not exist");
+            }
+            
+            Debug.Log(nearestPoint.position);
+
+            if (checkIfPathExist)
+            {
+                _cornerIndexer = 1;
+                _destination = _path.corners[_cornerIndexer];
+                
+            }
+            else
+            {
+                Debug.LogError("Path does not exist");
             }
         }
-
+        
+        Debug.Log(_path.corners);
+        Debug.Log(_destination);
         if (_path.status != NavMeshPathStatus.PathInvalid)
         {
             if (_cornerIndexer == _path.corners.Length - 1)
             {
-                _destination = _target.transform.position;
+                _destination = targetPosition;
             }
             
             if (Vector3.Distance(_destination, _selfTransform.position) < cornerDistanceThreshold && _cornerIndexer < _path.corners.Length - 1)
@@ -75,13 +97,16 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
             }
 
             var vecTowardDestination =  _destination - _selfTransform.position;
+            var vecTowardDestination2D = new Vector2(vecTowardDestination.x, vecTowardDestination.z);
             var dozerForwardVec = _selfTransform.forward;
-            
-            
-            _angle = Vector3.Angle(vecTowardDestination,dozerForwardVec);
-            
+            var dozerForwardVec2D = new Vector2(dozerForwardVec.x, dozerForwardVec.z);
+
+            _angle = Utilities.AngleCalculator(vecTowardDestination2D) - Utilities.AngleCalculator(dozerForwardVec2D);
+            _angle *= -1;
+            Debug.DrawLine(_selfTransform.position,_selfTransform.position+vecTowardDestination*100,Color.red);
+            Debug.DrawLine(_selfTransform.position,_selfTransform.position+dozerForwardVec*100,Color.red);
+            Debug.Log(_angle);
             Debug.DrawLine(_destination,_destination+Vector3.up*100,Color.red);
-            Debug.Log(_target+"    "+_destination);
         }
         
     }
