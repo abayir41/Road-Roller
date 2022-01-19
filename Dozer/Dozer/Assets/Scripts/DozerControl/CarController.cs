@@ -22,6 +22,7 @@ public class CarController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.inertiaTensorRotation = Quaternion.identity;
         _steerSystem = GetComponent<ISteerSystem>();
+        _rigidbody.velocity = transform.forward * velocityMultiplier;
     }
 
     private void Update()
