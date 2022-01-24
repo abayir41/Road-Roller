@@ -21,13 +21,11 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
     [SerializeField] private Transform rightTurn;
     [SerializeField] private Transform leftTurn;
     
+
     //For Path Process
     private NavMeshPath _path;
     private Vector3 _destination;
     private int _cornerIndexer;
-
-    //Testing
-    public Transform target;
 
     private void Awake()
     {
@@ -44,7 +42,6 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
     private void Update()
     {
         
-        var targetPosition = Vector3.zero;
 
         if (_target == null)
         {
@@ -52,31 +49,34 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
 
             if (_target == null) return;
             
-            targetPosition = _target.GetComponent<InteractableObj>().ColliderPosition;
-
-            var isThereAnyNearestPoint = NavMesh.SamplePosition(target.position, out var nearestPoint, 100000000.0f, NavMesh.AllAreas);
-
+            var targetPosition = _target.GetComponent<InteractableObj>().ColliderPosition;
+            
+            var isThereAnySuitablePointOfTarget = NavMesh.SamplePosition(targetPosition, out var nearestPointOfTarget, 100000000.0f, NavMesh.AllAreas);
+            var isThereAnySuitablePointOfAI = NavMesh.SamplePosition(_selfTransform.position, out var nearestPointOfAI, 100000000.0f, NavMesh.AllAreas);
+            
             var checkIfPathExist = false;
-            if (isThereAnyNearestPoint)
+            if (isThereAnySuitablePointOfAI && isThereAnySuitablePointOfTarget)
             {
-                checkIfPathExist = NavMesh.CalculatePath(_selfTransform.position, nearestPoint.position, NavMesh.AllAreas, _path);
+                checkIfPathExist = NavMesh.CalculatePath(nearestPointOfAI.position, nearestPointOfTarget.position, NavMesh.AllAreas, _path);
             }
             else
             {
-                Debug.LogError("Nearest Point does not exist");
+                Debug.LogError($"Nearest Point does not exist. TargetPoint Status: {isThereAnySuitablePointOfTarget}, AIPoint Status: {isThereAnySuitablePointOfAI}");
+                _target = null;
+                return;
             }
             
-            Debug.Log(nearestPoint.position);
 
             if (checkIfPathExist)
             {
-                _cornerIndexer = 1;
+                _cornerIndexer = 0;
                 _destination = _path.corners[_cornerIndexer];
-                
             }
             else
             {
                 Debug.LogError("Path does not exist");
+                _target = null;
+                return;
             }
         }
         
@@ -84,14 +84,14 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
         {
             if (_cornerIndexer == _path.corners.Length - 1)
             {
-                _destination = targetPosition;
+                _destination = _target.GetComponent<InteractableObj>().ColliderPosition;
             }
-            
-            if (Vector3.Distance(_destination, _selfTransform.position) < cornerDistanceThreshold && _cornerIndexer < _path.corners.Length - 1)
+            else if (Vector3.Distance(_destination, _selfTransform.position) < cornerDistanceThreshold)
             {
                 _cornerIndexer += 1;
                 _destination = _path.corners[_cornerIndexer];
             }
+            
 
             var vecTowardDestination =  _destination - _selfTransform.position;
             var dozerRightForwardVec = rightTurn.forward;
@@ -105,17 +105,20 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
             var rightAngle = Vector2.Angle(dozerRightForwardVec2D,vecTowardDestination2D);
             Angle = leftAngle >= rightAngle ? rightAngle : -leftAngle; 
             
+            Debug.DrawLine(_selfTransform.position,_selfTransform.position+vecTowardDestination,Color.cyan);
+            
         }
-        
+        else
+        {
+            _target = null;
+            return;
+        }
     }
 
     private static GameObject RandomObjectSelector(IReadOnlyList<GameObject> objects)
     {
-        if (objects.Count != 0)
-        {
-            var range = Random.Range(0, objects.Count);
-            return objects[range];
-        }
-        return null;
+        if (objects.Count == 0) return null;
+        var range = Random.Range(0, objects.Count);
+        return objects[range];
     }
 }
