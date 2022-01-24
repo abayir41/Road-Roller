@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
-using UnityEngine.Serialization;
-using Debug = UnityEngine.Debug;
 
 public class InteractableObj : MonoBehaviour, IInteractable
 {
@@ -26,35 +21,29 @@ public class InteractableObj : MonoBehaviour, IInteractable
     [Header("After Collision Object")]
     [SerializeField] private GameObject crashGameObject;
     [SerializeField] private Transform crashPos;
-    
-    
-    
-    
-    public ObjectType ObjectType
-    {
-        get { return objectType; }
-    }
-    public int ObjectHitPoint
-    {
-        get { return objectHitPoint; }
-    }
 
-    public void Interact()
+    public int DestroyThreshold => destroyThreshold;
+    public ObjectType ObjectType => objectType;
+
+    public int ObjectHitPoint => objectHitPoint;
+
+    public Vector3 ColliderPosition => GetComponent<Collider>().bounds.center;
+
+    public void Interact(PlayerController playerController)
     {
-        defaultDestroyable = true;
-        if (defaultDestroyable)
+        if (playerController.TotalCrashPoint >= destroyThreshold)
         {
-            ActionSys.ObjectGotHit(this);
-            Interaction();
+            playerController.ActionSysCar.ObjectGotHit(this);
+            Interaction(playerController);
         }
     }
     
-    private void Interaction()
+    private void Interaction(PlayerController playerController)
     {
         var delay = 0.03f;
-        if (GameController.Instance.TotalCrashPoint != 0)
+        if (playerController.TotalCrashPoint != 0)
         {
-            delay = (float)sizeOfObj / GameController.Instance.TotalCrashPoint;
+            delay = (float)sizeOfObj / playerController.TotalCrashPoint;
             if (delay > 0.3f)
             {
                 delay = 0.3f;
@@ -121,10 +110,13 @@ public class InteractableObj : MonoBehaviour, IInteractable
         var gameController = GameController.Instance;
         var colorInterface = GetComponent<IColorChangerRandomly>();
         var colorChanger = crash.GetComponent<IColorChanger>();
-        var colorDict = gameController.randomlyChangedMaterialsListAndColours[colorInterface];
+        var colorDict = gameController.RandomlyChangedMaterialsListAndColours[colorInterface];
         var color = colorDict.First().Value;
         colorChanger.ChangeColor(color,2);
     }
 
-
+    private void OnDestroy()
+    {
+        ActionSys.ObjectDestroyed?.Invoke(gameObject);
+    }
 }

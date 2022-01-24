@@ -553,9 +553,10 @@ GameObject:
   - component: {fileID: 1847414479957000116}
   - component: {fileID: 8971242722936087709}
   - component: {fileID: 1600789546934555971}
+  - component: {fileID: 258899012889652576}
   m_Layer: 0
   m_Name: Dozer
-  m_TagString: Untagged
+  m_TagString: Dozer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -598,7 +599,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5810240144904009790}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c40db312bc43114449d6b1f555b8eb78, type: 3}
   m_Name: 
@@ -626,7 +627,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5810240144904009790}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4bf0c6fe5a491ac45bb220ac9308a558, type: 3}
   m_Name: 
@@ -660,6 +661,19 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   maxGrowPoint: 100000
+--- !u!114 &258899012889652576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5810240144904009790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d597fb4d81818f14aac214b55b8b799d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isAI: 0
 --- !u!1 &6336306279089747723
 GameObject:
   m_ObjectHideFlags: 0

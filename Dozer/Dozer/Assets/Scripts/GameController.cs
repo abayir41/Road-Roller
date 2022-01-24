@@ -1,4 +1,3 @@
-﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,51 +14,49 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject dozerGameObject;
     [SerializeField] private List<Transform> dozerFollowers;
     private Transform _dozerTrans;
-    public static string DozerTag = "Roller";
-    
+    public const string DozerTag = "Roller";
+
     //Coloring Building, objects ...
-    public Dictionary<IColorChanger, Dictionary<int, Color>> randomlyChangedMaterialsListAndColours =>
-        _randomlyChangedMaterialsListAndColours;
-    private Dictionary<IColorChanger, Dictionary<int, Color>> _randomlyChangedMaterialsListAndColours;
-    
+    public Dictionary<IColorChanger, Dictionary<int, Color>> RandomlyChangedMaterialsListAndColours { get; private set; }
+
     //Camera Movement
     [Header("Camera Movement")]
+    [SerializeField] private Transform focusPoint;
     [SerializeField] private int cameraDistanceDivider;
     private Camera _camera;
     private Transform _cameraTrans;
     private Vector3 _cameraFarFromDozer;
-    
+
     //Transparency System
-    [Header("Collision Settings")]
+    [Header("Transparency Settings")]
     [SerializeField] private string houseTag = "House";
     private GameObject _fadedHouse;
     private bool _houseTriggered;
     
+    //Collision System
+    [Header("Collision Settings")]
+    [SerializeField] public List<string> collisionObjectFilter;
+    
     //ScoreSystem
     [Header("Score System")]
     private ScoreSystem _scoreSystem;
+    [SerializeField] private int startScore;
     [SerializeField] private List<int> levelThresholds; //This has to begin with 0
-    [SerializeField] private List<int> rewardPoints; //This lenght has to equals to lenght of levelThresholds - 1 
+    [SerializeField] private List<int> rewardPoints;
     [SerializeField] private int maxCrashPoint;
-    public int TotalCrashPoint
-    {
-        get { return _scoreSystem.CurrentScore; }
-    }
-    public int CurrentLevel
-    {
-        get { return _scoreSystem.CurrentLevel; }
-    }
-    public float RatioOfBetweenLevels
-    {
-        get { return _scoreSystem.RatioOfBetweenLevels(); }
-    }
+    public List<int> LevelThreshold => levelThresholds;
+    
+    public List<int> RewardPoints => rewardPoints;
 
+    public int MaxCrashPoint => maxCrashPoint;
+
+    public int StartScore => startScore;
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
-        
-        _randomlyChangedMaterialsListAndColours = new Dictionary<IColorChanger, Dictionary<int, Color>>();
+ 
+        RandomlyChangedMaterialsListAndColours = new Dictionary<IColorChanger, Dictionary<int, Color>>();
         //Paint the all buildings, cars, trees...
         var colorableObjs = FindObjectsOfType<ColorChanger>().ToList();
         foreach (var colorableObj in colorableObjs)
@@ -71,21 +68,19 @@ public class GameController : MonoBehaviour
                 var colors = colorChangerRandomly.Colors;
                 var randomInt = Random.Range(0, colors.Length);
                 colorChangerRandomly.ChangeColor(colors[randomInt],materialIndex);
-                _randomlyChangedMaterialsListAndColours.Add(colorChangerRandomly,new Dictionary<int, Color>(){{materialIndex,colors[randomInt]}});
+                RandomlyChangedMaterialsListAndColours.Add(colorChangerRandomly,new Dictionary<int, Color>(){{materialIndex,colors[randomInt]}});
             }
         }
 
         //Getting Camera 
         if (!(Camera.main is null)) _camera = Camera.main; 
         _cameraTrans = _camera.transform;
+        _cameraTrans.LookAt(focusPoint);
 
         //Caching
         _dozerTrans = dozerGameObject.transform;
         var dozerTransPosition = _dozerTrans.position;
         _cameraFarFromDozer = _cameraTrans.position - dozerTransPosition;
-
-        _scoreSystem = new ScoreSystem(levelThresholds,rewardPoints, maxCrashPoint);
-        
         
     }
 
@@ -109,7 +104,7 @@ public class GameController : MonoBehaviour
     {
         ActionSys.ObjectGotHit += Interaction;
         ActionSys.LevelUpped += LevelUpped;
-        ActionSys.MaxLevelReached += () => Debug.Log("MaxLevelReached");
+        ActionSys.MaxLevelReached += () => {Debug.Log("MaxLevelReached");};
     }
     
     private void OnDisable()
@@ -118,14 +113,13 @@ public class GameController : MonoBehaviour
         ActionSys.LevelUpped -= LevelUpped;
     }
 
-    void LevelUpped(int reward)
+    private void LevelUpped(int reward)
     {
         StartCoroutine(CameraDistanceIncrease(reward / 3f));
     }
     
     private void Interaction(IInteractable interactable)
     {
-        _scoreSystem.AddScore(interactable.ObjectHitPoint);
        StartCoroutine(CameraDistanceIncrease(interactable.ObjectHitPoint));
     }
     
@@ -162,9 +156,9 @@ public class GameController : MonoBehaviour
         var houseRenderer = obj.GetComponent<Renderer>();
 
         var colorChanger = obj.GetComponent<IColorChanger>();
-        if (_randomlyChangedMaterialsListAndColours.ContainsKey(colorChanger))
+        if (RandomlyChangedMaterialsListAndColours.ContainsKey(colorChanger))
         {
-            foreach (var indexColorPair in _randomlyChangedMaterialsListAndColours[colorChanger])
+            foreach (var indexColorPair in RandomlyChangedMaterialsListAndColours[colorChanger])
             {
                 var color = indexColorPair.Value;
                 color.a = alphaAmount;
@@ -194,9 +188,8 @@ public class GameController : MonoBehaviour
         GameObject savedGameObject = null;
         foreach (var followerTrans in dozerFollowers)
         {
-            Ray ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(followerTrans.position));
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit) && hit.collider.gameObject.CompareTag(houseTag))
+            var ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(followerTrans.position));
+            if (Physics.Raycast(ray, out var hit) && hit.collider.gameObject.CompareTag(houseTag))
             {
                 savedGameObject = hit.collider.gameObject;
             }
@@ -217,67 +210,3 @@ public class GameController : MonoBehaviour
     }
 }
 
-public class ScoreSystem
-{
-    public int CurrentLevel
-    {
-        get { return _currentLevel; }
-    }
-
-    public int CurrentScore
-    {
-        get { return _currentScore; }
-    }
-    
-    private readonly List<int> _levelThresholds;
-    private readonly List<int> _rewardPoints;
-    private int _currentLevel = 1;
-    private int _currentScore;
-    private readonly int _maxScore;
-    private bool _maxLevelReached;
-    
-    public ScoreSystem(List<int> levelThresholds,List<int> rewardPoints,int maxScore)
-    {
-        _rewardPoints = rewardPoints;
-        _levelThresholds = levelThresholds;
-        _maxScore = maxScore;
-    }
-
-    public float RatioOfBetweenLevels()
-    {
-        if (_maxLevelReached) return 0f;
-        var diffBetweenLevel = _levelThresholds[_currentLevel] - _levelThresholds[_currentLevel - 1];
-        var ourPoint = _currentScore - _levelThresholds[_currentLevel - 1];
-        var result = (float) ourPoint / diffBetweenLevel;
-        return result;
-    }
-    public void AddScore(int score)
-    {
-        if(_currentScore >= _maxScore)
-            return;
-        
-        _currentScore += score;
-
-        if (!_maxLevelReached)
-        {
-            while (_currentScore >= _levelThresholds[_currentLevel])
-            {
-                ActionSys.LevelUpped(_rewardPoints[_currentLevel - 1]);
-                _currentLevel += 1;
-                if (_currentLevel == _levelThresholds.Count)
-                {
-                    _maxLevelReached = true;
-                    ActionSys.MaxLevelReached();
-                    break;
-                }
-                
-                
-            }
-        }
-        
-        if (_currentScore >= _maxScore)
-        {
-            _currentScore = _maxScore;
-        }
-    }
-}

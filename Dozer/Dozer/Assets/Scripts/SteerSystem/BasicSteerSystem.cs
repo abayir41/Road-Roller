@@ -5,10 +5,9 @@ using UnityEngine;
 
 public class BasicSteerSystem : MonoBehaviour,ISteerSystem
 {
-    public float Angle { get { return _angle; } }
-    
-    
-    private float _angle;
+    public float Angle { get; private set; }
+
+
     private Vector2 _startPos;
     private int _radiusOfSteer;
     private int _registeredTurn;
@@ -22,7 +21,7 @@ public class BasicSteerSystem : MonoBehaviour,ISteerSystem
         _radiusOfSteer = (int)(Screen.width / radiusOfSteerDivider);
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.touchCount > 0)
         {
@@ -49,19 +48,19 @@ public class BasicSteerSystem : MonoBehaviour,ISteerSystem
                 float angle = Mathf.Acos(lengthOfTouch / _radiusOfSteer);
                 float angleInDegrees = angle * Mathf.Rad2Deg;
 
-                _angle = 90 - angleInDegrees;
-                _angle += _registeredTurn * 90 * Utilities.PosOrNeg(_angle);
+                Angle = 90 - angleInDegrees;
+                Angle += _registeredTurn * 90 * Utilities.PosOrNeg(Angle);
             }
         }
         else
         {
             _registeredTurn = 0;
-            _angle = 0;
+            Angle = 0;
         }
 
-        if (Math.Abs(_angle) < minThreshold)
+        if (Math.Abs(Angle) < minThreshold)
         {
-            _angle = 0;
+            Angle = 0;
         }
     }
 

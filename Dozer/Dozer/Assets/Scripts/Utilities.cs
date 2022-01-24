@@ -19,4 +19,9 @@ public static class Utilities
             return 0;
         }
     }
+
+    public static float AngleCalculator(Vector2 one)
+    {
+       return Mathf.Atan2(one.y,one.x) * Mathf.Rad2Deg;
+    }
 }

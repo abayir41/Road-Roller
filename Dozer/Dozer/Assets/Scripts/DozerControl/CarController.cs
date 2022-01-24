@@ -1,25 +1,26 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
     [SerializeField] private float velocityMultiplier;
     [SerializeField] private float angularVelocityMultiplier;
+    private PlayerController _playerController;
     private Rigidbody _rigidbody;
     private ISteerSystem _steerSystem;
 
     public void SetVelocity(int maxGrowPoint)
     {
-        velocityMultiplier = (float)GameController.Instance.TotalCrashPoint / maxGrowPoint * 20f + 3f;
+        velocityMultiplier = (float)_playerController.TotalCrashPoint / maxGrowPoint * 20f + 3f;
     }
     // Start is called before the first frame update
     private void Awake()
     {
+        _playerController = GetComponent<PlayerController>();
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.inertiaTensorRotation = Quaternion.identity;
-        _steerSystem = GetComponent<BasicSteerSystem>();
+        _steerSystem = GetComponent<ISteerSystem>();
+        _rigidbody.velocity = transform.forward * velocityMultiplier;
     }
 
     private void Update()

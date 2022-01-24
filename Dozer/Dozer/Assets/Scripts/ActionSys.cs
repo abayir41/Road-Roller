@@ -10,5 +10,6 @@ public static class ActionSys
     public static Action<int> LevelUpped;
 
     public static Action MaxLevelReached;
-    
+
+    public static Action<GameObject> ObjectDestroyed;
 }

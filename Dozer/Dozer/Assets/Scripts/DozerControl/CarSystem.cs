@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class CarSystem : MonoBehaviour
@@ -17,43 +16,38 @@ public class CarSystem : MonoBehaviour
     [Header("Car Settings")]
     [SerializeField] private int maxGrowPoint;
     private CarController _carController;
+    private PlayerController _playerController;
 
     private void OnEnable()
     {
-        ActionSys.ObjectGotHit += Interact;
-        ActionSys.LevelUpped += Interact;
+        _playerController.ActionSysCar.ObjectGotHit += Interact;
+        _playerController.ActionSysCar.LevelUpped += Interact;
     }
     
     private void OnDisable()
     {
-        ActionSys.ObjectGotHit -= Interact;
-        ActionSys.LevelUpped -= Interact;
+        _playerController.ActionSysCar.ObjectGotHit -= Interact;
+        _playerController.ActionSysCar.LevelUpped -= Interact;
     }
 
     private void Awake()
     {
+        _playerController = GetComponent<PlayerController>(); 
         _carController = GetComponent<CarController>();
         _transform = GetComponent<Transform>();
         
     }
-
-    private void Start()
-    {
-        if (!(Camera.main is null)) Camera.main.transform.LookAt(bodyGrowingPoint);
-        _carController.SetVelocity(maxGrowPoint);
-    }
+    
 
     private void Interact(int reward)
     {
-        if (GameController.Instance.TotalCrashPoint >= maxGrowPoint) return;
-        _carController.SetVelocity(maxGrowPoint);
+        if (_playerController.TotalCrashPoint >= maxGrowPoint) return;
         StartCoroutine(GrowAnim(bodyGrowingPoint,reward));
     }
     
     private void Interact(IInteractable interactable)
     {
-        if (GameController.Instance.TotalCrashPoint >= maxGrowPoint) return;
-        _carController.SetVelocity(maxGrowPoint);
+        if (_playerController.TotalCrashPoint >= maxGrowPoint) return;
         StartCoroutine(GrowAnim(bodyGrowingPoint,interactable.ObjectHitPoint));
     }
 

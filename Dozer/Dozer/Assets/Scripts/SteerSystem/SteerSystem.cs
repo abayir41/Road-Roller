@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class SteerSystem : MonoBehaviour,ISteerSystem
 {
-    public float Angle { get { return _angle; } }
-    private float _angle;
+    public float Angle { get; private set; }
     private Vector2 _startPos;
     [SerializeField]
     private float maxRot;
@@ -25,32 +24,32 @@ public class SteerSystem : MonoBehaviour,ISteerSystem
                 float angleInDegrees = angle * Mathf.Rad2Deg;
                 if (angleInDegrees > 0)
                 {
-                    _angle = 90 - angleInDegrees;
+                    Angle = 90 - angleInDegrees;
                 }
                 else if (angleInDegrees < 0 && angleInDegrees >= -90)
                 {
-                    _angle = 90 - angleInDegrees;
+                    Angle = 90 - angleInDegrees;
                 }else if (angleInDegrees < -90)
                 {
-                    _angle = -270 - angleInDegrees;
+                    Angle = -270 - angleInDegrees;
                 }
             }
 
-            if (Math.Abs(_angle) > maxRot)
+            if (Math.Abs(Angle) > maxRot)
             {
-                if (_angle > 0)
+                if (Angle > 0)
                 {
-                    _angle = maxRot;
+                    Angle = maxRot;
                 }
                 else
                 {
-                    _angle = -maxRot;
+                    Angle = -maxRot;
                 }
             }
         }
         else
         {
-            _angle = 0;
+            Angle = 0;
         }
     }
 }
