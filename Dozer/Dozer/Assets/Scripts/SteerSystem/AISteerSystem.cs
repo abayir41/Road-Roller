@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -16,17 +14,24 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
     
     private Transform _selfTransform;
     
-    //Object
+    //Object Selecting
     private IObjectScanner _objectScanner;
     private GameObject _target;
     
-    //Path 
+    //Path Setting
     [SerializeField]
     private float cornerDistanceThreshold;
+    
+    //Path Finding
+    [SerializeField] private Transform rightTurn;
+    [SerializeField] private Transform leftTurn;
+    
+    //For Path Process
     private NavMeshPath _path;
     private Vector3 _destination;
     private int _cornerIndexer;
 
+    //Testing
     public Transform target;
 
     private void Awake()
@@ -81,8 +86,6 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
             }
         }
         
-        Debug.Log(_path.corners);
-        Debug.Log(_destination);
         if (_path.status != NavMeshPathStatus.PathInvalid)
         {
             if (_cornerIndexer == _path.corners.Length - 1)
@@ -97,16 +100,17 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
             }
 
             var vecTowardDestination =  _destination - _selfTransform.position;
+            var dozerRightForwardVec = rightTurn.forward;
+            var dozerLeftTurnVec = leftTurn.forward;
+            
             var vecTowardDestination2D = new Vector2(vecTowardDestination.x, vecTowardDestination.z);
-            var dozerForwardVec = _selfTransform.forward;
-            var dozerForwardVec2D = new Vector2(dozerForwardVec.x, dozerForwardVec.z);
-
-            _angle = Utilities.AngleCalculator(vecTowardDestination2D) - Utilities.AngleCalculator(dozerForwardVec2D);
-            _angle *= -1;
-            Debug.DrawLine(_selfTransform.position,_selfTransform.position+vecTowardDestination*100,Color.red);
-            Debug.DrawLine(_selfTransform.position,_selfTransform.position+dozerForwardVec*100,Color.red);
-            Debug.Log(_angle);
-            Debug.DrawLine(_destination,_destination+Vector3.up*100,Color.red);
+            var dozerRightForwardVec2D = new Vector2(dozerRightForwardVec.x,dozerRightForwardVec.z);
+            var dozerLeftForwardVec2D = new Vector2(dozerLeftTurnVec.x,dozerLeftTurnVec.z);
+           
+            var leftAngle = Vector2.Angle(dozerLeftForwardVec2D,vecTowardDestination2D);
+            var rightAngle = Vector2.Angle(dozerRightForwardVec2D,vecTowardDestination2D);
+            _angle = leftAngle >= rightAngle ? rightAngle : -leftAngle; 
+            
         }
         
     }
