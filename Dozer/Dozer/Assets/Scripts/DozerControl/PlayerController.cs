@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     {
         ActionSysCar.LevelUpped -= LevelUpped;
         ActionSysCar.ObjectGotHit -= Interaction;
-        ActionSysCar.MaxLevelReached += MaxLevelReached;
+        ActionSysCar.MaxLevelReached -= MaxLevelReached;
     }
     
 
@@ -44,7 +44,11 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        _scoreSystem = new ScoreSystem(ActionSysCar,GameController.Instance.LevelThreshold, GameController.Instance.RewardPoints,GameController.Instance.MaxCrashPoint);
+        _scoreSystem = new ScoreSystem(ActionSysCar,
+            GameController.Instance.LevelThreshold, 
+            GameController.Instance.RewardPoints,
+            GameController.Instance.MaxCrashPoint,
+            GameController.Instance.StartScore);
     }
 
 
@@ -82,8 +86,9 @@ public class ScoreSystem
     private bool _maxLevelReached;
     private readonly CarActionSys _carActionSys;
     
-    public ScoreSystem(CarActionSys carActionSys,List<int> levelThresholds,List<int> rewardPoints,int maxScore)
+    public ScoreSystem(CarActionSys carActionSys,List<int> levelThresholds,List<int> rewardPoints,int maxScore,int startScore)
     {
+        _currentScore = startScore;
         _carActionSys = carActionSys;
         _rewardPoints = rewardPoints;
         _levelThresholds = levelThresholds;
@@ -117,8 +122,6 @@ public class ScoreSystem
                     _carActionSys.MaxLevelReached();
                     break;
                 }
-                
-                
             }
         }
         
@@ -136,5 +139,4 @@ public class CarActionSys
     public Action<int> LevelUpped;
 
     public Action MaxLevelReached;
-
 }
