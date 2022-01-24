@@ -10,6 +10,7 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
     private Transform _selfTransform;
     
     //Object Selecting
+    private PlayerController _playerController;
     private IObjectScanner _objectScanner;
     private GameObject _target;
     
@@ -21,7 +22,6 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
     [SerializeField] private Transform rightTurn;
     [SerializeField] private Transform leftTurn;
     
-
     //For Path Process
     private NavMeshPath _path;
     private Vector3 _destination;
@@ -29,6 +29,7 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
 
     private void Awake()
     {
+        _playerController = GetComponent<PlayerController>();
         _objectScanner = GetComponentInChildren<IObjectScanner>();
         _selfTransform = transform;
         _path = new NavMeshPath();
@@ -45,12 +46,11 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
 
         if (_target == null)
         {
-            _target = RandomObjectSelector(_objectScanner.ScannedObjects);
+            _target = ObjectSelector();
 
-            if (_target == null) return;
-            
-            var targetPosition = _target.GetComponent<InteractableObj>().ColliderPosition;
-            
+            var targetInteractableObj = _target.GetComponent<InteractableObj>();
+            var targetPosition = targetInteractableObj.ColliderPosition;
+
             var isThereAnySuitablePointOfTarget = NavMesh.SamplePosition(targetPosition, out var nearestPointOfTarget, 100000000.0f, NavMesh.AllAreas);
             var isThereAnySuitablePointOfAI = NavMesh.SamplePosition(_selfTransform.position, out var nearestPointOfAI, 100000000.0f, NavMesh.AllAreas);
             
@@ -82,31 +82,9 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
         
         if (_path.status != NavMeshPathStatus.PathInvalid)
         {
-            if (_cornerIndexer == _path.corners.Length - 1)
-            {
-                _destination = _target.GetComponent<InteractableObj>().ColliderPosition;
-            }
-            else if (Vector3.Distance(_destination, _selfTransform.position) < cornerDistanceThreshold)
-            {
-                _cornerIndexer += 1;
-                _destination = _path.corners[_cornerIndexer];
-            }
+            _destination = DestinationCalculator();
             
-
-            var vecTowardDestination =  _destination - _selfTransform.position;
-            var dozerRightForwardVec = rightTurn.forward;
-            var dozerLeftTurnVec = leftTurn.forward;
-            
-            var vecTowardDestination2D = new Vector2(vecTowardDestination.x, vecTowardDestination.z);
-            var dozerRightForwardVec2D = new Vector2(dozerRightForwardVec.x,dozerRightForwardVec.z);
-            var dozerLeftForwardVec2D = new Vector2(dozerLeftTurnVec.x,dozerLeftTurnVec.z);
-           
-            var leftAngle = Vector2.Angle(dozerLeftForwardVec2D,vecTowardDestination2D);
-            var rightAngle = Vector2.Angle(dozerRightForwardVec2D,vecTowardDestination2D);
-            Angle = leftAngle >= rightAngle ? rightAngle : -leftAngle; 
-            
-            Debug.DrawLine(_selfTransform.position,_selfTransform.position+vecTowardDestination,Color.cyan);
-            
+            Angle = CalculateAngle(_destination, _selfTransform.position);
         }
         else
         {
@@ -115,6 +93,53 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
         }
     }
 
+    private GameObject ObjectSelector()
+    {
+        List<GameObject> validObjects = new List<GameObject>();
+        foreach (var scannedObject in _objectScanner.ScannedObjects)
+        {
+            var targetInteractableObj = scannedObject.GetComponent<InteractableObj>();
+            var targetThresholdPoint = targetInteractableObj.DestroyThreshold;
+            if (targetThresholdPoint < _playerController.TotalCrashPoint)
+            {
+                validObjects.Add(scannedObject);
+            }
+        }
+
+        return RandomObjectSelector(validObjects);
+    }
+    private Vector3 DestinationCalculator()
+    {
+        if (_cornerIndexer == _path.corners.Length - 1)  
+        {
+            return _target.GetComponent<InteractableObj>().ColliderPosition;
+        }
+         
+        if (Vector3.Distance(_destination, _selfTransform.position) < cornerDistanceThreshold)
+        {
+            _cornerIndexer += 1;
+            return _path.corners[_cornerIndexer];
+        }
+        
+        return _destination;
+        
+            
+    }
+    private float CalculateAngle(Vector3 destination, Vector3 source)
+    {
+        var vecTowardDestination =  _destination - _selfTransform.position;
+        var dozerRightForwardVec = rightTurn.forward;
+        var dozerLeftTurnVec = leftTurn.forward;
+            
+        var vecTowardDestination2D = new Vector2(vecTowardDestination.x, vecTowardDestination.z);
+        var dozerRightForwardVec2D = new Vector2(dozerRightForwardVec.x,dozerRightForwardVec.z);
+        var dozerLeftForwardVec2D = new Vector2(dozerLeftTurnVec.x,dozerLeftTurnVec.z);
+           
+        var leftAngle = Vector2.Angle(dozerLeftForwardVec2D,vecTowardDestination2D);
+        var rightAngle = Vector2.Angle(dozerRightForwardVec2D,vecTowardDestination2D);
+        
+        return leftAngle >= rightAngle ? rightAngle : -leftAngle; 
+    }
     private static GameObject RandomObjectSelector(IReadOnlyList<GameObject> objects)
     {
         if (objects.Count == 0) return null;

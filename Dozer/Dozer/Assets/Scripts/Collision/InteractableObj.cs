@@ -21,7 +21,8 @@ public class InteractableObj : MonoBehaviour, IInteractable
     [Header("After Collision Object")]
     [SerializeField] private GameObject crashGameObject;
     [SerializeField] private Transform crashPos;
-    
+
+    public int DestroyThreshold => destroyThreshold;
     public ObjectType ObjectType => objectType;
 
     public int ObjectHitPoint => objectHitPoint;
