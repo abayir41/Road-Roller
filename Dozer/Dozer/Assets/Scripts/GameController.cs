@@ -40,15 +40,17 @@ public class GameController : MonoBehaviour
     //ScoreSystem
     [Header("Score System")]
     private ScoreSystem _scoreSystem;
+    [SerializeField] private int startScore;
     [SerializeField] private List<int> levelThresholds; //This has to begin with 0
     [SerializeField] private List<int> rewardPoints;
     [SerializeField] private int maxCrashPoint;
     public List<int> LevelThreshold => levelThresholds;
-
+    
     public List<int> RewardPoints => rewardPoints;
 
     public int MaxCrashPoint => maxCrashPoint;
 
+    public int StartScore => startScore;
     private void Awake()
     {
         if (Instance == null)
