@@ -28,12 +28,14 @@ public class GameController : MonoBehaviour
     private Vector3 _cameraFarFromDozer;
 
     //Transparency System
-    [Header("Collision Settings")]
+    [Header("Transparency Settings")]
     [SerializeField] private string houseTag = "House";
-    [SerializeField] public List<string> collisionObjectFilter;
     private GameObject _fadedHouse;
     private bool _houseTriggered;
     
+    //Collision System
+    [Header("Collision Settings")]
+    [SerializeField] public List<string> collisionObjectFilter;
     
     //ScoreSystem
     [Header("Score System")]

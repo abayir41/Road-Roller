@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: 2421342867047136657}
   m_Layer: 0
   m_Name: Tree_1
-  m_TagString: Untagged
+  m_TagString: Destroyable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -201,13 +201,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f6db4b812fd8814b9a0e5e87d43f0a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultDestroyable: 1
   destroyThreshold: 0
+  objectHitPoint: 10
+  objectType: 0
+  sizeOfObj: 5
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
-  crashGameObject: {fileID: 5100390032273729924, guid: 0c8a488e1a131b24d9ad00ffd9b87ad7, type: 3}
-  crashPos: {fileID: 273275539595302327}
   particleVolumeMultiplier: 1
   particleCount: 170
   particleSize: 0.6
-  objectType: 0
-  objectHitPoint: 10
+  crashGameObject: {fileID: 5100390032273729924, guid: 0c8a488e1a131b24d9ad00ffd9b87ad7, type: 3}
+  crashPos: {fileID: 273275539595302327}

@@ -476,7 +476,7 @@ GameObject:
   - component: {fileID: 7724753583948637852}
   m_Layer: 0
   m_Name: AI
-  m_TagString: Untagged
+  m_TagString: Dozer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -528,8 +528,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocityMultiplier: 5
   angularVelocityMultiplier: 1
-  velocity: {x: 0, y: 0, z: 0}
-  _angle: 0
 --- !u!114 &232283156785605417
 MonoBehaviour:
   m_ObjectHideFlags: 0
