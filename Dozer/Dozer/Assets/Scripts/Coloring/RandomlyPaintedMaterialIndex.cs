@@ -8,9 +8,6 @@ interface IRandomlyPaintedMaterialIndex
 }
 public class RandomlyPaintedMaterialIndex : MonoBehaviour,IRandomlyPaintedMaterialIndex
 {
-    public List<int> MaterialIndexes
-    {
-        get { return materialIndexes; }
-    }
+    public List<int> MaterialIndexes => materialIndexes;
     [SerializeField] private List<int> materialIndexes;
 }

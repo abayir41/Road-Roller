@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
-using UnityEngine.Serialization;
-using Debug = UnityEngine.Debug;
 
 public class InteractableObj : MonoBehaviour, IInteractable
 {
@@ -27,22 +22,12 @@ public class InteractableObj : MonoBehaviour, IInteractable
     [SerializeField] private GameObject crashGameObject;
     [SerializeField] private Transform crashPos;
     
-    
-    
-    
-    public ObjectType ObjectType
-    {
-        get { return objectType; }
-    }
-    public int ObjectHitPoint
-    {
-        get { return objectHitPoint; }
-    }
+    public ObjectType ObjectType => objectType;
 
-    public Vector3 ColliderPosition
-    {
-        get { return GetComponent<Collider>().bounds.center; }
-    }
+    public int ObjectHitPoint => objectHitPoint;
+
+    public Vector3 ColliderPosition => GetComponent<Collider>().bounds.center;
+
     public void Interact(PlayerController playerController)
     {
         if (playerController.TotalCrashPoint >= destroyThreshold)
@@ -124,10 +109,13 @@ public class InteractableObj : MonoBehaviour, IInteractable
         var gameController = GameController.Instance;
         var colorInterface = GetComponent<IColorChangerRandomly>();
         var colorChanger = crash.GetComponent<IColorChanger>();
-        var colorDict = gameController.randomlyChangedMaterialsListAndColours[colorInterface];
+        var colorDict = gameController.RandomlyChangedMaterialsListAndColours[colorInterface];
         var color = colorDict.First().Value;
         colorChanger.ChangeColor(color,2);
     }
 
-
+    private void OnDestroy()
+    {
+        ActionSys.ObjectDestroyed?.Invoke(gameObject);
+    }
 }

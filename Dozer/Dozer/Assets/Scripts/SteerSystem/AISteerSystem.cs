@@ -5,13 +5,8 @@ using Random = UnityEngine.Random;
 
 public class AISteerSystem : MonoBehaviour, ISteerSystem
 {
-    public float Angle
-    {
-        get { return _angle; }
-    }
-    
-    private float _angle;
-    
+    public float Angle { get; private set; }
+
     private Transform _selfTransform;
     
     //Object Selecting
@@ -43,7 +38,7 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
 
     private void Start()
     {
-        _angle = 0;
+        Angle = 0;
     }
 
     private void Update()
@@ -53,14 +48,13 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
 
         if (_target == null)
         {
-            _target = RandomObjectSelecter(_objectScanner.ScannedObjects);
+            _target = RandomObjectSelector(_objectScanner.ScannedObjects);
 
             if (_target == null) return;
             
             targetPosition = _target.GetComponent<InteractableObj>().ColliderPosition;
 
-            NavMeshHit nearestPoint;
-            var isThereAnyNearestPoint = NavMesh.SamplePosition(target.position, out nearestPoint, 100000000.0f, NavMesh.AllAreas);
+            var isThereAnyNearestPoint = NavMesh.SamplePosition(target.position, out var nearestPoint, 100000000.0f, NavMesh.AllAreas);
 
             var checkIfPathExist = false;
             if (isThereAnyNearestPoint)
@@ -109,13 +103,13 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
            
             var leftAngle = Vector2.Angle(dozerLeftForwardVec2D,vecTowardDestination2D);
             var rightAngle = Vector2.Angle(dozerRightForwardVec2D,vecTowardDestination2D);
-            _angle = leftAngle >= rightAngle ? rightAngle : -leftAngle; 
+            Angle = leftAngle >= rightAngle ? rightAngle : -leftAngle; 
             
         }
         
     }
 
-    private GameObject RandomObjectSelecter(IReadOnlyList<GameObject> objects)
+    private static GameObject RandomObjectSelector(IReadOnlyList<GameObject> objects)
     {
         if (objects.Count != 0)
         {

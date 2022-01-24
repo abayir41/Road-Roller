@@ -1,7 +1,4 @@
-﻿
-using UnityEngine;
-
-public enum ObjectType
+﻿public enum ObjectType
 {
     Small,
     House

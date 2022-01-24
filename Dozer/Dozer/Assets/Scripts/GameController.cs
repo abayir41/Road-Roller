@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +14,11 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject dozerGameObject;
     [SerializeField] private List<Transform> dozerFollowers;
     private Transform _dozerTrans;
-    public static string DozerTag = "Roller";
-    
+    public const string DozerTag = "Roller";
+
     //Coloring Building, objects ...
-    public Dictionary<IColorChanger, Dictionary<int, Color>> randomlyChangedMaterialsListAndColours =>
-        _randomlyChangedMaterialsListAndColours;
-    private Dictionary<IColorChanger, Dictionary<int, Color>> _randomlyChangedMaterialsListAndColours;
-    
+    public Dictionary<IColorChanger, Dictionary<int, Color>> RandomlyChangedMaterialsListAndColours { get; private set; }
+
     //Camera Movement
     [Header("Camera Movement")]
     [SerializeField] private Transform focusPoint;
@@ -33,8 +30,10 @@ public class GameController : MonoBehaviour
     //Transparency System
     [Header("Collision Settings")]
     [SerializeField] private string houseTag = "House";
+    [SerializeField] public List<string> collisionObjectFilter;
     private GameObject _fadedHouse;
     private bool _houseTriggered;
+    
     
     //ScoreSystem
     [Header("Score System")]
@@ -42,27 +41,18 @@ public class GameController : MonoBehaviour
     [SerializeField] private List<int> levelThresholds; //This has to begin with 0
     [SerializeField] private List<int> rewardPoints;
     [SerializeField] private int maxCrashPoint;
-    public List<int> LevelThreshold
-    {
-        get { return levelThresholds; }
-    }
+    public List<int> LevelThreshold => levelThresholds;
 
-    public List<int> RewardPoints
-    {
-        get { return rewardPoints; }
-    }
+    public List<int> RewardPoints => rewardPoints;
 
-    public int MaxCrashPoint
-    {
-        get { return maxCrashPoint; }
-    }
+    public int MaxCrashPoint => maxCrashPoint;
 
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
  
-        _randomlyChangedMaterialsListAndColours = new Dictionary<IColorChanger, Dictionary<int, Color>>();
+        RandomlyChangedMaterialsListAndColours = new Dictionary<IColorChanger, Dictionary<int, Color>>();
         //Paint the all buildings, cars, trees...
         var colorableObjs = FindObjectsOfType<ColorChanger>().ToList();
         foreach (var colorableObj in colorableObjs)
@@ -74,7 +64,7 @@ public class GameController : MonoBehaviour
                 var colors = colorChangerRandomly.Colors;
                 var randomInt = Random.Range(0, colors.Length);
                 colorChangerRandomly.ChangeColor(colors[randomInt],materialIndex);
-                _randomlyChangedMaterialsListAndColours.Add(colorChangerRandomly,new Dictionary<int, Color>(){{materialIndex,colors[randomInt]}});
+                RandomlyChangedMaterialsListAndColours.Add(colorChangerRandomly,new Dictionary<int, Color>(){{materialIndex,colors[randomInt]}});
             }
         }
 
@@ -162,9 +152,9 @@ public class GameController : MonoBehaviour
         var houseRenderer = obj.GetComponent<Renderer>();
 
         var colorChanger = obj.GetComponent<IColorChanger>();
-        if (_randomlyChangedMaterialsListAndColours.ContainsKey(colorChanger))
+        if (RandomlyChangedMaterialsListAndColours.ContainsKey(colorChanger))
         {
-            foreach (var indexColorPair in _randomlyChangedMaterialsListAndColours[colorChanger])
+            foreach (var indexColorPair in RandomlyChangedMaterialsListAndColours[colorChanger])
             {
                 var color = indexColorPair.Value;
                 color.a = alphaAmount;
@@ -194,9 +184,8 @@ public class GameController : MonoBehaviour
         GameObject savedGameObject = null;
         foreach (var followerTrans in dozerFollowers)
         {
-            Ray ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(followerTrans.position));
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit) && hit.collider.gameObject.CompareTag(houseTag))
+            var ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(followerTrans.position));
+            if (Physics.Raycast(ray, out var hit) && hit.collider.gameObject.CompareTag(houseTag))
             {
                 savedGameObject = hit.collider.gameObject;
             }

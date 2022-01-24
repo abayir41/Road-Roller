@@ -7,14 +7,31 @@ using UnityEngine.Serialization;
 
 interface IObjectScanner
 {
+    List<string> Filter { get; set;}
     List<GameObject> ScannedObjects { get; }
 }
 public class ObjectScanner : MonoBehaviour, IObjectScanner
 {
-    public List<GameObject> ScannedObjects
+    public List<string> Filter
     {
-        get { return scannedObjects; }
+        get => GameController.Instance.collisionObjectFilter;
+        set => GameController.Instance.collisionObjectFilter = value;
     }
+
+    private void OnEnable()
+    {
+        ActionSys.ObjectDestroyed += RemoveObjectFromObjects;
+    }
+
+    private void OnDisable()
+    {
+        ActionSys.ObjectDestroyed -= RemoveObjectFromObjects;
+    }
+    
+    
+
+    public List<GameObject> ScannedObjects => scannedObjects;
+
 
     [SerializeField]
     private List<GameObject> scannedObjects;
@@ -26,11 +43,19 @@ public class ObjectScanner : MonoBehaviour, IObjectScanner
 
     private void OnTriggerEnter(Collider other)
     {
-        scannedObjects.Add(other.gameObject);
+        if(Filter.Contains(other.gameObject.tag))
+            scannedObjects.Add(other.gameObject);
     }
 
     private void OnTriggerExit(Collider other)
     { 
-        scannedObjects.Remove(other.gameObject);
+        if(ScannedObjects.Contains(other.gameObject))
+            scannedObjects.Remove(other.gameObject);
+    }
+    
+    private void RemoveObjectFromObjects(GameObject colObject)
+    {
+        if(ScannedObjects.Contains(colObject))
+            scannedObjects.Remove(colObject);
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -11,18 +9,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isAI = true;
     
     private ScoreSystem _scoreSystem;
-    public int TotalCrashPoint
-    {
-        get { return _scoreSystem.CurrentScore; }
-    }
-    public int CurrentLevel
-    {
-        get { return _scoreSystem.CurrentLevel; }
-    }
-    public float RatioOfBetweenLevels
-    {
-        get { return _scoreSystem.RatioOfBetweenLevels(); }
-    }
+    public int TotalCrashPoint => _scoreSystem.CurrentScore;
+
+    public int CurrentLevel => _scoreSystem.CurrentLevel;
+
+    public float RatioOfBetweenLevels => _scoreSystem.RatioOfBetweenLevels();
 
     private void OnEnable()
     {
@@ -79,23 +70,17 @@ public class PlayerController : MonoBehaviour
 }
 public class ScoreSystem
 {
-    public int CurrentLevel
-    {
-        get { return _currentLevel; }
-    }
+    public int CurrentLevel => _currentLevel;
 
-    public int CurrentScore
-    {
-        get { return _currentScore; }
-    }
-    
+    public int CurrentScore => _currentScore;
+
     private readonly List<int> _levelThresholds;
     private readonly List<int> _rewardPoints;
     private int _currentLevel = 1;
     private int _currentScore;
     private readonly int _maxScore;
     private bool _maxLevelReached;
-    private CarActionSys _carActionSys;
+    private readonly CarActionSys _carActionSys;
     
     public ScoreSystem(CarActionSys carActionSys,List<int> levelThresholds,List<int> rewardPoints,int maxScore)
     {
