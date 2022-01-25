@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Player;
     public CarActionSys ActionSysCar;
     [SerializeField] private bool isAI = true;
+    private string _playerName;
     
     private ScoreSystem _scoreSystem;
     public int TotalCrashPoint => _scoreSystem.CurrentScore;
@@ -44,11 +45,14 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        _playerName = isAI ? GameController.Instance.leaderBoard.GetRandomName() : "You";
         _scoreSystem = new ScoreSystem(ActionSysCar,
             GameController.Instance.LevelThreshold, 
             GameController.Instance.RewardPoints,
             GameController.Instance.MaxCrashPoint,
-            GameController.Instance.StartScore);
+            GameController.Instance.StartScore,
+            GameController.Instance.leaderBoard,
+            _playerName);
     }
 
 
@@ -75,7 +79,6 @@ public class PlayerController : MonoBehaviour
 public class ScoreSystem
 {
     public int CurrentLevel => _currentLevel;
-
     public int CurrentScore => _currentScore;
 
     private readonly List<int> _levelThresholds;
@@ -85,14 +88,19 @@ public class ScoreSystem
     private readonly int _maxScore;
     private bool _maxLevelReached;
     private readonly CarActionSys _carActionSys;
+    private LeaderBoardSystem _leaderBoardSystem;
+    private readonly string _playerName; 
     
-    public ScoreSystem(CarActionSys carActionSys,List<int> levelThresholds,List<int> rewardPoints,int maxScore,int startScore)
+    public ScoreSystem(CarActionSys carActionSys,List<int> levelThresholds,List<int> rewardPoints,int maxScore,int startScore,LeaderBoardSystem leaderBoardSystem,string playerName)
     {
         _currentScore = startScore;
         _carActionSys = carActionSys;
         _rewardPoints = rewardPoints;
         _levelThresholds = levelThresholds;
         _maxScore = maxScore;
+        _leaderBoardSystem = leaderBoardSystem;
+        _playerName = playerName;
+        _leaderBoardSystem.AddScore(_playerName,startScore);
     }
 
     public float RatioOfBetweenLevels()
@@ -129,6 +137,7 @@ public class ScoreSystem
         {
             _currentScore = _maxScore;
         }
+        _leaderBoardSystem.SetScore(_playerName,_currentScore);
     }
 }
 
