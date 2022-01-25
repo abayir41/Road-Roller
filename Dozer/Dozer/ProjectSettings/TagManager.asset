@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Roller
   - House
+  - Destroyable
+  - Dozer
   layers:
   - Default
   - TransparentFX
