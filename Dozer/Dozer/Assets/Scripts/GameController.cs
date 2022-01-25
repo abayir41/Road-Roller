@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,12 +46,15 @@ public class GameController : MonoBehaviour
     [SerializeField] private List<int> rewardPoints;
     [SerializeField] private int maxCrashPoint;
     public List<int> LevelThreshold => levelThresholds;
-    
     public List<int> RewardPoints => rewardPoints;
-
     public int MaxCrashPoint => maxCrashPoint;
-
     public int StartScore => startScore;
+    
+    //LeaderBoardSystem
+    [HideInInspector]
+    public LeaderBoardSystem leaderBoard;
+
+
     private void Awake()
     {
         if (Instance == null)
@@ -81,7 +85,8 @@ public class GameController : MonoBehaviour
         _dozerTrans = dozerGameObject.transform;
         var dozerTransPosition = _dozerTrans.position;
         _cameraFarFromDozer = _cameraTrans.position - dozerTransPosition;
-        
+        leaderBoard = GetComponent<LeaderBoardSystem>();
+
     }
 
     private void Update()
@@ -97,7 +102,6 @@ public class GameController : MonoBehaviour
             _houseTriggered = true;
             AlphaChanger(_fadedHouse,0.3f);
         }
-        
     }
     
     private void OnEnable()
