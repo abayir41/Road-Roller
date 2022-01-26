@@ -44,10 +44,9 @@ public class GameController : MonoBehaviour
     [SerializeField] private int startScore;
     [SerializeField] private List<int> levelThresholds; //This has to begin with 0
     [SerializeField] private List<int> rewardPoints;
-    [SerializeField] private int maxCrashPoint;
     public List<int> LevelThreshold => levelThresholds;
     public List<int> RewardPoints => rewardPoints;
-    public int MaxCrashPoint => maxCrashPoint;
+    private int MaxCrashPoint => PlayerController.Player.MaxGrow;
     public int StartScore => startScore;
     
     //LeaderBoardSystem

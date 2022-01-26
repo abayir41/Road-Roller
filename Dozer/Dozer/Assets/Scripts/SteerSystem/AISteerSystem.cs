@@ -12,6 +12,7 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
     //Object Selecting
     private PlayerController _playerController;
     private IObjectScanner _objectScanner;
+    [SerializeField] private ObjectScanner objectScanner;
     private GameObject _target;
     
     //Path Setting
@@ -29,8 +30,8 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
 
     private void Awake()
     {
+        _objectScanner = objectScanner;
         _playerController = GetComponent<PlayerController>();
-        _objectScanner = GetComponentInChildren<IObjectScanner>();
         _selfTransform = transform;
         _path = new NavMeshPath();
     }
@@ -47,7 +48,8 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
         if (_target == null)
         {
             _target = ObjectSelector();
-
+            if (_target == null) return;
+            
             var targetInteractableObj = _target.GetComponent<InteractableObj>();
             var targetPosition = targetInteractableObj.ColliderPosition;
 
@@ -127,7 +129,7 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
     }
     private float CalculateAngle(Vector3 destination, Vector3 source)
     {
-        var vecTowardDestination =  _destination - _selfTransform.position;
+        var vecTowardDestination =  destination - source;
         var dozerRightForwardVec = rightTurn.forward;
         var dozerLeftTurnVec = leftTurn.forward;
             

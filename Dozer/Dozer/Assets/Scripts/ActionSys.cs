@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class ActionSys
+public static class ActionSys //These are globally called
 {
     public static Action<IInteractable> ObjectGotHit;
 
@@ -14,4 +14,13 @@ public static class ActionSys
     public static Action<GameObject> ObjectDestroyed;
     
     public static Action<string, int> ScoreChanged;
+}
+
+public class CarActionSys //These are dozer-based called
+{
+    public Action<IInteractable> ObjectGotHit;
+
+    public Action<int> LevelUpped;
+
+    public Action MaxLevelReached;
 }

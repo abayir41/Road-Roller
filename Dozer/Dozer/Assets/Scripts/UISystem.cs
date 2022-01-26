@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,7 +23,7 @@ public class UISystem : MonoBehaviour
         StartCoroutine(SlideAnim(diffBetweenGoalAndSlide));
     }
 
-    IEnumerator SlideAnim(float increase)
+    private IEnumerator SlideAnim(float increase)
     {
         float timeElapsed = 0;
 
@@ -50,4 +48,5 @@ public class UISystem : MonoBehaviour
     {
         StartCoroutine(SlideAnim(-levelSlider.value));
     }
+    
 }

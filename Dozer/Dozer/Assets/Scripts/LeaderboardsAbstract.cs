@@ -1,7 +1,6 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public abstract class LeaderboardsAbstract : MonoBehaviour
@@ -48,6 +47,10 @@ public abstract class LeaderboardsAbstract : MonoBehaviour
 
     public int PlayerCount => PlayerAndScoreDictionary.Count;
 
+    public void RemovePlayer(string playerName)
+    {
+        PlayerAndScoreDictionary.Remove(playerName);
+    }
     public abstract List<string> GetLeaderBoard(int playerCount);
 }
 

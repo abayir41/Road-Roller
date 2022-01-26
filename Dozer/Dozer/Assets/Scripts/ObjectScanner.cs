@@ -28,17 +28,32 @@ public class ObjectScanner : MonoBehaviour, IObjectScanner
         ActionSys.ObjectDestroyed -= RemoveObjectFromObjects;
     }
     
-    
-
     public List<GameObject> ScannedObjects => scannedObjects;
 
 
     [SerializeField]
     private List<GameObject> scannedObjects;
 
+    private SphereCollider _collider;
+    private float _initialRadius; 
     private void Awake()
     {
+        
+        _collider = GetComponent<SphereCollider>();
+        _initialRadius = _collider.radius;
         scannedObjects = new List<GameObject>();
+    }
+    
+    private void Update()
+    {
+        if (ScannedObjects.Count == 0)
+        {
+            _collider.radius *= 2;
+        }
+        else
+        {
+            _collider.radius = _initialRadius;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -48,7 +63,7 @@ public class ObjectScanner : MonoBehaviour, IObjectScanner
     }
 
     private void OnTriggerExit(Collider other)
-    { 
+    {
         if(ScannedObjects.Contains(other.gameObject))
             scannedObjects.Remove(other.gameObject);
     }
