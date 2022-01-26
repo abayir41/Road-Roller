@@ -16,9 +16,7 @@ GameObject:
   - component: {fileID: 731677329842102168}
   - component: {fileID: 9122553398495208040}
   - component: {fileID: 8014742218018373050}
-  - component: {fileID: 2684665070312022197}
   - component: {fileID: 8253408469480363819}
-  - component: {fileID: 5576999934964131835}
   m_Layer: 0
   m_Name: Bushes.3
   m_TagString: Destroyable
@@ -162,25 +160,19 @@ MonoBehaviour:
   destroyThreshold: 0
   objectHitPoint: 10
   objectType: 0
-  sizeOfObj: 5
+  delayWhileCollision: 5
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   particleVolumeMultiplier: 1
   particleCount: 250
   particleSize: 0.7
   crashGameObject: {fileID: 0}
   crashPos: {fileID: 0}
---- !u!114 &2684665070312022197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1626168533832305433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e352af6db00f804ab8a4dd445b40295, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  particleObjSpawnParent: {fileID: 7895707032120472627}
+  shapeOfParticleCollider: {fileID: 1287581656611181262}
+  meshRenderers:
+  - {fileID: 1576213066510992965}
+  disableColliders:
+  - {fileID: 1287581656611181262}
 --- !u!114 &8253408469480363819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,25 +185,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e352af6db00f804ab8a4dd445b40295, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5576999934964131835
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1626168533832305433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f6db4b812fd8814b9a0e5e87d43f0a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  destroyThreshold: 0
-  objectHitPoint: 0
-  objectType: 0
-  sizeOfObj: 5
-  particleEffect: {fileID: 0}
-  particleVolumeMultiplier: 1
-  particleCount: 0
-  particleSize: 0
-  crashGameObject: {fileID: 0}
-  crashPos: {fileID: 0}

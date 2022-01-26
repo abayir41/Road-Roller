@@ -204,10 +204,16 @@ MonoBehaviour:
   destroyThreshold: 0
   objectHitPoint: 10
   objectType: 0
-  sizeOfObj: 5
+  delayWhileCollision: 5
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   particleVolumeMultiplier: 1
   particleCount: 170
   particleSize: 0.6
   crashGameObject: {fileID: 1589540026359075814, guid: 23d67fccbf2f0fd4fb363e61b823e007, type: 3}
   crashPos: {fileID: 214118650715489744}
+  particleObjSpawnParent: {fileID: 6477676333158449248}
+  shapeOfParticleCollider: {fileID: 467471956850605672}
+  meshRenderers:
+  - {fileID: 3760634665220190323}
+  disableColliders:
+  - {fileID: 467471956850605672}

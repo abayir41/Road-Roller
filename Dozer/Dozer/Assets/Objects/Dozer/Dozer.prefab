@@ -288,6 +288,36 @@ Transform:
   m_Father: {fileID: 1626146510877928853}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4545625578354564738
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3334519872367900469}
+  m_Layer: 0
+  m_Name: AfterCrash
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3334519872367900469
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4545625578354564738}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 1.9000028, z: 0.0899324}
+  m_LocalScale: {x: 197.70248, y: 197.70265, z: 197.70265}
+  m_Children: []
+  m_Father: {fileID: 5310531986341161442}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &4661511299804637470
 GameObject:
   m_ObjectHideFlags: 0
@@ -554,6 +584,8 @@ GameObject:
   - component: {fileID: 8971242722936087709}
   - component: {fileID: 1600789546934555971}
   - component: {fileID: 258899012889652576}
+  - component: {fileID: 7568980525874123346}
+  - component: {fileID: 2928283000155948501}
   m_Layer: 0
   m_Name: Dozer
   m_TagString: Dozer
@@ -633,8 +665,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyGrowingPoint: {fileID: 5310531986341161442}
-  rollerGrowingPoint: {fileID: 1626146510877928853}
-  rotationPoint: {fileID: 5124702448135579751}
   animationDuration: 0.3
   growingAnimShapeCurve:
     serializedVersion: 2
@@ -674,6 +704,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAI: 0
+--- !u!114 &7568980525874123346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5810240144904009790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e352af6db00f804ab8a4dd445b40295, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2928283000155948501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5810240144904009790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f6db4b812fd8814b9a0e5e87d43f0a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyThreshold: 0
+  objectHitPoint: 0
+  objectType: 0
+  delayWhileCollision: 1
+  particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
+  particleVolumeMultiplier: 1.2
+  particleCount: 200
+  particleSize: 0.7
+  crashGameObject: {fileID: 7107377379377871735, guid: 29e4f0870272b9f4c958103301a894da, type: 3}
+  crashPos: {fileID: 3334519872367900469}
+  particleObjSpawnParent: {fileID: 8938606119862310455}
+  shapeOfParticleCollider: {fileID: 6644884416975016268}
+  meshRenderers:
+  - {fileID: 3035591460757105783}
+  - {fileID: 3095763138482037410}
+  - {fileID: 7161625992278823840}
+  - {fileID: 4024830108907120510}
+  - {fileID: 2933659386475326481}
+  - {fileID: 8127914065431491494}
+  - {fileID: 6716859782587597132}
+  disableColliders:
+  - {fileID: 6644884416975016268}
+  - {fileID: 5549156558291021703}
 --- !u!1 &6336306279089747723
 GameObject:
   m_ObjectHideFlags: 0
@@ -817,7 +894,7 @@ Transform:
   m_GameObject: {fileID: 7202637433417319207}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -2.297555, z: 0.03}
-  m_LocalScale: {x: 0.38085, y: 0.38085, z: 0.38085}
+  m_LocalScale: {x: 0.2401502, y: 0.2401502, z: 0.2401502}
   m_Children:
   - {fileID: 1502865022251626471}
   - {fileID: 1348324218544096598}
@@ -825,6 +902,7 @@ Transform:
   - {fileID: 1626146510877928853}
   - {fileID: 8938606119862310455}
   - {fileID: 1497456575}
+  - {fileID: 3334519872367900469}
   m_Father: {fileID: 6623051278530896516}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
