@@ -5,17 +5,12 @@ public class CarSystem : MonoBehaviour
 {
     [Header("Dozer Body Point For Using In Animations")]
     [SerializeField] private Transform bodyGrowingPoint;
-    [SerializeField] private Transform rollerGrowingPoint;
-    [SerializeField] private Transform rotationPoint;
-    private Transform _transform;
 
     [Header("Animation Settings")]
     [SerializeField] private float animationDuration;
     [SerializeField] private AnimationCurve growingAnimShapeCurve;
+    private int MaxGrowPoint => _playerController.MaxGrow;
     
-    [Header("Car Settings")]
-    [SerializeField] private int maxGrowPoint;
-    private CarController _carController;
     private PlayerController _playerController;
 
     private void OnEnable()
@@ -32,22 +27,20 @@ public class CarSystem : MonoBehaviour
 
     private void Awake()
     {
-        _playerController = GetComponent<PlayerController>(); 
-        _carController = GetComponent<CarController>();
-        _transform = GetComponent<Transform>();
-        
+        _playerController = GetComponent<PlayerController>();
     }
     
-
+    //Stands For Level Up
     private void Interact(int reward)
     {
-        if (_playerController.TotalCrashPoint >= maxGrowPoint) return;
+        if (_playerController.TotalCrashPoint >= MaxGrowPoint) return;
         StartCoroutine(GrowAnim(bodyGrowingPoint,reward));
     }
     
+    //Stands For normal gains
     private void Interact(IInteractable interactable)
     {
-        if (_playerController.TotalCrashPoint >= maxGrowPoint) return;
+        if (_playerController.TotalCrashPoint >= MaxGrowPoint) return;
         StartCoroutine(GrowAnim(bodyGrowingPoint,interactable.ObjectHitPoint));
     }
 
