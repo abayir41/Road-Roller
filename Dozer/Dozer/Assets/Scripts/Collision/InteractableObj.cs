@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -10,7 +10,33 @@ public class InteractableObj : MonoBehaviour, IInteractable
     [SerializeField] private int objectHitPoint = 10;
     [SerializeField] private ObjectType objectType = ObjectType.Small;
     [Tooltip("This is the setting of Delay when dozer collide with a object")]
-    [SerializeField] private int sizeOfObj = 5;
+    [SerializeField] private int delayWhileCollision = 5;
+    private bool _isDozer;
+    private PlayerController _dozerPlayerController;
+    public int DestroyThreshold 
+    {
+        get
+        {
+            if (_isDozer)
+            {
+                destroyThreshold = _dozerPlayerController.TotalCrashPoint;
+            }
+            return destroyThreshold;
+        }
+    }
+    public int ObjectHitPoint
+    {
+        get
+        {
+            if (_isDozer)
+            {
+                objectHitPoint = _dozerPlayerController.TotalCrashPoint;
+            }
+            return objectHitPoint;
+        }
+    }
+    public Vector3 ColliderPosition => GetComponent<Collider>().bounds.center;
+    public ObjectType ObjectType => objectType;
     
     [Header("Particle Effect Settings")]
     [SerializeField] private GameObject particleEffect;
@@ -22,16 +48,25 @@ public class InteractableObj : MonoBehaviour, IInteractable
     [SerializeField] private GameObject crashGameObject;
     [SerializeField] private Transform crashPos;
 
-    public int DestroyThreshold => destroyThreshold;
-    public ObjectType ObjectType => objectType;
+    [Header("Some Configurations")] 
+    [SerializeField] private Transform particleObjSpawnParent;
+    [SerializeField] private BoxCollider shapeOfParticleCollider;
+    [SerializeField] private List<MeshRenderer> meshRenderers;
+    [SerializeField] private List<Collider> disableColliders;
+    
 
-    public int ObjectHitPoint => objectHitPoint;
-
-    public Vector3 ColliderPosition => GetComponent<Collider>().bounds.center;
+    private void Awake()
+    {
+        if (GetComponent<PlayerController>() != null)
+        {
+            _isDozer = true;
+            _dozerPlayerController = GetComponent<PlayerController>();
+        }
+    }
 
     public void Interact(PlayerController playerController)
     {
-        if (playerController.TotalCrashPoint >= destroyThreshold)
+        if (playerController.TotalCrashPoint > DestroyThreshold)
         {
             playerController.ActionSysCar.ObjectGotHit(this);
             Interaction(playerController);
@@ -43,7 +78,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
         var delay = 0.03f;
         if (playerController.TotalCrashPoint != 0)
         {
-            delay = (float)sizeOfObj / playerController.TotalCrashPoint;
+            delay = (float)delayWhileCollision / playerController.TotalCrashPoint;
             if (delay > 0.3f)
             {
                 delay = 0.3f;
@@ -56,10 +91,17 @@ public class InteractableObj : MonoBehaviour, IInteractable
     private IEnumerator IEInteraction(float delay)
     {
         var particle = SpawnParticle();
+        if (particle == null) yield return null;
         Destroy(particle,2f);
-        GetComponent<MeshRenderer>().enabled = false;
+        foreach (var meshRenderer in meshRenderers)
+        {
+            meshRenderer.enabled = false;
+        }
         yield return new WaitForSeconds(delay);
-        GetComponent<BoxCollider>().enabled = false;
+        foreach (var disableCollider in disableColliders)
+        {
+            disableCollider.enabled = false;
+        }
         yield return new WaitForSeconds(0.3f - delay);
         SpawnCrash();
         Destroy(gameObject);
@@ -67,15 +109,14 @@ public class InteractableObj : MonoBehaviour, IInteractable
     private GameObject SpawnParticle()
     {
         if (particleEffect == null) return null;
-        var mainTransform = transform;
-        var particle = Instantiate(particleEffect,mainTransform);
+        var particle = Instantiate(particleEffect,particleObjSpawnParent);
         particle.transform.localPosition = Vector3.zero;
         particle.transform.localRotation = Quaternion.Euler(Vector3.zero);
         particle.transform.localScale = Vector3.one;
         particle.transform.parent = null;
         
         var particleSys = particle.GetComponent<ParticleSystem>();
-        var boxCollider = GetComponent<BoxCollider>();
+        var boxCollider = shapeOfParticleCollider;
         
         var shape = particleSys.shape;
         shape.position = boxCollider.center;
@@ -92,7 +133,6 @@ public class InteractableObj : MonoBehaviour, IInteractable
         particleSys.Play();
         return particle;
     }
-
     private void SpawnCrash()
     {
         if (crashGameObject == null || crashPos == null) return;
@@ -103,7 +143,6 @@ public class InteractableObj : MonoBehaviour, IInteractable
         crash.transform.localScale = Vector3.one;
         crash.transform.parent = null;
     }
-
     private void ChangeCrashColor(GameObject crash)
     {
         if (GetComponent<IColorChangerRandomly>() == null || crash.GetComponent<IColorChanger>() == null) return;
@@ -114,7 +153,6 @@ public class InteractableObj : MonoBehaviour, IInteractable
         var color = colorDict.First().Value;
         colorChanger.ChangeColor(color,2);
     }
-
     private void OnDestroy()
     {
         ActionSys.ObjectDestroyed?.Invoke(gameObject);
