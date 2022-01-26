@@ -118,12 +118,14 @@ public class GameController : MonoBehaviour
 
     private void LevelUpped(int reward)
     {
+        if(PlayerController.Player.TotalCrashPoint >= PlayerController.Player.MaxGrow) return;
         StartCoroutine(CameraDistanceIncrease(reward / 3f));
     }
     
     private void Interaction(IInteractable interactable)
     {
-       StartCoroutine(CameraDistanceIncrease(interactable.ObjectHitPoint));
+        if(PlayerController.Player.TotalCrashPoint >= PlayerController.Player.MaxGrow) return;
+        StartCoroutine(CameraDistanceIncrease(interactable.ObjectHitPoint));
     }
     
     private IEnumerator CameraDistanceIncrease(float distance)
