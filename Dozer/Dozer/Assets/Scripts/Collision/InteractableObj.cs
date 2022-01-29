@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,22 +7,40 @@ using UnityEngine;
 public class InteractableObj : MonoBehaviour, IInteractable
 {
     [Header("Collision Configurations")]
-    [SerializeField] private int destroyThreshold;
-    [SerializeField] private int objectHitPoint = 10;
     [SerializeField] private ObjectType objectType = ObjectType.Small;
     [Tooltip("This is the setting of Delay when dozer collide with a object")]
     [SerializeField] private int delayWhileCollision = 5;
-    private bool _isDozer;
-    private PlayerController _dozerPlayerController;
     public int DestroyThreshold 
     {
         get
         {
             if (_isDozer)
             {
-                destroyThreshold = _dozerPlayerController.TotalCrashPoint;
+                return _dozerPlayerController.Score;
             }
-            return destroyThreshold;
+            else
+            {
+                int typeObj;
+                switch (ObjectType)
+                {
+                    case ObjectType.Small:
+                        typeObj = 0;
+                        break;
+                    case ObjectType.Mid:
+                        typeObj = 1;
+                        break;
+                    case ObjectType.Big:
+                        typeObj = 2;
+                        break;
+                    case ObjectType.Mega:
+                        typeObj = 3;
+                        break;
+                    default:
+                        typeObj = 0;
+                        break;
+                }
+                return GameController.Instance.destroyThresholds[typeObj];
+            }
         }
     }
     public int ObjectHitPoint
@@ -30,11 +49,38 @@ public class InteractableObj : MonoBehaviour, IInteractable
         {
             if (_isDozer)
             {
-                objectHitPoint = _dozerPlayerController.TotalCrashPoint;
+                return _dozerPlayerController.Score;
             }
-            return objectHitPoint;
+            else
+            {
+                int typeObj;
+                switch (ObjectType)
+                {
+                    case ObjectType.Small:
+                        typeObj = 0;
+                        break;
+                    case ObjectType.Mid:
+                        typeObj = 1;
+                        break;
+                    case ObjectType.Big:
+                        typeObj = 2;
+                        break;
+                    case ObjectType.Mega:
+                        typeObj = 3;
+                        break;
+                    default:
+                        typeObj = 0;
+                        break;
+                }
+                return GameController.Instance.objectHitPoints[typeObj];
+            }
         }
     }
+    //Dozer Check
+    private bool _isDozer;
+    private PlayerController _dozerPlayerController;
+
+
     public Vector3 ColliderPosition => GetComponent<Collider>().bounds.center;
     public ObjectType ObjectType => objectType;
     
@@ -66,7 +112,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
 
     public void Interact(PlayerController playerController)
     {
-        if (playerController.TotalCrashPoint > DestroyThreshold)
+        if (playerController.Score > DestroyThreshold)
         {
             playerController.ActionSysCar.ObjectGotHit(this);
             Interaction(playerController);
@@ -76,9 +122,9 @@ public class InteractableObj : MonoBehaviour, IInteractable
     private void Interaction(PlayerController playerController)
     {
         var delay = 0.03f;
-        if (playerController.TotalCrashPoint != 0)
+        if (playerController.Score != 0)
         {
-            delay = (float)delayWhileCollision / playerController.TotalCrashPoint;
+            delay = (float)delayWhileCollision / playerController.Score;
             if (delay > 0.3f)
             {
                 delay = 0.3f;
@@ -155,6 +201,13 @@ public class InteractableObj : MonoBehaviour, IInteractable
     }
     private void OnDestroy()
     {
-        ActionSys.ObjectDestroyed?.Invoke(gameObject);
+        if (GetComponent<PlayerController>() == PlayerController.Player)
+        {
+            ActionSys.GameEnded?.Invoke(PlayerController.Player);   
+        }
+        else
+        {
+            ActionSys.ObjectDestroyed?.Invoke(gameObject);    
+        }
     }
 }
