@@ -102,7 +102,7 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
         {
             var targetInteractableObj = scannedObject.GetComponent<InteractableObj>();
             var targetThresholdPoint = targetInteractableObj.DestroyThreshold;
-            if (targetThresholdPoint < _playerController.TotalCrashPoint)
+            if (targetThresholdPoint < _playerController.Score)
             {
                 validObjects.Add(scannedObject);
             }

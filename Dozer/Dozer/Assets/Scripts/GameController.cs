@@ -37,13 +37,15 @@ public class GameController : MonoBehaviour
     //Collision System
     [Header("Collision Settings")]
     [SerializeField] public List<string> collisionObjectFilter;
+    [SerializeField] public List<int> destroyThresholds;
+    [SerializeField] public List<int> objectHitPoints;
     
     //ScoreSystem
     [Header("Score System")]
-    private ScoreSystem _scoreSystem;
     [SerializeField] private int startScore;
     [SerializeField] private List<int> levelThresholds; //This has to begin with 0
     [SerializeField] private List<int> rewardPoints;
+    private ScoreSystem _scoreSystem;
     public List<int> LevelThreshold => levelThresholds;
     public List<int> RewardPoints => rewardPoints;
     private int MaxCrashPoint => PlayerController.Player.MaxGrow;
@@ -52,6 +54,10 @@ public class GameController : MonoBehaviour
     //LeaderBoardSystem
     [HideInInspector]
     public LeaderBoardSystem leaderBoard;
+
+    [Header("Config")] 
+    [SerializeField] private string unlockedString;
+    public string UnlockedString => unlockedString;
 
 
     private void Awake()
@@ -118,13 +124,13 @@ public class GameController : MonoBehaviour
 
     private void LevelUpped(int reward)
     {
-        if(PlayerController.Player.TotalCrashPoint >= MaxCrashPoint) return;
+        if(PlayerController.Player.Score >= MaxCrashPoint) return;
         StartCoroutine(CameraDistanceIncrease(reward / 3f));
     }
     
     private void Interaction(IInteractable interactable)
     {
-        if(PlayerController.Player.TotalCrashPoint >= MaxCrashPoint) return;
+        if(PlayerController.Player.Score >= MaxCrashPoint) return;
         StartCoroutine(CameraDistanceIncrease(interactable.ObjectHitPoint));
     }
     
