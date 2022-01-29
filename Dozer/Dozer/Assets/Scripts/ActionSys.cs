@@ -14,6 +14,10 @@ public static class ActionSys //These are globally called
     public static Action<GameObject> ObjectDestroyed;
     
     public static Action<string, int> ScoreChanged;
+
+    public static Action<Purchasable> ObjectPurchased;
+
+    public static Action<PlayerController> GameEnded;
 }
 
 public class CarActionSys //These are dozer-based called
