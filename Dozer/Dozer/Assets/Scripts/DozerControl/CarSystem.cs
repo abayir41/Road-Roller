@@ -33,14 +33,14 @@ public class CarSystem : MonoBehaviour
     //Stands For Level Up
     private void Interact(int reward)
     {
-        if (_playerController.TotalCrashPoint >= MaxGrowPoint) return;
+        if (_playerController.Score >= MaxGrowPoint) return;
         StartCoroutine(GrowAnim(bodyGrowingPoint,reward));
     }
     
     //Stands For normal gains
     private void Interact(IInteractable interactable)
     {
-        if (_playerController.TotalCrashPoint >= MaxGrowPoint) return;
+        if (_playerController.Score >= MaxGrowPoint) return;
         StartCoroutine(GrowAnim(bodyGrowingPoint,interactable.ObjectHitPoint));
     }
 

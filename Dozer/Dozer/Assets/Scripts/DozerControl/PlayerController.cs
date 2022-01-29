@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public int MaxGrow => maxGrow;
     private string _playerName;
     private ScoreSystem _scoreSystem;
-    public int TotalCrashPoint => _scoreSystem.CurrentScore;
+    public int Score => _scoreSystem.CurrentScore;
     public float RatioOfBetweenLevels => _scoreSystem.RatioOfBetweenLevels();
 
     private void OnEnable()

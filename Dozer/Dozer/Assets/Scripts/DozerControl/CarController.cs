@@ -11,7 +11,7 @@ public class CarController : MonoBehaviour
 
     public void SetVelocity(int maxGrowPoint)
     {
-        velocityMultiplier = (float)_playerController.TotalCrashPoint / maxGrowPoint * 20f + 3f;
+        velocityMultiplier = (float)_playerController.Score / maxGrowPoint * 20f + 3f;
     }
     // Start is called before the first frame update
     private void Awake()
