@@ -9,14 +9,16 @@ using Random = UnityEngine.Random;
 public class GameController : MonoBehaviour
 {
     public static GameController Instance;
+    [SerializeField] private Config config;
     private bool _isGameRunning;
+    
     
     //Dozer Movement and process 
     [Header("Dozer Settings")]
     [SerializeField] private GameObject dozerGameObject;
     [SerializeField] private List<Transform> dozerFollowers;
     private Transform _dozerTrans;
-    public const string DozerTag = "Roller";
+    public string DozerTag => config.DozerTag;
 
     //Coloring Building, objects ...
     public Dictionary<IColorChanger, Dictionary<int, Color>> RandomlyChangedMaterialsListAndColours { get; private set; }
@@ -30,16 +32,16 @@ public class GameController : MonoBehaviour
     private Vector3 _cameraFarFromDozer;
 
     //Transparency System
-    [Header("Transparency Settings")]
+    public string HouseTag => config.HouseTag;
     [SerializeField] private string houseTag = "House";
     private GameObject _fadedHouse;
     private bool _houseTriggered;
     
     //Collision System
-    [Header("Collision Settings")]
-    [SerializeField] public List<string> collisionObjectFilter;
-    [SerializeField] public List<int> destroyThresholds;
-    [SerializeField] public List<int> objectHitPoints;
+    public List<string> CollisionObjectFilter => config.CollisionObjectFilter;
+    public List<int> DestroyThresholds => config.DestroyThresholds;
+    public List<int> ObjectHitPoints => config.ObjectHitPoints;
+    public List<int> ObjectDestroyWait => config.ObjectDestroyWait;
     
     //ScoreSystem
     [Header("Score System")]
@@ -47,10 +49,10 @@ public class GameController : MonoBehaviour
     [SerializeField] private List<int> levelThresholds; //This has to begin with 0
     [SerializeField] private List<int> rewardPoints;
     private ScoreSystem _scoreSystem;
-    public List<int> LevelThreshold => levelThresholds;
-    public List<int> RewardPoints => rewardPoints;
-    private int MaxCrashPoint => PlayerController.Player.MaxGrow;
-    public int StartScore => startScore;
+    public List<int> LevelThreshold => config.LevelThresholds;
+    public List<int> RewardPoints => config.RewardPoints;
+    private static int MaxCrashPoint => PlayerController.Player.MaxGrow;
+    public int StartScore => config.StartScore;
     
     //LeaderBoardSystem
     [HideInInspector]
@@ -223,7 +225,7 @@ public class GameController : MonoBehaviour
         foreach (var followerTrans in dozerFollowers)
         {
             var ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(followerTrans.position));
-            if (Physics.Raycast(ray, out var hit) && hit.collider.gameObject.CompareTag(houseTag))
+            if (Physics.Raycast(ray, out var hit) && hit.collider.gameObject.CompareTag(HouseTag))
             {
                 savedGameObject = hit.collider.gameObject;
             }
