@@ -33,7 +33,6 @@ public class GameController : MonoBehaviour
 
     //Transparency System
     public string HouseTag => config.HouseTag;
-    [SerializeField] private string houseTag = "House";
     private GameObject _fadedHouse;
     private bool _houseTriggered;
     
@@ -44,10 +43,6 @@ public class GameController : MonoBehaviour
     public List<int> ObjectDestroyWait => config.ObjectDestroyWait;
     
     //ScoreSystem
-    [Header("Score System")]
-    [SerializeField] private int startScore;
-    [SerializeField] private List<int> levelThresholds; //This has to begin with 0
-    [SerializeField] private List<int> rewardPoints;
     private ScoreSystem _scoreSystem;
     public List<int> LevelThreshold => config.LevelThresholds;
     public List<int> RewardPoints => config.RewardPoints;
@@ -58,11 +53,16 @@ public class GameController : MonoBehaviour
     [HideInInspector]
     public LeaderBoardSystem leaderBoard;
 
-    [Header("Config")] 
-    [SerializeField] private string unlockedString;
-    public string UnlockedString => unlockedString;
+    //Register 
+    [Header("Register")] 
+    private RegisterSystem registerSystem;
+    public IRegisterSystem RegisterSystem => registerSystem;
 
-
+    [Header("Market")] 
+    private MarketSystem marketSystem;
+    public MarketSystem MarketSystem => marketSystem;
+    public List<SkinScriptable> AllSkins => MarketSystem.DozerSkins;
+    
     private void Awake()
     {
         if (Instance == null)
@@ -94,6 +94,9 @@ public class GameController : MonoBehaviour
         var dozerTransPosition = _dozerTrans.position;
         _cameraFarFromDozer = _cameraTrans.position - dozerTransPosition;
         leaderBoard = GetComponent<LeaderBoardSystem>();
+        marketSystem = GetComponent<MarketSystem>();
+        registerSystem = GetComponent<RegisterSystem>();
+    }
 
     private void Start()
     {

@@ -9,6 +9,11 @@ public class CarSystem : MonoBehaviour
     [Header("Animation Settings")]
     [SerializeField] private float animationDuration;
     [SerializeField] private AnimationCurve growingAnimShapeCurve;
+
+    [Header("Skin Point")] 
+    [SerializeField] private Transform visualPoint;
+
+    public Transform VisualPoint => visualPoint;
     private int MaxGrowPoint => _playerController.MaxGrow;
     
     private PlayerController _playerController;
