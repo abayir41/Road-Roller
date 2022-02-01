@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aea2381c252dae6458088e2f0311aa2a, type: 3}
   m_Name: Skin1
   m_EditorClassIdentifier: 
-  itemID: 
-  price: 0
-  dozerSkin: {fileID: 0}
+  itemID: skin1
+  price: 50
+  dozerSkin: {fileID: 6754892339302217108, guid: 3c2843ce2e48d964fa575f8ea2445682, type: 3}
   preview: {fileID: 0}
