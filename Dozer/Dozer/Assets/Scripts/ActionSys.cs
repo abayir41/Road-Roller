@@ -15,9 +15,9 @@ public static class ActionSys //These are globally called
     
     public static Action<string, int> ScoreChanged;
 
-    public static Action<Purchasable> ObjectPurchased;
+    public static Action<IPurchasableDozer> SkinPurchased;
 
-    public static Action<PlayerController> GameEnded;
+    public static Action<GameStatus> GameStatusChanged;
 }
 
 public class CarActionSys //These are dozer-based called
@@ -27,4 +27,11 @@ public class CarActionSys //These are dozer-based called
     public Action<int> LevelUpped;
 
     public Action MaxLevelReached;
+}
+
+public enum GameStatus
+{
+    Playing,
+    Paused,
+    Ended
 }
