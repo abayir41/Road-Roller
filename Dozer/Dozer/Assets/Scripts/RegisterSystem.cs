@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-internal interface IRegisterSystem
+public interface IRegisterSystem
 {
     void SaveData(string key, int value);
     void SaveData(string key, float value);
