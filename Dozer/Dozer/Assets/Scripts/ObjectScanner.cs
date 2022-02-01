@@ -7,16 +7,12 @@ using UnityEngine.Serialization;
 
 interface IObjectScanner
 {
-    List<string> Filter { get; set;}
+    List<string> Filter { get;}
     List<GameObject> ScannedObjects { get; }
 }
 public class ObjectScanner : MonoBehaviour, IObjectScanner
 {
-    public List<string> Filter
-    {
-        get => GameController.Instance.collisionObjectFilter;
-        set => GameController.Instance.collisionObjectFilter = value;
-    }
+    public List<string> Filter => GameController.Instance.CollisionObjectFilter;
 
     private void OnEnable()
     {
