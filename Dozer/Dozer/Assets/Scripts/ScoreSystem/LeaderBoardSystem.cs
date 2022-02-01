@@ -13,6 +13,17 @@ public class LeaderBoardSystem : LeaderboardsAbstract
         set => ActionSys.ScoreChanged = value;
     }
     
+    public override List<string> GetLeaderBoard()
+    {
+        var leaderBoard = PlayerAndScoreDictionary 
+            .OrderByDescending(pair => pair.Value)//Ordering
+            .ToDictionary(pair => pair.Key, pair => pair.Value)//converting to dictionary to get keys
+            .Keys; //get keys
+
+        var leaderBoardAsAList = new List<string>(leaderBoard);
+        return leaderBoardAsAList;
+    }
+    
     public override List<string> GetLeaderBoard(int playerCount)
     {
         var leaderBoard = PlayerAndScoreDictionary 
@@ -25,7 +36,7 @@ public class LeaderBoardSystem : LeaderboardsAbstract
         return leaderBoardAsAList;
     }
 
-    
+
     public string GetRandomName()
     {
         var suitableNames = names.Where(player => !PlayerAndScoreDictionary.ContainsKey(player)).ToArray();

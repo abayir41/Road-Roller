@@ -51,6 +51,14 @@ public abstract class LeaderboardsAbstract : MonoBehaviour
     {
         PlayerAndScoreDictionary.Remove(playerName);
     }
+
+    public int GetPlayerRank(string player)
+    {
+        return GetLeaderBoard().IndexOf(player) + 1;
+    }
+    
+    public abstract List<string> GetLeaderBoard();
     public abstract List<string> GetLeaderBoard(int playerCount);
+    
 }
 
