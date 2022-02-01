@@ -17979,7 +17979,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1628564289361990410, guid: bf7ef8e8c57cd894aa01941d95779835, type: 3}
       propertyPath: maxGrow
-      value: 500
+      value: 50000
       objectReference: {fileID: 0}
     - target: {fileID: 5020395865685476948, guid: bf7ef8e8c57cd894aa01941d95779835, type: 3}
       propertyPath: m_Name
@@ -33884,7 +33884,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1628564289361990410, guid: bf7ef8e8c57cd894aa01941d95779835, type: 3}
       propertyPath: maxGrow
-      value: 500
+      value: 50000
       objectReference: {fileID: 0}
     - target: {fileID: 5020395865685476948, guid: bf7ef8e8c57cd894aa01941d95779835, type: 3}
       propertyPath: m_Name
@@ -36061,24 +36061,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77eb8a74faedf4d4199addf970674ba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  config: {fileID: 0}
   dozerGameObject: {fileID: 8971242722936087708}
   dozerFollowers:
   - {fileID: 993727598}
   - {fileID: 622328710}
   focusPoint: {fileID: 736824187}
   cameraDistanceDivider: 60
-  houseTag: House
-  collisionObjectFilter:
-  - Destroyable
-  - Dozer
-  - House
-  destroyThresholds: 000000000a00000064000000e8030000
-  objectHitPoints: 000000000a00000064000000e8030000
-  startScore: 10
-  levelThresholds: 00000000320000006400000096000000c8000000
-  rewardPoints: 90010000900100009001000090010000
   leaderBoard: {fileID: 0}
-  unlockedString: 
 --- !u!4 &1470986054
 Transform:
   m_ObjectHideFlags: 0
@@ -53493,7 +53483,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1628564289361990410, guid: bf7ef8e8c57cd894aa01941d95779835, type: 3}
       propertyPath: maxGrow
-      value: 500
+      value: 50000
       objectReference: {fileID: 0}
     - target: {fileID: 5020395865685476948, guid: bf7ef8e8c57cd894aa01941d95779835, type: 3}
       propertyPath: m_Name
@@ -53554,7 +53544,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 258899012889652576, guid: 790b01b7606da304197450acf4585446, type: 3}
       propertyPath: maxGrow
-      value: 500
+      value: 50000
       objectReference: {fileID: 0}
     - target: {fileID: 1847414479957000116, guid: 790b01b7606da304197450acf4585446, type: 3}
       propertyPath: velocityMultiplier
