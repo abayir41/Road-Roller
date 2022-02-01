@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController Player;
     public CarActionSys ActionSysCar;
+    public bool IsAI => isAI;
     [SerializeField] private bool isAI = true;
     [SerializeField] private int maxGrow;
     public int MaxGrow => maxGrow;
