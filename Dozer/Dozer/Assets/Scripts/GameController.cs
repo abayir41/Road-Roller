@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 public class GameController : MonoBehaviour
 {
     public static GameController Instance;
+    private bool _isGameRunning;
     
     //Dozer Movement and process 
     [Header("Dozer Settings")]
@@ -92,10 +93,15 @@ public class GameController : MonoBehaviour
         _cameraFarFromDozer = _cameraTrans.position - dozerTransPosition;
         leaderBoard = GetComponent<LeaderBoardSystem>();
 
+    private void Start()
+    {
+        ActionSys.GameStatusChanged?.Invoke(GameStatus.Playing);
     }
 
     private void Update()
     {
+        if(!_isGameRunning) return;
+        
         var dozerTransPosition = _dozerTrans.position;
         ObjectFollower(_cameraFarFromDozer,dozerTransPosition,_cameraTrans);
 
@@ -114,12 +120,29 @@ public class GameController : MonoBehaviour
         ActionSys.ObjectGotHit += Interaction;
         ActionSys.LevelUpped += LevelUpped;
         ActionSys.MaxLevelReached += () => {Debug.Log("MaxLevelReached");};
+        ActionSys.GameStatusChanged += GameStatusChanged;
     }
     
     private void OnDisable()
     {
         ActionSys.ObjectGotHit -= Interaction;
         ActionSys.LevelUpped -= LevelUpped;
+        ActionSys.GameStatusChanged -= GameStatusChanged;
+    }
+    
+    private void GameStatusChanged(GameStatus status)
+    {
+        switch (status)
+        {
+            case GameStatus.Playing:
+                _isGameRunning = true;
+                break;
+            case GameStatus.Paused:
+                break;
+            case GameStatus.Ended:
+                _isGameRunning = false;
+                break;
+        }
     }
 
     private void LevelUpped(int reward)
