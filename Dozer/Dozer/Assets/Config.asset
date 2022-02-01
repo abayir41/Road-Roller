@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f723065c84125cb459ab32a9c37ef385, type: 3}
+  m_Name: Config
+  m_EditorClassIdentifier: 
+  houseTag: House
+  dozerTag: Roller
+  baseSkinID: Base
+  collisionObjectFilter:
+  - Dozer
+  - Destroyable
+  - House
+  destroyThresholds: 000000001400000064000000e8030000
+  objectHitPoints: 0a0000000a0000000a0000000a000000
+  objectDestroyWait: 01000000010000000100000001000000
+  startScore: 10
+  levelThresholds: 000000000a000000320000006400000096000000c8000000fa0000002c0100005e01000090010000
+  rewardPoints: 00000000e8030000e8030000e8030000e8030000e8030000e8030000e8030000e8030000e8030000
