@@ -1,36 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MarketSystem : MonoBehaviour
 {
-    private const string PurchasedString = "Purchased";
-    private const string MoneyString = "Money";
-
+    public static readonly string PurchasedString = "Purchased";
+    public static readonly string MoneyString = "Money";
+    public static readonly string SelectedSkin = "SelectedSkin";
     
-    [SerializeField] private List<string> dozerSkinsStrings;
-    [SerializeField] private List<int> dozerSkinsPrices;
-    [SerializeField] private List<GameObject> dozerSkinGameObjects;
-    [SerializeField] private List<Image> dozerSkinImages;
-    
-    [SerializeField] private RegisterSystem registerSystem;
     
     private IRegisterSystem _registerSystem;
-    private List<Purchasable> _dozerSkins;
+    public List<SkinScriptable> DozerSkins => dozerSkins;
+    [SerializeField] private List<SkinScriptable> dozerSkins;
 
     private void Awake()
     {
-        _registerSystem = registerSystem;
-        _dozerSkins = new List<Purchasable>();
-        
-        for (var i = 0; i < dozerSkinsStrings.Count; i++)
-        {
-            var skin = new Purchasable(dozerSkinsStrings[i],dozerSkinsPrices[i],dozerSkinGameObjects[i],dozerSkinImages[i]);
-            _dozerSkins.Add(skin);
-        }
+        _registerSystem = GameController.Instance.RegisterSystem;
     }
 
-    private int Money => registerSystem.GetDataAsInt(MoneyString);
+    private int Money => _registerSystem.GetDataAsInt(MoneyString);
 
     public bool IsItemPurchased(string item)
     {
@@ -69,10 +59,14 @@ public class MarketSystem : MonoBehaviour
     
     public void Purchase(string item)
     {
-        var index = dozerSkinsStrings.IndexOf(item);
+        if (!CanBePurchased(item))
+        { 
+            return; //to do handle this situation
+        }
+        var index = dozerSkins.IndexOf(dozerSkins.First(scriptable => scriptable.ItemID == item));
         RemoveMoney(GetItemPrice(item));
         StateItemAsPurchased(item);
-        ActionSys.ObjectPurchased?.Invoke(_dozerSkins[index]);
+        ActionSys.SkinPurchased?.Invoke(dozerSkins[index]);
     }
     
 }
