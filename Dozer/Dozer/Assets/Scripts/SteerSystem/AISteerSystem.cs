@@ -100,6 +100,7 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
         List<GameObject> validObjects = new List<GameObject>();
         foreach (var scannedObject in _objectScanner.ScannedObjects)
         {
+            if (scannedObject == null) continue;
             var targetInteractableObj = scannedObject.GetComponent<InteractableObj>();
             var targetThresholdPoint = targetInteractableObj.DestroyThreshold;
             if (targetThresholdPoint < _playerController.Score)
