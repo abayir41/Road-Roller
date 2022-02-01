@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +8,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
 {
     [Header("Collision Configurations")]
     [SerializeField] private ObjectType objectType = ObjectType.Small;
-    [Tooltip("This is the setting of Delay when dozer collide with a object")]
-    [SerializeField] private int delayWhileCollision = 5;
+
     public int DestroyThreshold 
     {
         get
@@ -20,26 +19,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
             }
             else
             {
-                int typeObj;
-                switch (ObjectType)
-                {
-                    case ObjectType.Small:
-                        typeObj = 0;
-                        break;
-                    case ObjectType.Mid:
-                        typeObj = 1;
-                        break;
-                    case ObjectType.Big:
-                        typeObj = 2;
-                        break;
-                    case ObjectType.Mega:
-                        typeObj = 3;
-                        break;
-                    default:
-                        typeObj = 0;
-                        break;
-                }
-                return GameController.Instance.destroyThresholds[typeObj];
+                return GameController.Instance.DestroyThresholds[ObjetTypeIndexMatcher(objectType)];
             }
         }
     }
@@ -53,34 +33,54 @@ public class InteractableObj : MonoBehaviour, IInteractable
             }
             else
             {
-                int typeObj;
-                switch (ObjectType)
-                {
-                    case ObjectType.Small:
-                        typeObj = 0;
-                        break;
-                    case ObjectType.Mid:
-                        typeObj = 1;
-                        break;
-                    case ObjectType.Big:
-                        typeObj = 2;
-                        break;
-                    case ObjectType.Mega:
-                        typeObj = 3;
-                        break;
-                    default:
-                        typeObj = 0;
-                        break;
-                }
-                return GameController.Instance.objectHitPoints[typeObj];
+                return GameController.Instance.ObjectHitPoints[ObjetTypeIndexMatcher(objectType)];
             }
         }
     }
+    public int DestroyDelayWhileCollision
+    {
+        get
+        {
+            if (_isDozer)
+            {
+                return 0;
+            }
+            else
+            {
+                return GameController.Instance.ObjectDestroyWait[ObjetTypeIndexMatcher(objectType)];
+            }
+        }
+    }
+
+    static int ObjetTypeIndexMatcher(ObjectType type)
+    {
+        int typeObj;
+        switch (type)
+        {
+            case ObjectType.Small:
+                typeObj = 0;
+                break;
+            case ObjectType.Mid:
+                typeObj = 1;
+                break;
+            case ObjectType.Big:
+                typeObj = 2;
+                break;
+            case ObjectType.Mega:
+                typeObj = 3;
+                break;
+            default:
+                typeObj = 0;
+                break;
+        }
+
+        return typeObj;
+    }
+    
     //Dozer Check
     private bool _isDozer;
     private PlayerController _dozerPlayerController;
-
-
+    
     public Vector3 ColliderPosition => GetComponent<Collider>().bounds.center;
     public ObjectType ObjectType => objectType;
     
@@ -124,7 +124,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
         var delay = 0.03f;
         if (playerController.Score != 0)
         {
-            delay = (float)delayWhileCollision / playerController.Score;
+            delay = (float)DestroyDelayWhileCollision / playerController.Score;
             if (delay > 0.3f)
             {
                 delay = 0.3f;
