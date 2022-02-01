@@ -203,7 +203,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
     {
         if (GetComponent<PlayerController>() == PlayerController.Player)
         {
-            ActionSys.GameEnded?.Invoke(PlayerController.Player);   
+            ActionSys.GameStatusChanged?.Invoke(GameStatus.Ended);   
         }
         else
         {
