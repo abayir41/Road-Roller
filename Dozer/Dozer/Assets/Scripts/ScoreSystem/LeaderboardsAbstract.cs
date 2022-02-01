@@ -7,6 +7,8 @@ public abstract class LeaderboardsAbstract : MonoBehaviour
 {
     protected Dictionary<string, int> PlayerAndScoreDictionary;
     protected abstract Action<string, int> ScoreChanged { get; set;} 
+    
+    
     protected virtual void Awake()
     {
         PlayerAndScoreDictionary = new Dictionary<string, int>();

@@ -11,14 +11,9 @@ public class MarketSystem : MonoBehaviour
     public static readonly string SelectedSkin = "SelectedSkin";
     
     
-    private IRegisterSystem _registerSystem;
+    private IRegisterSystem _registerSystem => GameController.Instance.RegisterSystem;
     public List<SkinScriptable> DozerSkins => dozerSkins;
     [SerializeField] private List<SkinScriptable> dozerSkins;
-
-    private void Awake()
-    {
-        _registerSystem = GameController.Instance.RegisterSystem;
-    }
 
     private int Money => _registerSystem.GetDataAsInt(MoneyString);
 

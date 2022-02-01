@@ -18,6 +18,11 @@ public class CarSystem : MonoBehaviour
     
     private PlayerController _playerController;
 
+    private void Awake()
+    {
+        _playerController = GetComponent<PlayerController>();
+    }
+    
     private void OnEnable()
     {
         _playerController.ActionSysCar.ObjectGotHit += Interact;
@@ -30,10 +35,7 @@ public class CarSystem : MonoBehaviour
         _playerController.ActionSysCar.LevelUpped -= Interact;
     }
 
-    private void Awake()
-    {
-        _playerController = GetComponent<PlayerController>();
-    }
+
     
     //Stands For Level Up
     private void Interact(int reward)

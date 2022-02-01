@@ -37,8 +37,7 @@ public class PlayerController : MonoBehaviour
             Player = this;
         }
         ActionSysCar = new CarActionSys();
-
-        GetComponent<CarController>().enabled = true;
+        
         GetComponent<CarSystem>().enabled = true;
     }
 

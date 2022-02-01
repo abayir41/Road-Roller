@@ -97,7 +97,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
     [Header("Some Configurations")] 
     [SerializeField] private Transform particleObjSpawnParent;
     [SerializeField] private BoxCollider shapeOfParticleCollider;
-    [SerializeField] private List<MeshRenderer> meshRenderers;
+    [SerializeField] public List<MeshRenderer> meshRenderers;
     [SerializeField] private List<Collider> disableColliders;
     
 
