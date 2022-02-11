@@ -31,6 +31,8 @@ public class CarActionSys //These are dozer-based called
 
 public enum GameStatus
 {
+    Loading,
+    WaitingOnMenu,
     Playing,
     Paused,
     Ended

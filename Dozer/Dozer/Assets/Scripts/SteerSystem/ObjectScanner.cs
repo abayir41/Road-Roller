@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-interface IObjectScanner
+public interface IObjectScanner
 {
     List<string> Filter { get;}
     List<GameObject> ScannedObjects { get; }

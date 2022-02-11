@@ -5,12 +5,19 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Player;
-    public CarActionSys ActionSysCar;
+    
+    public CarActionSys ActionSysCar => _actionSysCar;
+    private CarActionSys _actionSysCar;
+    
     public bool IsAI => isAI;
     [SerializeField] private bool isAI = true;
-    [SerializeField] private int maxGrow;
+    
     public int MaxGrow => maxGrow;
-    private string _playerName;
+    [SerializeField] private int maxGrow;
+
+    public string PlayerName { get; private set; }
+
+
     private ScoreSystem _scoreSystem;
     public int Score => _scoreSystem.CurrentScore;
     public float RatioOfBetweenLevels => _scoreSystem.RatioOfBetweenLevels();
@@ -36,20 +43,20 @@ public class PlayerController : MonoBehaviour
         {
             Player = this;
         }
-        ActionSysCar = new CarActionSys();
+        _actionSysCar = new CarActionSys();
         
         GetComponent<CarSystem>().enabled = true;
     }
 
     private void Start()
     {
-        _playerName = isAI ? GameController.Instance.leaderBoard.GetRandomName() : "You";
+        PlayerName = isAI ? GameController.Instance.LeaderBoard.GetRandomName() : "You";
         _scoreSystem = new ScoreSystem(ActionSysCar,
             GameController.Instance.LevelThreshold, 
             GameController.Instance.RewardPoints,
             GameController.Instance.StartScore,
-            GameController.Instance.leaderBoard,
-            _playerName);
+            GameController.Instance.LeaderBoard,
+            PlayerName);
     }
 
 
@@ -75,7 +82,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameController.Instance.leaderBoard.RemovePlayer(_playerName);
+        GameController.Instance.LeaderBoard.RemovePlayer(PlayerName);
     }
 }
 

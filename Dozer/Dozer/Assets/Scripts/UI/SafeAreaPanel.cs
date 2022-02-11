@@ -6,7 +6,7 @@ public class SafeAreaPanel : MonoBehaviour
 {
     private RectTransform _rectTransform;
 
-    private void Awake() {
+    private void Start() {
         _rectTransform = GetComponent<RectTransform>();
         RefreshPanel(Screen.safeArea);
     }
