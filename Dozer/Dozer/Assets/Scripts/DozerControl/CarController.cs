@@ -8,26 +8,10 @@ public class CarController : MonoBehaviour
     private PlayerController _playerController;
     private Rigidbody _rigidbody;
     private ISteerSystem _steerSystem;
-    private GameStatus _status;
 
     public void SetVelocity(int maxGrowPoint)
     {
         velocityMultiplier = (float)_playerController.Score / maxGrowPoint * 20f + 3f;
-    }
-
-    private void OnEnable()
-    {
-        ActionSys.GameStatusChanged += GameStatusChanged;
-    }
-    
-    private void OnDisable()
-    {
-        ActionSys.GameStatusChanged -= GameStatusChanged;
-    }
-    
-    private void GameStatusChanged(GameStatus status)
-    {
-        _status = status;
     }
 
     // Start is called before the first frame update
@@ -42,7 +26,7 @@ public class CarController : MonoBehaviour
 
     private void Update()
     {
-        if (_status == GameStatus.Paused)
+        if (GameController.Instance.Status != GameStatus.Playing && GameController.Instance.Status != GameStatus.Ended)
         {
             _rigidbody.velocity = Vector3.zero;
             _rigidbody.angularVelocity = Vector3.zero;
