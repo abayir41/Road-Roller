@@ -6,50 +6,56 @@ using UnityEngine.UI;
 
 public class MarketSystem : MonoBehaviour
 {
-    public static readonly string PurchasedString = "Purchased";
-    public static readonly string MoneyString = "Money";
-    public static readonly string SelectedSkin = "SelectedSkin";
+    public static MarketSystem Instance;
+
+    public const string PurchasedString = "Purchased";
+    public const string MoneyString = "Money";
+    public const string SelectedSkin = "SelectedSkin";
     
-    
-    private IRegisterSystem _registerSystem => GameController.Instance.RegisterSystem;
     public List<SkinScriptable> DozerSkins => dozerSkins;
     [SerializeField] private List<SkinScriptable> dozerSkins;
 
-    private int Money => _registerSystem.GetDataAsInt(MoneyString);
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+    }
+
+    private int Money => RegisterSystem.Instance.GetDataAsInt(MoneyString);
 
     public bool IsItemPurchased(string item)
     {
-        return _registerSystem.GetDataAsString(item).Equals(PurchasedString);
+        return RegisterSystem.Instance.GetDataAsString(item).Equals(PurchasedString);
     }
 
     public void StateItemAsPurchased(string item)
     {
-        _registerSystem.SaveData(item,PurchasedString);
+        RegisterSystem.Instance.SaveData(item,PurchasedString);
     }
 
     public bool CanBePurchased(string item)
     {
-        return !_registerSystem.GetDataAsString(item).Equals(PurchasedString) && Money >= GetItemPrice(item);
+        return !RegisterSystem.Instance.GetDataAsString(item).Equals(PurchasedString) && Money >= GetItemPrice(item);
     }
 
     public void AddMoney(int amount)
     {
-        _registerSystem.SaveData(MoneyString,Money+amount);
+        RegisterSystem.Instance.SaveData(MoneyString,Money+amount);
     }
 
     public void RemoveMoney(int amount)
     {
-        _registerSystem.SaveData(MoneyString,Money-amount);
+        RegisterSystem.Instance.SaveData(MoneyString,Money-amount);
     }
 
     public int GetItemPrice(string item)
     {
-        return _registerSystem.GetDataAsInt(item);
+        return RegisterSystem.Instance.GetDataAsInt(item);
     }
 
     public void SetItemPrice(string item, int amount)
     {
-        _registerSystem.SaveData(item, amount);
+        RegisterSystem.Instance.SaveData(item, amount);
     }
     
     public void Purchase(string item)

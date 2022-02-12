@@ -21,7 +21,7 @@ public class SkinSystem : MonoBehaviour
         }
         else
         {
-            var skinName = GameController.Instance.RegisterSystem.GetDataAsString(MarketSystem.SelectedSkin);
+            var skinName = RegisterSystem.Instance.GetDataAsString(MarketSystem.SelectedSkin);
             var skinScriptable = GameController.Instance.AllSkins.First(skin => skin.ItemID == skinName);
             skinGameObject = Instantiate(skinScriptable.DozerSkin, visualPoint);
         }

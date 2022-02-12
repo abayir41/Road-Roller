@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class RegisterSystem : MonoBehaviour , IRegisterSystem
 {
+    public static IRegisterSystem Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+    }
+
     public void SaveData(string key, int value)
     {
         PlayerPrefs.SetInt(key,value);

@@ -54,15 +54,8 @@ public class GameController : MonoBehaviour
     
     //LeaderBoardSystem
     public LeaderBoardSystem LeaderBoard { get; private set; }
-
-    //Register 
-    private RegisterSystem _registerSystem;
-    public IRegisterSystem RegisterSystem => _registerSystem;
-
-    //MarketSystem
-    public MarketSystem MarketSystem { get; private set; }
-
-    public List<SkinScriptable> AllSkins => MarketSystem.DozerSkins;
+    
+    public List<SkinScriptable> AllSkins => MarketSystem.Instance.DozerSkins;
 
     [Header("Game Settings")] 
     [SerializeField] private int playerCount;
@@ -82,11 +75,9 @@ public class GameController : MonoBehaviour
         _cameraTrans = _cameraGameObject.transform;
         _camera = _cameraGameObject.GetComponent<Camera>();
         LeaderBoard = GetComponent<LeaderBoardSystem>();
-        MarketSystem = GetComponent<MarketSystem>();
-        _registerSystem = GetComponent<RegisterSystem>();
-        
-        if (_registerSystem.GetDataAsString(MarketSystem.SelectedSkin) == "") 
-            _registerSystem.SaveData(MarketSystem.SelectedSkin,config.BaseSkinID);
+
+        if (RegisterSystem.Instance.GetDataAsString(MarketSystem.SelectedSkin) == "") 
+            RegisterSystem.Instance.SaveData(MarketSystem.SelectedSkin,config.BaseSkinID);
     }
 
     private void Start()
