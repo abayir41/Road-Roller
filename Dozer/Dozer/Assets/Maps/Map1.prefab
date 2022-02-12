@@ -478,8 +478,6 @@ GameObject:
   - component: {fileID: 9169183695151967576}
   - component: {fileID: 9169183695151967579}
   - component: {fileID: 9169183695151967577}
-  - component: {fileID: 9169183695151967575}
-  - component: {fileID: 9169183695151967574}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: GameController
@@ -548,34 +546,6 @@ MonoBehaviour:
   - Zenci
   - Kral
   - Manyak
---- !u!114 &9169183695151967575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9169183695151967578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f55d2c4167b8f146a04c59128859771, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &9169183695151967574
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9169183695151967578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc0cb1613411b3e4d973f4c919ff160b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dozerSkins:
-  - {fileID: 11400000, guid: 9cfec8b5ba3e4bf4e9a6c5a8164cd006, type: 2}
-  - {fileID: 11400000, guid: b2991523abdad9d4fb2cc4c071a55a82, type: 2}
-  - {fileID: 11400000, guid: e91c28fdccf37974fbebf5534384aa94, type: 2}
 --- !u!1 &9169183695266249791
 GameObject:
   m_ObjectHideFlags: 0
