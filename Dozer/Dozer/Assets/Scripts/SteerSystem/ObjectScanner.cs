@@ -5,11 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public interface IObjectScanner
-{
-    List<string> Filter { get;}
-    List<GameObject> ScannedObjects { get; }
-}
+
 public class ObjectScanner : MonoBehaviour, IObjectScanner
 {
     public List<string> Filter => GameController.Instance.CollisionObjectFilter;

@@ -29,11 +29,3 @@ public class CarActionSys //These are dozer-based called
     public Action MaxLevelReached;
 }
 
-public enum GameStatus
-{
-    Loading,
-    WaitingOnMenu,
-    Playing,
-    Paused,
-    Ended
-}

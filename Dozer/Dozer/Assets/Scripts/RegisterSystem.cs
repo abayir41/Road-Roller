@@ -1,16 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public interface IRegisterSystem
-{
-    void SaveData(string key, int value);
-    void SaveData(string key, float value);
-    void SaveData(string key, string value);
 
-    int GetDataAsInt(string key);
-    float GetDataAsFloat(string key);
-    string GetDataAsString(string key);
-}
 public class RegisterSystem : MonoBehaviour , IRegisterSystem
 {
     public void SaveData(string key, int value)

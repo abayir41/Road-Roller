@@ -5,16 +5,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 
-public interface IColorChanger
-{
-    void ChangeColor(Color color, int materialIndex);
-}
 
-public interface IColorChangerRandomly : IColorChanger
-{
-    Color[] Colors { get; }
-    void SelectColorRandomly(Color[] presetColors,int materialIndex);
-}
 public class ColorChanger : MonoBehaviour, IColorChangerRandomly
 {
     public Color[] Colors => presetColors;

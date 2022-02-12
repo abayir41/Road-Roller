@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-interface IRandomlyPaintedMaterialIndex
-{
-    List<int> MaterialIndexes { get;}
-}
+
 public class RandomlyPaintedMaterialIndex : MonoBehaviour,IRandomlyPaintedMaterialIndex
 {
     public List<int> MaterialIndexes => materialIndexes;

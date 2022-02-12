@@ -1,10 +1,4 @@
-﻿public enum ObjectType : int
-{
-    Small,
-    Mid,
-    Big,
-    Mega
-}
+﻿
 
 public interface IInteractable
 {
