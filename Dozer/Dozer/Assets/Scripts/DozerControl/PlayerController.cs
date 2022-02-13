@@ -7,19 +7,26 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController Player;
 
+    //Player Properties and references
     public Player PlayerProperty { get; set; }
     public string PlayerName => PlayerProperty.Name;
+    
+    //Local trigger System
     public CarActionSys ActionSysCar { get; private set; }
 
+    //Dozer Properties
     public bool IsAI => isAI;
     [SerializeField] private bool isAI = true;
     
     public int MaxGrow => maxGrow;
     [SerializeField] private int maxGrow;
 
+    //Score System and References
     private ScoreSystem _scoreSystem;
     public int Score => _scoreSystem.CurrentScore;
     public float RatioOfBetweenLevels => _scoreSystem.RatioOfBetweenLevels();
+
+    #region Subscription
 
     private void OnEnable()
     {
@@ -34,6 +41,9 @@ public class PlayerController : MonoBehaviour
         ActionSysCar.ObjectGotHit -= Interaction;
         ActionSysCar.MaxLevelReached -= MaxLevelReached;
     }
+
+    #endregion
+
     
 
     private void Awake()
@@ -43,7 +53,6 @@ public class PlayerController : MonoBehaviour
             Player = this;
         }
         ActionSysCar = new CarActionSys();
-        
         GetComponent<CarSystem>().enabled = true;
     }
 
@@ -52,6 +61,7 @@ public class PlayerController : MonoBehaviour
         _scoreSystem = new ScoreSystem(ActionSysCar, GameController.Instance.LevelThreshold, GameController.Instance.RewardPoints, PlayerProperty);
     }
 
+    #region Subscription Methods
 
     private void LevelUpped(int obj)
     {
@@ -61,6 +71,9 @@ public class PlayerController : MonoBehaviour
 
     private void Interaction(IInteractable obj)
     {
+        if (obj.IsDozer)
+            PlayerProperty.KillCount += 1;
+            
         _scoreSystem.AddScore(obj.ObjectHitPoint);
 
         if (Player == this)
@@ -72,6 +85,9 @@ public class PlayerController : MonoBehaviour
         if (Player == this)
             ActionSys.MaxLevelReached();
     }
+
+    #endregion
+
 
     private void OnDestroy()
     {
