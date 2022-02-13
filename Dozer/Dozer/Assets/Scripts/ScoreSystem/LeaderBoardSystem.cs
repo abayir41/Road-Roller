@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = System.Random;
+using UnityRandom = UnityEngine.Random;
 
 public class LeaderBoardSystem : LeaderboardsAbstract
 {
@@ -15,28 +16,28 @@ public class LeaderBoardSystem : LeaderboardsAbstract
         Instance = this;
     }
 
-    public override List<string> GetLeaderBoard(bool addDeadPlayers = false)
+    public override List<Player> GetLeaderBoard(bool addDeadPlayers = false)
     {
         var leaderBoard = PlayerAndScoreDictionary
             .Where(pair => !pair.Value.IsDead || addDeadPlayers) //selecting according to dead or not 
             .OrderByDescending(pair => pair.Value.Score)//Ordering
             .ToDictionary(pair => pair.Key, pair => pair.Value)//converting to dictionary to get keys
-            .Keys; //get keys
+            .Values; //get keys
 
-        var leaderBoardAsAList = new List<string>(leaderBoard);
+        var leaderBoardAsAList = new List<Player>(leaderBoard);
         return leaderBoardAsAList;
     }
     
-    public override List<string> GetLeaderBoard(int playerCount, bool addDeadPlayers = false)
+    public override List<Player> GetLeaderBoard(int playerCount, bool addDeadPlayers = false)
     {
         var leaderBoard = PlayerAndScoreDictionary
             .Where(pair => !pair.Value.IsDead || addDeadPlayers) //selecting according to dead or not 
             .OrderByDescending(pair => pair.Value.Score)//Ordering
             .Take(playerCount)//Taking head of list
             .ToDictionary(pair => pair.Key, pair => pair.Value)//converting to dictionary to get keys
-            .Keys; //get keys
+            .Values; //get keys
 
-        var leaderBoardAsAList = new List<string>(leaderBoard);
+        var leaderBoardAsAList = new List<Player>(leaderBoard);
         return leaderBoardAsAList;
     }
 
@@ -79,7 +80,10 @@ public class LeaderBoardSystem : LeaderboardsAbstract
 
     private static Color RandomColor()
     {
-        var random = new Random();
-        return new Color((float)random.Next(128, 256) / 255, (float)random.Next(128, 256)/255, (float)random.Next(128, 256) / 255, 1);
+        return new Color(
+            UnityRandom.Range(0f, 1f), 
+            UnityRandom.Range(0f, 1f), 
+            UnityRandom.Range(0f, 1f)
+        );;
     }
 }
