@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "Config", menuName = "Config")]
 public class Config : ScriptableObject
@@ -35,5 +37,11 @@ public class Config : ScriptableObject
     [SerializeField] private int startScore;
     [SerializeField] private List<int> levelThresholds; //This has to begin with 0
     [SerializeField] private List<int> rewardPoints;
+
+
+    public int MatchTimeAsSecond => matchTimeAsSeconds;
     
+    [Header("Game Mode Setting")] 
+    [SerializeField] private int matchTimeAsSeconds;
+
 }
