@@ -1,56 +1,57 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class ScoreSystem
 {
-    public int CurrentLevel { get; private set; } = 1;
-
-    public int CurrentScore { get; private set; }
-
-    private readonly List<int> _levelThresholds;
-    private readonly List<int> _rewardPoints;
-    private bool _maxLevelReached;
-    private readonly CarActionSys _carActionSys;
-    private readonly LeaderBoardSystem _leaderBoardSystem;
-    private readonly string _playerName; 
+    //Level Rewarding
+    private List<int> LevelThresholds { get; }
+    private List<int> RewardPoints { get; }
     
-    public ScoreSystem(CarActionSys carActionSys,List<int> levelThresholds,List<int> rewardPoints,int startScore,LeaderBoardSystem leaderBoardSystem,string playerName)
+    //Player and properties
+    private Player Player { get; }
+    public int CurrentLevel { get => Player.Level; private set => Player.Level = value; }
+    public int CurrentScore { get => Player.Score; private set => Player.Score = value; }
+
+    //Trigger
+    private CarActionSys CarActionSys { get; }
+    
+    
+    private bool _maxLevelReached;
+
+    public ScoreSystem(CarActionSys carActionSys,List<int> levelThresholds,List<int> rewardPoints, Player player)
     {
-        CurrentScore = startScore;
-        _carActionSys = carActionSys;
-        _rewardPoints = rewardPoints;
-        _levelThresholds = levelThresholds;
-        _leaderBoardSystem = leaderBoardSystem;
-        _playerName = playerName;
-        _leaderBoardSystem.AddScore(_playerName,startScore);
+        CarActionSys = carActionSys;
+        RewardPoints = rewardPoints;
+        LevelThresholds = levelThresholds;
+        Player = player;
     }
 
     public float RatioOfBetweenLevels()
     {
         if (_maxLevelReached) return 0f;
-        var diffBetweenLevel = _levelThresholds[CurrentLevel] - _levelThresholds[CurrentLevel - 1];
-        var ourPoint = CurrentScore - _levelThresholds[CurrentLevel - 1];
+        var diffBetweenLevel = LevelThresholds[CurrentLevel] - LevelThresholds[CurrentLevel - 1];
+        var ourPoint = CurrentScore - LevelThresholds[CurrentLevel - 1];
         var result = (float) ourPoint / diffBetweenLevel;
         return result;
     }
+    
     public void AddScore(int score)
     {
         CurrentScore += score;
 
         if (!_maxLevelReached)
         {
-            while (CurrentScore >= _levelThresholds[CurrentLevel])
+            while (CurrentScore >= LevelThresholds[CurrentLevel])
             {
-                _carActionSys.LevelUpped(_rewardPoints[CurrentLevel - 1]);
+                CarActionSys.LevelUpped(RewardPoints[CurrentLevel - 1]);
                 CurrentLevel += 1;
-                if (CurrentLevel == _levelThresholds.Count)
+                if (CurrentLevel == LevelThresholds.Count)
                 {
                     _maxLevelReached = true;
-                    _carActionSys.MaxLevelReached();
+                    CarActionSys.MaxLevelReached();
                     break;
                 }
             }
         }
-        
-        _leaderBoardSystem.SetScore(_playerName,CurrentScore);
     }
 }
