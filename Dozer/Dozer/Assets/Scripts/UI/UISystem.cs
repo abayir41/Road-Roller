@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,7 +53,6 @@ public class UISystem : MonoBehaviour
     [SerializeField] private GameObject killsObj;
     [SerializeField] private GameObject levelSliderObj;
     [SerializeField] private GameObject leaderBoardObj;
-    [SerializeField] private GameObject fourthPartOfLeaderObj;
     private RectTransform _timerPlayerRect;
     private RectTransform _killsRect;
     private RectTransform _levelSliderRect;
@@ -61,11 +60,30 @@ public class UISystem : MonoBehaviour
     private RectTransform _leaderBoardRect;
     private Slider _levelSlider;
     
+    [Header("Leaderboard Elements")]
+    [SerializeField] private GameObject fourthPartOfLeaderObj;
+    [SerializeField] private GameObject firstPartOfLeaderObj;
+    [SerializeField] private GameObject secondPartOfLeaderObj;
+    [SerializeField] private GameObject thirdPartOfLeaderObj;
+    private TextMeshProUGUI _firstText;
+    private TextMeshProUGUI _secondText;
+    private TextMeshProUGUI _thirdText;
+    private TextMeshProUGUI _fourthText;
+
+    [Header("In Game Left Panel")] 
+    [SerializeField] private TextMeshProUGUI timePlayerText;
+    [SerializeField] private TextMeshProUGUI killText; 
+    
+    
     private void Awake()
     {
         if(Instance == null)
             Instance = this;
 
+        _firstText = firstPartOfLeaderObj.GetComponentInChildren<TextMeshProUGUI>();
+        _secondText = secondPartOfLeaderObj.GetComponentInChildren<TextMeshProUGUI>();
+        _thirdText = thirdPartOfLeaderObj.GetComponentInChildren<TextMeshProUGUI>();
+        _fourthText = fourthPartOfLeaderObj.GetComponentInChildren<TextMeshProUGUI>();
 
         _timerPlayerRect = timerPlayerObj.GetComponent<RectTransform>();
         _killsRect = killsObj.GetComponent<RectTransform>();
@@ -127,6 +145,13 @@ public class UISystem : MonoBehaviour
 
     private void Update()
     {
+        if(GameController.Instance.Status != GameStatus.Playing) return;
+
+        UpdateLeaderboard();
+        UpdateTimeOrPlayerCount();
+        UpdateKillCount();
+        
+        
         if (Input.GetKeyDown(KeyCode.A))
         {
             DisappearsWaitingMenuItems(animationDuration, () => waitingMenuUI.SetActive(false));
@@ -430,6 +455,115 @@ public class UISystem : MonoBehaviour
                 ActionSys.GameStatusChanged?.Invoke(GameStatus.Playing);
             });
         });
+    }
+
+    #endregion
+
+    #region GameDynamics
+
+    private void UpdateLeaderboard()
+    {
+        var stat = new List<Player>();
+        switch (GameController.Instance.Mode)
+        {
+            case GameMode.TimeCounting:
+                stat = LeaderboardsAbstract.Instance.GetLeaderBoard(3, true);
+                break;
+            case GameMode.BeTheLast:
+                stat = LeaderboardsAbstract.Instance.GetLeaderBoard(3);
+                break;
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            switch (i)
+            {
+                case 0:
+                    if (stat.Count < 1)
+                    {
+                        firstPartOfLeaderObj.SetActive(false);
+                    }
+                    else
+                    {
+                        _firstText.text = "1-" + stat[0].Name;
+                        _firstText.color = stat[0].PlayerColor;
+                    }
+                    break;
+                case 1:
+                    if (stat.Count < 2)
+                    {
+                        secondPartOfLeaderObj.SetActive(false);
+                    }
+                    else
+                    {
+                        _secondText.text = "2-" + stat[1].Name;
+                        _secondText.color = stat[1].PlayerColor;
+                    }
+                    break;
+                case 2:
+                    if (stat.Count < 3)
+                    {
+                        thirdPartOfLeaderObj.SetActive(false);
+                    }
+                    else
+                    {
+                        _thirdText.text = "3-" + stat[2].Name;
+                        _thirdText.color = stat[2].PlayerColor;
+                    }
+                    break;
+                case 3:
+                    if(stat.All(player => player.Name != "You"))
+                    {
+                        fourthPartOfLeaderObj.SetActive(true);
+                        var player = LeaderboardsAbstract.Instance.GetPlayerByName("You");
+            
+                        switch (GameController.Instance.Mode)
+                        {
+                            case GameMode.TimeCounting:
+                                _fourthText.text = LeaderboardsAbstract.Instance.GetPlayerRank(player, true) + "-" + player.Name;
+                                break;
+                            case GameMode.BeTheLast:
+                                _fourthText.text = LeaderboardsAbstract.Instance.GetPlayerRank(player) + "-" + player.Name;
+                                break;
+                        }
+            
+                        _fourthText.text = LeaderboardsAbstract.Instance.GetPlayerRank(player, true) + "-" + player.Name;
+                        _fourthText.color = player.PlayerColor;
+                    }
+                    else
+                    {
+                        fourthPartOfLeaderObj.SetActive(false);   
+                    }
+                    break;
+            }
+        }
+    }
+
+    void UpdateTimeOrPlayerCount()
+    {
+        switch (GameController.Instance.Mode)
+        {
+            case GameMode.TimeCounting:
+                timePlayerText.text = MinuteAndSecondConverter(GameController.Instance.TimeLeft);
+                break;
+            case GameMode.BeTheLast:
+                timePlayerText.text = "Player: " + LeaderboardsAbstract.Instance.AlivePlayerCount;
+                break;
+        }
+    }
+
+    void UpdateKillCount()
+    {
+        killText.text = "Kills: " + PlayerController.Player.PlayerProperty.KillCount;
+    }
+
+    #endregion
+
+    #region Utilities
+
+    private static string MinuteAndSecondConverter(int seconds)
+    {
+        return seconds % 60 >= 10 ? seconds / 60 + ":" + seconds % 60 : seconds / 60 + ":0" + seconds % 60;
     }
 
     #endregion
