@@ -50,9 +50,7 @@ public class GameController : MonoBehaviour
     private static int MaxGrowPoint => PlayerController.Player.MaxGrow;
     public int StartScore => config.StartScore;
     
-    //LeaderBoardSystem
-    
-    
+    //Market System
     public List<SkinScriptable> AllSkins => MarketSystem.Instance.DozerSkins;
 
     [Header("Game Settings")] 
@@ -121,7 +119,6 @@ public class GameController : MonoBehaviour
             AlphaChanger(_fadedHouse,0.3f);
         }
         
-        LeaderboardsAbstract.Instance.GetLeaderBoardString();
     }
 
     #region Subscription
@@ -328,7 +325,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    void RegisterTheDozer(GameObject dozer, string playerName)
+    private void RegisterTheDozer(GameObject dozer, string playerName)
     {
         var player = new Player(playerName, StartScore, LeaderboardsAbstract.Instance.GetRandomColor());
         dozer.GetComponent<PlayerController>().PlayerProperty = player;
@@ -336,14 +333,14 @@ public class GameController : MonoBehaviour
         LeaderboardsAbstract.Instance.AddPlayer(playerName, player);
     }
 
-    void SetDozerFollowers()
+    private void SetDozerFollowers()
     {
         var dozerFollowers = GameObject.Find("Dozer_Followers");
         for (var j = 0; j < dozerFollowers.transform.childCount; j++)
             _dozerFollowers.Add(dozerFollowers.transform.GetChild(j));
     }
 
-    void SetTheCamera()
+    private void SetTheCamera()
     {
         var cameraPoint = GameObject.Find("Camera Point");
         _cameraTrans.position = cameraPoint.transform.position;
