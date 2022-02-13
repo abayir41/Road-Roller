@@ -22,6 +22,5 @@ public class GameInitializer : MonoBehaviour
         
         var ranInt = Random.Range(0, maps.Count);
         Instantiate(maps[ranInt]);
-        Destroy(this);
     }
 }
