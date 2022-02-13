@@ -1,66 +1,49 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class LeaderboardsAbstract : MonoBehaviour
 {
-    protected Dictionary<string, int> PlayerAndScoreDictionary;
-    protected abstract Action<string, int> ScoreChanged { get; set;} 
-    
-    
+    protected Dictionary<string, Player> PlayerAndScoreDictionary;
+
+    public static LeaderBoardSystem Instance;  
+
     protected virtual void Awake()
     {
-        PlayerAndScoreDictionary = new Dictionary<string, int>();
+        PlayerAndScoreDictionary = new Dictionary<string, Player>();
     }
+    
+    public int TotalPlayerCount => PlayerAndScoreDictionary.Count;
 
-    private void OnEnable()
+    public int AlivePlayerCount => PlayerAndScoreDictionary.Count(pair => !pair.Value.IsDead);
+
+    public void AddPlayer(string playerName, Player player)
     {
-        ScoreChanged += AddScore;
+        PlayerAndScoreDictionary.Add(playerName, player);    
     }
-
-    private void OnDisable()
-    {
-        ScoreChanged -= AddScore;
-    }
-
-    public void SetScore(string player, int score)
-    {
-        if (PlayerAndScoreDictionary.ContainsKey(player))
-        {
-            PlayerAndScoreDictionary[player] = score;
-        }
-        else
-        {
-            PlayerAndScoreDictionary.Add(player,score);
-        }
-    }
-    public void AddScore(string player, int score)
-    {
-        if (PlayerAndScoreDictionary.ContainsKey(player))
-        {
-            PlayerAndScoreDictionary[player] += score;
-        }
-        else
-        {
-            PlayerAndScoreDictionary.Add(player,score);
-        }
-    }
-
-    public int PlayerCount => PlayerAndScoreDictionary.Count;
-
+    
     public void RemovePlayer(string playerName)
     {
         PlayerAndScoreDictionary.Remove(playerName);
     }
 
-    public int GetPlayerRank(string player)
+    public int GetPlayerRank(string player, bool addDeadPlayers = false)
     {
-        return GetLeaderBoard().IndexOf(player) + 1;
+        return GetLeaderBoard(addDeadPlayers).IndexOf(player) + 1;
     }
-    
-    public abstract List<string> GetLeaderBoard();
-    public abstract List<string> GetLeaderBoard(int playerCount);
+
+    public void GetLeaderBoardString()
+    {
+        foreach (var player in GetLeaderBoard())
+        {
+            Debug.Log(player);
+        }
+    }
+
+    public abstract List<string> GetLeaderBoard(bool addDeadPlayers = false);
+    public abstract List<string> GetLeaderBoard(int playerCount, bool addDeadPlayers = false);
     
 }
 
