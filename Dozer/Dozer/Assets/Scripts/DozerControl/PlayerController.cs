@@ -1,22 +1,21 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Player;
-    
-    public CarActionSys ActionSysCar => _actionSysCar;
-    private CarActionSys _actionSysCar;
-    
+
+    public Player PlayerProperty { get; set; }
+    public string PlayerName => PlayerProperty.Name;
+    public CarActionSys ActionSysCar { get; private set; }
+
     public bool IsAI => isAI;
     [SerializeField] private bool isAI = true;
     
     public int MaxGrow => maxGrow;
     [SerializeField] private int maxGrow;
-
-    public string PlayerName { get; private set; }
-
 
     private ScoreSystem _scoreSystem;
     public int Score => _scoreSystem.CurrentScore;
@@ -43,20 +42,14 @@ public class PlayerController : MonoBehaviour
         {
             Player = this;
         }
-        _actionSysCar = new CarActionSys();
+        ActionSysCar = new CarActionSys();
         
         GetComponent<CarSystem>().enabled = true;
     }
 
     private void Start()
     {
-        PlayerName = isAI ? GameController.Instance.LeaderBoard.GetRandomName() : "You";
-        _scoreSystem = new ScoreSystem(ActionSysCar,
-            GameController.Instance.LevelThreshold, 
-            GameController.Instance.RewardPoints,
-            GameController.Instance.StartScore,
-            GameController.Instance.LeaderBoard,
-            PlayerName);
+        _scoreSystem = new ScoreSystem(ActionSysCar, GameController.Instance.LevelThreshold, GameController.Instance.RewardPoints, PlayerProperty);
     }
 
 
@@ -82,7 +75,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameController.Instance.LeaderBoard.RemovePlayer(PlayerName);
+        PlayerProperty.IsDead = true;
     }
 }
 
