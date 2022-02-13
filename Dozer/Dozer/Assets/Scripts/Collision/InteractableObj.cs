@@ -13,7 +13,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
     {
         get
         {
-            if (_isDozer)
+            if (IsDozer)
             {
                 return _dozerPlayerController.Score;
             }
@@ -27,7 +27,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
     {
         get
         {
-            if (_isDozer)
+            if (IsDozer)
             {
                 return _dozerPlayerController.Score;
             }
@@ -41,7 +41,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
     {
         get
         {
-            if (_isDozer)
+            if (IsDozer)
             {
                 return 0;
             }
@@ -78,7 +78,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
     }
     
     //Dozer Check
-    private bool _isDozer;
+    public bool IsDozer { get; set; }
     private PlayerController _dozerPlayerController;
     
     public Vector3 ColliderPosition => GetComponent<Collider>().bounds.center;
@@ -105,7 +105,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
     {
         if (GetComponent<PlayerController>() != null)
         {
-            _isDozer = true;
+            IsDozer = true;
             _dozerPlayerController = GetComponent<PlayerController>();
         }
     }
