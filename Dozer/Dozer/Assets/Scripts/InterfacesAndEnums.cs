@@ -74,6 +74,19 @@ public interface IRegisterSystem
     string GetDataAsString(string key);
 }
 
+public interface IInteractable
+{
+    ObjectType ObjectType { get; }
+    
+    int DestroyThreshold { get; }
+    
+    int ObjectHitPoint { get; }
+    
+    void Interact(PlayerController playerController);
+    
+    bool IsDozer { get; }
+}
+
 #endregion
 
 #region MiniClasses
@@ -81,7 +94,7 @@ public class Player
 {
     public string Name { get; }
     public int Score { get; set; }
-    
+    public int KillCount { get; set; }
     public Color PlayerColor { get; }
     public int Level { get; set; }
     public bool IsDead { get; set; }
