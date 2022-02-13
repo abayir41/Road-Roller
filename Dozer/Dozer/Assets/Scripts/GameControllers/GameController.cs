@@ -2,9 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
 
 
@@ -14,6 +12,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private Config config;
 
     public GameStatus Status { get; private set; }
+    public GameMode Mode { get; private set; }
 
     //Dozer Movement and process 
     [Header("Dozer Settings")]
@@ -46,21 +45,27 @@ public class GameController : MonoBehaviour
     public List<int> ObjectDestroyWait => config.ObjectDestroyWait;
     
     //ScoreSystem
-    private ScoreSystem _scoreSystem;
     public List<int> LevelThreshold => config.LevelThresholds;
     public List<int> RewardPoints => config.RewardPoints;
-    private static int MaxCrashPoint => PlayerController.Player.MaxGrow;
+    private static int MaxGrowPoint => PlayerController.Player.MaxGrow;
     public int StartScore => config.StartScore;
     
     //LeaderBoardSystem
-    public LeaderBoardSystem LeaderBoard { get; private set; }
+    
     
     public List<SkinScriptable> AllSkins => MarketSystem.Instance.DozerSkins;
 
     [Header("Game Settings")] 
     [SerializeField] private int playerCount;
     [SerializeField] private List<Transform> spawnPoints;
+    public List<Player> Players { get; set; }
     
+    
+    //GameMode Settings
+    public int TimeLeft => config.MatchTimeAsSecond - (int) _timer;
+    private float _timer;
+
+
     private void Awake()
     {
         
@@ -69,12 +74,12 @@ public class GameController : MonoBehaviour
  
         RandomlyChangedMaterialsListAndColours = new Dictionary<IColorChanger, Dictionary<int, Color>>();
         _dozerFollowers = new List<Transform>();
-        
+        Players = new List<Player>();
+
         //Caching
         if (!(Camera.main is null)) _cameraGameObject = Camera.main.gameObject;
         _cameraTrans = _cameraGameObject.transform;
         _camera = _cameraGameObject.GetComponent<Camera>();
-        LeaderBoard = GetComponent<LeaderBoardSystem>();
 
         if (RegisterSystem.Instance.GetDataAsString(MarketSystem.SelectedSkin) == "") 
             RegisterSystem.Instance.SaveData(MarketSystem.SelectedSkin,config.BaseSkinID);
@@ -88,9 +93,20 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        if(LeaderBoard.PlayerCount == 1) 
-            ActionSys.GameStatusChanged?.Invoke(GameStatus.Ended);
+        
         if(Status != GameStatus.Playing) return;
+     
+        if (Mode == GameMode.TimeCounting)
+        {
+            _timer += Time.deltaTime;
+        }
+        else if (Mode == GameMode.BeTheLast)
+        {
+            
+        }
+        
+        if(LeaderboardsAbstract.Instance.TotalPlayerCount == 1) 
+            ActionSys.GameStatusChanged?.Invoke(GameStatus.Ended);
         
         
         var dozerTransPosition = _dozerTrans.position;
@@ -104,14 +120,19 @@ public class GameController : MonoBehaviour
             _houseTriggered = true;
             AlphaChanger(_fadedHouse,0.3f);
         }
+        
+        LeaderboardsAbstract.Instance.GetLeaderBoardString();
     }
-    
+
+    #region Subscription
+
     private void OnEnable()
     {
         ActionSys.ObjectGotHit += Interaction;
         ActionSys.LevelUpped += LevelUpped;
         ActionSys.MaxLevelReached += () => {Debug.Log("MaxLevelReached");};
         ActionSys.GameStatusChanged += GameStatusChanged;
+        ActionSys.GameModeChanged += GameModeChanged;
     }
     
     private void OnDisable()
@@ -119,7 +140,12 @@ public class GameController : MonoBehaviour
         ActionSys.ObjectGotHit -= Interaction;
         ActionSys.LevelUpped -= LevelUpped;
         ActionSys.GameStatusChanged -= GameStatusChanged;
+        ActionSys.GameModeChanged -= GameModeChanged;
     }
+
+    #endregion
+
+    #region Subs Methods
     
     private void GameStatusChanged(GameStatus status)
     {
@@ -135,23 +161,39 @@ public class GameController : MonoBehaviour
                 break;
             case GameStatus.Ended:
                 break;
-            default:
-                break;
         }
     }
 
     private void LevelUpped(int reward)
     {
-        if(PlayerController.Player.Score >= MaxCrashPoint) return;
+        if(PlayerController.Player.Score >= MaxGrowPoint) return;
         StartCoroutine(CameraDistanceIncrease(reward / 3f));
     }
     
     private void Interaction(IInteractable interactable)
     {
-        if(PlayerController.Player.Score >= MaxCrashPoint) return;
+        if(PlayerController.Player.Score >= MaxGrowPoint) return;
         StartCoroutine(CameraDistanceIncrease(interactable.ObjectHitPoint));
     }
     
+    private void GameModeChanged(GameMode mode)
+    {
+        Mode = mode;
+
+        switch (mode)
+        {
+            case GameMode.TimeCounting:
+                break;
+            case GameMode.BeTheLast:
+                break;
+        }
+    }
+
+
+    #endregion
+
+    #region Animations
+
     private IEnumerator CameraDistanceIncrease(float distance)
     {
         float timeElapsed = 0;
@@ -177,6 +219,10 @@ public class GameController : MonoBehaviour
         }
         
     }
+
+    #endregion
+    
+    #region Game Dynamic Methods
 
     private void AlphaChanger(GameObject obj,float alphaAmount)
     {
@@ -236,7 +282,11 @@ public class GameController : MonoBehaviour
 
     }
 
-    private void PrepareScene()
+    #endregion
+    
+    #region Scene Preparing
+
+        private void PrepareScene()
     {
         SpawnCars();
         
@@ -254,29 +304,52 @@ public class GameController : MonoBehaviour
             if (i == 0) //Spawning normal dozer and caching some variebles
             {
                 var normalDozer = Instantiate(playerDozer);
-                normalDozer.transform.position = spawnPoints[ranInt].position;
                 
-                _dozerTrans = normalDozer.transform;
+                RegisterTheDozer(normalDozer, "You");
+                SetDozerFollowers();
                 
-                var dozerFollowers = GameObject.Find("Dozer_Followers");
-                for (var j = 0; j < dozerFollowers.transform.childCount; j++)
-                    _dozerFollowers.Add(dozerFollowers.transform.GetChild(j));
-                
-                var cameraPoint = GameObject.Find("Camera Point");
-                _cameraTrans.position = cameraPoint.transform.position;
-                _cameraFarFromDozer = _cameraTrans.position - _dozerTrans.position;
-                _cameraTrans.LookAt(normalDozer.transform.position);
+                normalDozer.transform.position = spawnPoints[ranInt].position; //setting position
+                _dozerTrans = normalDozer.transform; //caching dozer transform
+
+                SetTheCamera();
                 
                 spawnPoints.Remove(spawnPoints[ranInt]);
             }
             else //Spawning AI 
             {
                 var dozerAI = Instantiate(aiDozer);
+                
+                RegisterTheDozer(dozerAI, LeaderboardsAbstract.Instance.GetRandomName());
+                
                 dozerAI.transform.position = spawnPoints[ranInt].position;
                 spawnPoints.Remove(spawnPoints[ranInt]);
             }
             
         }
+    }
+
+    void RegisterTheDozer(GameObject dozer, string playerName)
+    {
+        var player = new Player(playerName, StartScore, LeaderboardsAbstract.Instance.GetRandomColor());
+        dozer.GetComponent<PlayerController>().PlayerProperty = player;
+        Players.Add(player);
+        LeaderboardsAbstract.Instance.AddPlayer(playerName, player);
+    }
+
+    void SetDozerFollowers()
+    {
+        var dozerFollowers = GameObject.Find("Dozer_Followers");
+        for (var j = 0; j < dozerFollowers.transform.childCount; j++)
+            _dozerFollowers.Add(dozerFollowers.transform.GetChild(j));
+    }
+
+    void SetTheCamera()
+    {
+        var cameraPoint = GameObject.Find("Camera Point");
+        _cameraTrans.position = cameraPoint.transform.position;
+        var position = _dozerTrans.position;
+        _cameraFarFromDozer = _cameraTrans.position - position;
+        _cameraTrans.LookAt(position);
     }
 
     private void ActivateSkinSystem()
@@ -303,5 +376,8 @@ public class GameController : MonoBehaviour
             }
         }
     }
+
+    #endregion
+
 }
 

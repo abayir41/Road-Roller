@@ -18,6 +18,8 @@ public static class ActionSys //These are globally called
     public static Action<IPurchasableDozer> SkinPurchased;
 
     public static Action<GameStatus> GameStatusChanged;
+
+    public static Action<GameMode> GameModeChanged;
 }
 
 public class CarActionSys //These are dozer-based called
