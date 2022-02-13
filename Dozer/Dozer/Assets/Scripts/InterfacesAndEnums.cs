@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 #region Enums
 
@@ -10,6 +11,12 @@ public enum GameStatus
     Playing,
     Paused,
     Ended
+}
+
+public enum GameMode
+{
+    BeTheLast,
+    TimeCounting
 }
 
 public enum ObjectType
@@ -68,3 +75,25 @@ public interface IRegisterSystem
 }
 
 #endregion
+
+#region MiniClasses
+public class Player
+{
+    public string Name { get; }
+    public int Score { get; set; }
+    
+    public Color PlayerColor { get; }
+    public int Level { get; set; }
+    public bool IsDead { get; set; }
+
+    public Player(string name, int startScore, Color playerColor)
+    {
+        PlayerColor = playerColor;
+        Name = name;
+        Score = startScore;
+        Level = 1;
+        IsDead = false;
+    }
+}
+#endregion
+
