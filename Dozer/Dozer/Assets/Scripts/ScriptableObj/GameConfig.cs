@@ -6,8 +6,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-[CreateAssetMenu(fileName = "Config", menuName = "Config")]
-public class Config : ScriptableObject
+[CreateAssetMenu(fileName = "GameConfig", menuName = "GameConfig")]
+public class GameConfig : ScriptableObject
 {
     public string HouseTag => houseTag;
     [SerializeField] private string houseTag;
