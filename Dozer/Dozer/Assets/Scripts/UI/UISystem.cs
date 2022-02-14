@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +10,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
-public class UISystem : MonoBehaviour
+public class UISystem : MonoBehaviour, ISystem
 {
 
     public static UISystem Instance;
+
+    public bool SystemReady { get; set; }
 
     //UIs
     [SerializeField] private GameObject loadingUI;

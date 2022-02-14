@@ -87,6 +87,11 @@ public interface IInteractable
     bool IsDozer { get; }
 }
 
+public interface ISystem
+{
+    bool SystemReady { get; }
+}
+
 #endregion
 
 #region MiniClasses

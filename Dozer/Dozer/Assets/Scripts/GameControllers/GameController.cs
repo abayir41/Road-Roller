@@ -6,9 +6,10 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 
-public class GameController : MonoBehaviour
+public class GameController : MonoBehaviour, ISystem
 {
     public static GameController Instance;
+    public bool SystemReady { get; set; }
     [SerializeField] private Config config;
 
     public GameStatus Status { get; private set; }
@@ -87,6 +88,7 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         PrepareScene();
+        SystemReady = true;
         ActionSys.GameStatusChanged?.Invoke(GameStatus.WaitingOnMenu);
     }
 
@@ -128,7 +130,6 @@ public class GameController : MonoBehaviour
     {
         ActionSys.ObjectGotHit += Interaction;
         ActionSys.LevelUpped += LevelUpped;
-        ActionSys.MaxLevelReached += () => {Debug.Log("MaxLevelReached");};
         ActionSys.GameStatusChanged += GameStatusChanged;
         ActionSys.GameModeChanged += GameModeChanged;
     }
