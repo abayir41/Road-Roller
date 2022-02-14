@@ -2,32 +2,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using DG.Tweening;
-using DG.Tweening.Core;
-using DG.Tweening.Plugins.Options;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using Object = UnityEngine.Object;
+
 
 public class UISystem : MonoBehaviour, ISystem
 {
 
     public static UISystem Instance;
 
-    public bool SystemReady { get; set; }
+    public bool SystemReady { get; private set; }
+    public Behaviour System { get; private set; }
 
-    //UIs
-    [SerializeField] private GameObject loadingUI;
-    [SerializeField] private GameObject waitingMenuUI;
-    [SerializeField] private GameObject gameUI;
-    [SerializeField] private GameObject pauseUI;
-    [SerializeField] private GameObject endUI;
-    
     [SerializeField] private float animationDuration = 0.2f;
+
+    private Action<float, Action> _disappearsCurrentUI;
+
+    [Header("Loading Items")] 
+    [SerializeField] private GameObject loadingScreenParent;
+    [SerializeField] private GameObject loadingBackground;
+    [SerializeField] private GameObject loadingText;
+    private Image _loadingBackgroundImage;
+    private TextMeshProUGUI _loadingTextMeshProUGUI;
     
     [Header("Waiting Menu Settings")] 
+    [SerializeField] private GameObject waitingMenuUI;
     [SerializeField] private GameObject clickToPlayButton;
     private TextMeshProUGUI _clickToPlayText;
     [SerializeField] private List<GameObject> waitingMenuUIObjects;
@@ -52,6 +54,7 @@ public class UISystem : MonoBehaviour, ISystem
     private RectTransform _settingsPanel;
 
     [Header("In Game Settings")] 
+    [SerializeField] private GameObject gameUI;
     [SerializeField] private GameObject timerPlayerObj;
     [SerializeField] private GameObject killsObj;
     [SerializeField] private GameObject levelSliderObj;
@@ -109,6 +112,10 @@ public class UISystem : MonoBehaviour, ISystem
     private List<RectTransform> _needToContinueRectTransforms;
     private List<float> _needToContinueRectOriginalYPositions;
 
+    [Header("Skin Unlock")] 
+    [SerializeField] private SkinUnlockUI skinUnlockUI;
+    private int _totalScore;
+    
     [Header("End Leaderboard Items")] 
     [SerializeField] private GameObject timeOutOrPlayerCount;
     [SerializeField] private List<GameObject> leaderBoardObjects;
@@ -123,6 +130,11 @@ public class UISystem : MonoBehaviour, ISystem
         if(Instance == null)
             Instance = this;
 
+        System = this;
+
+        _loadingBackgroundImage = loadingBackground.GetComponent<Image>();
+        _loadingTextMeshProUGUI = loadingText.GetComponent<TextMeshProUGUI>();
+        
         _pauseBackground = pauseBackGround.GetComponent<Image>();
         _pauseAlphaAmountBackground = _pauseBackground.color.a;
         _pauseRectTransforms = pauseItems.Select(objects => objects.GetComponent<RectTransform>()).ToList();
@@ -158,7 +170,7 @@ public class UISystem : MonoBehaviour, ISystem
         
         _skinSelectMenuRect = skinSelectMenu.GetComponent<RectTransform>();
         
-        _clickToPlayText = clickToPlayButton.GetComponent<TextMeshProUGUI>();
+        _clickToPlayText = clickToPlayButton.GetComponentInChildren<TextMeshProUGUI>();
         _waitingMenuUIObjectsRectTransforms =
             waitingMenuUIObjects.ConvertAll(objects => objects.GetComponent<RectTransform>());
         _waitingMenuOriginalXPositions = _waitingMenuUIObjectsRectTransforms.ConvertAll(objects => objects.position.x);
@@ -174,7 +186,14 @@ public class UISystem : MonoBehaviour, ISystem
         DisappearsSkinSelectMenu(0);
         DisappearsNeedToContinueItems(0);
         DisappearsPauseItems(0);
-        DisappearsWaitingMenuItems(0, () => SystemReady = true);
+        DisappearsWaitingMenuItems(0, () =>
+        {
+            if (GameController.Status == GameStatus.Loading)
+            {
+                GetLoadingScreen(0);
+            }
+            SystemReady = true;
+        });
         
         ActionSys.GameModeChanged?.Invoke(GameMode.BeTheLast);
     }
@@ -216,10 +235,10 @@ public class UISystem : MonoBehaviour, ISystem
 
     private void Update()
     {
-        if(!GameInitializer.GameControllerReady) return;
+        if(!GameInitializer.MapControllerReady) return;
 
         #region Playing
-        if (GameController.Instance.Status == GameStatus.Playing)
+        if (GameController.Status == GameStatus.Playing)
         {
             UpdateTimeOrPlayerCount();
             UpdateKillCount();
@@ -227,52 +246,6 @@ public class UISystem : MonoBehaviour, ISystem
             UpdateNextLevelImages();
         }
         #endregion
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            DisappearsWaitingMenuItems(animationDuration, () =>
-            {
-                waitingMenuUI.SetActive(false);
-                GetInGameUI(animationDuration);
-            });   
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            DisappearsInGameUI(animationDuration, () =>
-            {
-                gameUI.SetActive(false);
-                GetNeedToContinueItems(animationDuration);
-            });
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            DisappearsNeedToContinueItems(animationDuration, () =>
-            {
-                needToContinueParent.SetActive(false);
-                GetInGameUI(animationDuration);
-            });
-        }
-
-        if (Input.GetKey(KeyCode.F))
-        {
-            DisappearsInGameUI(animationDuration, () =>
-            {
-                gameUI.SetActive(false);
-                GetPauseItems(animationDuration);
-            });
-        }
-        
-        if (Input.GetKey(KeyCode.G))
-        {
-            DisappearsPauseItems(animationDuration, () =>
-            {
-                pauseParent.SetActive(false);
-                GetInGameUI(animationDuration);
-            });
-        }
-        
     }
 
     
@@ -287,7 +260,7 @@ public class UISystem : MonoBehaviour, ISystem
                 Loading();
                 break;
             case GameStatus.WaitingOnMenu:
-                WaitingMenu();
+                OpenWaitingMenu();
                 break;
             case GameStatus.Playing:
                 PlayingUI();
@@ -298,78 +271,55 @@ public class UISystem : MonoBehaviour, ISystem
             case GameStatus.Ended:
                 EndUI();
                 break;
-            default:
-                break;
         }
         
     }
     
-    private void Loading()
+    private void Loading(Action callback = null)
     {
-        DisableAllUI(loadingUI);
-    }
-
-    private void WaitingMenu()
-    {
-        GetWaitingMenuItems(0, () =>
+        _disappearsCurrentUI?.Invoke(animationDuration, () =>
         {
-            DisableAllUI(waitingMenuUI);
+            GetLoadingScreen(0, () => callback?.Invoke());
         });
     }
 
-    private void PlayingUI()
+    public void OpenWaitingMenu(Action callback = null)
     {
+        _disappearsCurrentUI?.Invoke(animationDuration, () =>
+        {
+            GetWaitingMenuItems(animationDuration, () => callback?.Invoke());
+        });
+    }
 
-        DisableAllUI(gameUI);
-        
+    private void PlayingUI(Action callback = null)
+    {
         UpdateLeaderboard();
         UpdateKillCount();
         UpdateTimeOrPlayerCount();
         UpdateNextLevelImages();
         
-        
+        _disappearsCurrentUI?.Invoke(animationDuration, () =>
+        {
+            GetInGameUI(animationDuration, () => callback?.Invoke());
+        });
     }
 
-    private void Paused()
+    private void Paused(Action callback = null)
     {
-        DisableAllUI(pauseUI);
+        _disappearsCurrentUI?.Invoke(animationDuration, () =>
+        {
+            GetPauseItems(animationDuration, () => callback?.Invoke());
+        });
     }
 
-    private void EndUI()
+
+    private void EndUI(Action callback = null)
     {
-        DisableAllUI(endUI);
+        _disappearsCurrentUI?.Invoke(animationDuration, (() =>
+        {
+            
+        }));
     }
-
-    private void DisableAllUI(Object except)
-    {
-        loadingUI.SetActive(false);
-        waitingMenuUI.SetActive(false);
-        gameUI.SetActive(false);
-        pauseUI.SetActive(false);
-        endUI.SetActive(false);
-        
-        if (except.Equals(loadingUI))
-        {
-            loadingUI.SetActive(true);
-        }
-        else if (except.Equals(waitingMenuUI))
-        {
-            waitingMenuUI.SetActive(true);
-        }
-        else if (except.Equals(gameUI))
-        {
-            gameUI.SetActive(true);
-        }
-        else if (except.Equals(pauseUI))
-        {
-            pauseUI.SetActive(true);
-        }
-        else if (except.Equals(endUI))
-        {
-            endUI.SetActive(true);
-        }
-    }
-
     #endregion
     
     #region Animations
@@ -395,9 +345,25 @@ public class UISystem : MonoBehaviour, ISystem
             yield return null;
         }
     }
+
+    private void GetLoadingScreen(float duration, Action callback = null)
+    {
+        _disappearsCurrentUI = DisappearsLoadingScreen;
+        loadingScreenParent.SetActive(true);
+        _loadingBackgroundImage.DOFade(1, duration);
+        _loadingTextMeshProUGUI.DOFade(1, duration).OnKill(() => callback?.Invoke());
+    }
+
+    private void DisappearsLoadingScreen(float duration, Action callback = null)
+    {
+        callback += () => loadingScreenParent.SetActive(false);
+        _loadingBackgroundImage.DOFade(0, duration);
+        _loadingTextMeshProUGUI.DOFade(0, duration).OnKill(() => callback?.Invoke());
+    }
     
     private void GetWaitingMenuItems(float duration, Action callback = null)
     {
+        _disappearsCurrentUI = DisappearsWaitingMenuItems;
         waitingMenuUI.SetActive(true);
 
         _clickToPlayText.DOFade(1, duration).OnKill((() =>
@@ -420,6 +386,7 @@ public class UISystem : MonoBehaviour, ISystem
 
     private void DisappearsWaitingMenuItems(float duration , Action callback = null)
     {
+        callback += () => waitingMenuUI.SetActive(false);
         foreach (var waitingMenuButton in waitingMenuButtons)
         {
             waitingMenuButton.interactable = false;
@@ -439,6 +406,7 @@ public class UISystem : MonoBehaviour, ISystem
 
     private void GetSkinSelectMenu(float duration, Action callback = null)
     {
+        _disappearsCurrentUI = DisappearsSkinSelectMenu;
         skinSelectMenuParent.SetActive(true);
         
         _skinSelectMenuRect.DOMoveY(0, duration).OnKill(() => callback?.Invoke());
@@ -447,11 +415,13 @@ public class UISystem : MonoBehaviour, ISystem
 
     private void DisappearsSkinSelectMenu(float duration, Action callback = null)
     {
+        callback += () => skinSelectMenuParent.SetActive(false);
         _skinSelectMenuRect.DOMoveY(-1 * _skinSelectMenuRect.rect.height, duration).OnKill(() => callback?.Invoke());
     }
 
     private void GetGameModesMenu(float duration, Action callback = null)
     {
+        _disappearsCurrentUI = DisappearsGameModesMenu;
         modeSelectMenuParent.SetActive(true);
         
         _modeSelectMenuRect.DOScaleY(1, duration).OnKill(() => callback?.Invoke());
@@ -459,11 +429,13 @@ public class UISystem : MonoBehaviour, ISystem
     
     private void DisappearsGameModesMenu(float duration, Action callback = null)
     {
+        callback += () => modeSelectMenuParent.SetActive(false);
         _modeSelectMenuRect.DOScaleY(0, duration).OnKill(() => callback?.Invoke());
     }
 
     private void GetSettingsPanel(float duration, Action callback = null)
     {
+        _disappearsCurrentUI = DisappearsSettingPanel;
         settingsPanelParent.SetActive(true);
 
         _settingsPanel.DOMoveY((float) Screen.height / 2, duration).SetEase(Ease.OutBack).OnKill(() => callback?.Invoke());
@@ -471,11 +443,13 @@ public class UISystem : MonoBehaviour, ISystem
 
     private void DisappearsSettingPanel(float duration, Action callback = null)
     {
+        callback += () => settingsPanelParent.SetActive(false);
         _settingsPanel.DOMoveY(-1 * _settingsPanel.rect.height / 2 * 5 / 4, duration).OnKill(() => callback?.Invoke());
     }
     
     private void GetInGameUI(float duration, Action callback = null)
     {
+        _disappearsCurrentUI = DisappearsInGameUI;
         gameUI.SetActive(true);
         
         _timerPlayerRect.DOMoveX(0, duration).SetEase(Ease.OutBack);
@@ -487,17 +461,19 @@ public class UISystem : MonoBehaviour, ISystem
     
     private void DisappearsInGameUI(float duration, Action callback = null)
     {
+        callback += () => gameUI.SetActive(false);
+        
         _timerPlayerRect.DOMoveX(-1 * _timerPlayerRect.rect.width, duration);
         _killsRect.DOMoveX(-1 * _killsRect.rect.width, duration);
         _levelSliderRect.DOMoveY(Screen.height + _levelSliderRect.rect.height * 5/3, duration);
         _destroyableObjectRect.DOMoveY(Screen.height + _destroyableObjectRect.rect.height * 4 / 3, duration);
         _leaderBoardRect.DOMoveX(Screen.width + _leaderBoardRect.rect.width, duration).OnKill(() => callback?.Invoke());
     }
-
     private void ShowEndText(float duration, Action callback = null)
     {
         endText.SetActive(true);
-        
+
+        callback += () => endText.SetActive(false);
         
         _endTextRectTransform.DOScaleX( 1.1f, duration);
         _endTextRectTransform.DOScaleY(1.1f, duration).OnKill(() =>
@@ -519,6 +495,7 @@ public class UISystem : MonoBehaviour, ISystem
     }
     private void GetNeedToContinueItems(float duration, Action callback = null)
     {
+        _disappearsCurrentUI = DisappearsNeedToContinueItems;
         needToContinueParent.SetActive(true);
         _needToContinueBackground.DOFade(_needToContinueAlphaAmountBackground, duration).OnKill((() => callback?.Invoke()));
         
@@ -530,6 +507,8 @@ public class UISystem : MonoBehaviour, ISystem
     }
     private void DisappearsNeedToContinueItems(float duration, Action callback = null)
     {
+        callback += () => needToContinueParent.SetActive(false);
+        
         _needToContinueBackground.DOFade(0, duration).OnKill((() => callback?.Invoke()));
         _needToContinueRectTransforms.ForEach(rectTransform =>
         {
@@ -539,6 +518,7 @@ public class UISystem : MonoBehaviour, ISystem
     
     private void GetPauseItems(float duration, Action callback = null)
     {
+        _disappearsCurrentUI = DisappearsPauseItems;
         pauseParent.SetActive(true);
         _pauseBackground.DOFade(_pauseAlphaAmountBackground, duration).OnKill((() => callback?.Invoke()));
         
@@ -550,6 +530,7 @@ public class UISystem : MonoBehaviour, ISystem
     }
     private void DisappearsPauseItems(float duration, Action callback = null)
     {
+        callback += () => pauseParent.SetActive(false);
         _pauseBackground.DOFade(0, duration).OnKill((() => callback?.Invoke()));
         _pauseRectTransforms.ForEach(rectTransform =>
         {
@@ -563,6 +544,30 @@ public class UISystem : MonoBehaviour, ISystem
 
     #region ButtonMethods
 
+    public void OpenGameModes()
+    {
+        _disappearsCurrentUI?.Invoke(animationDuration, () =>
+        {
+            GetGameModesMenu(animationDuration);
+        });
+    }
+
+    public void OpenSettings()
+    {
+        _disappearsCurrentUI?.Invoke(animationDuration, () =>
+        {
+            GetSettingsPanel(animationDuration);
+        });
+    }
+
+    public void OpenSkinMenu()
+    {
+        _disappearsCurrentUI?.Invoke(animationDuration, () =>
+        {
+            GetSkinSelectMenu(animationDuration);
+        });
+    }
+    
     public void GameModeChange(int modeIndex)
     {
         switch (modeIndex)
@@ -578,14 +583,10 @@ public class UISystem : MonoBehaviour, ISystem
 
     public void StartGame()
     {
-        DisappearsWaitingMenuItems(animationDuration, () =>
-        {
-            waitingMenuUI.SetActive(false);
-            GetInGameUI(animationDuration, () =>
-            {
-                ActionSys.GameStatusChanged?.Invoke(GameStatus.Playing);
-            });
-        });
+       _disappearsCurrentUI?.Invoke(animationDuration, () =>
+       {
+           ActionSys.GameStatusChanged?.Invoke(GameStatus.Playing);
+       });
     }
 
     #endregion
@@ -595,7 +596,7 @@ public class UISystem : MonoBehaviour, ISystem
     private void UpdateLeaderboard()
     {
         var stat = new List<Player>();
-        switch (GameController.Instance.Mode)
+        switch (GameController.Mode)
         {
             case GameMode.TimeCounting:
                 stat = LeaderboardsAbstract.Instance.GetLeaderBoard(3, true);
@@ -648,7 +649,7 @@ public class UISystem : MonoBehaviour, ISystem
                         fourthPartOfLeaderObj.SetActive(true);
                         var player = LeaderboardsAbstract.Instance.GetPlayerByName("You");
             
-                        switch (GameController.Instance.Mode)
+                        switch (GameController.Mode)
                         {
                             case GameMode.TimeCounting:
                                 _fourthText.text = LeaderboardsAbstract.Instance.GetPlayerRank(player, true) + "-" + player.Name;
@@ -672,10 +673,10 @@ public class UISystem : MonoBehaviour, ISystem
 
     private void UpdateTimeOrPlayerCount()
     {
-        switch (GameController.Instance.Mode)
+        switch (GameController.Mode)
         {
             case GameMode.TimeCounting:
-                timePlayerText.text = MinuteAndSecondConverter(GameController.Instance.TimeLeft);
+                timePlayerText.text = MinuteAndSecondConverter(MapController.Instance.TimeLeft);
                 break;
             case GameMode.BeTheLast:
                 timePlayerText.text = "Player: " + LeaderboardsAbstract.Instance.AlivePlayerCount;
@@ -693,15 +694,15 @@ public class UISystem : MonoBehaviour, ISystem
         var currentLevel = PlayerController.Player.Level;
         var nextLevel = currentLevel + 1;
 
-        if (GameController.Instance.RequiredLevels.Contains(currentLevel))
+        if (GameController.GameConfig.DestroyThresholdsFromLevels.Contains(currentLevel))
         {
-            var index = GameController.Instance.RequiredLevels.IndexOf(currentLevel);
+            var index = GameController.GameConfig.DestroyThresholdsFromLevels.IndexOf(currentLevel);
             destroyableObjectObjItems[index].SetActive(true);
         }
         
-        if (GameController.Instance.RequiredLevels.Contains(nextLevel))
+        if (GameController.GameConfig.DestroyThresholdsFromLevels.Contains(nextLevel))
         {
-            var index = GameController.Instance.RequiredLevels.IndexOf(nextLevel);
+            var index = GameController.GameConfig.DestroyThresholdsFromLevels.IndexOf(nextLevel);
             endOfSliderImage.sprite = newDestroyableObjectImages[index];
         }
         else
