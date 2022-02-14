@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,11 +52,14 @@ public class UISystem : MonoBehaviour
     [SerializeField] private GameObject timerPlayerObj;
     [SerializeField] private GameObject killsObj;
     [SerializeField] private GameObject levelSliderObj;
+    [SerializeField] private GameObject destroyableObjectObj;
     [SerializeField] private GameObject leaderBoardObj;
     private RectTransform _timerPlayerRect;
     private RectTransform _killsRect;
     private RectTransform _levelSliderRect;
     private float _levelSliderOriginalYPosition;
+    private RectTransform _destroyableObjectRect;
+    private float _destroyableObjectOriginalYPosition;
     private RectTransform _leaderBoardRect;
     private Slider _levelSlider;
     
@@ -72,8 +75,13 @@ public class UISystem : MonoBehaviour
 
     [Header("In Game Left Panel")] 
     [SerializeField] private TextMeshProUGUI timePlayerText;
-    [SerializeField] private TextMeshProUGUI killText; 
-    
+    [SerializeField] private TextMeshProUGUI killText;
+
+    [Header("Next Level Images")]
+    [SerializeField] private List<GameObject> destroyableObjectObjItems;
+    [SerializeField] private Image endOfSliderImage;
+    [SerializeField] private List<Sprite> newDestroyableObjectImages;
+    [SerializeField] private Sprite normalImage;
     
     private void Awake()
     {
@@ -88,6 +96,8 @@ public class UISystem : MonoBehaviour
         _timerPlayerRect = timerPlayerObj.GetComponent<RectTransform>();
         _killsRect = killsObj.GetComponent<RectTransform>();
         _levelSliderRect = levelSliderObj.GetComponent<RectTransform>();
+        _destroyableObjectRect = destroyableObjectObj.GetComponent<RectTransform>();
+        _destroyableObjectOriginalYPosition = _destroyableObjectRect.position.y;
         _leaderBoardRect = leaderBoardObj.GetComponent<RectTransform>();
         _levelSlider = levelSliderObj.GetComponent<Slider>();
         _levelSliderOriginalYPosition = _levelSliderRect.position.y;
@@ -111,6 +121,8 @@ public class UISystem : MonoBehaviour
         DisappearsSettingPanel(0);
         DisappearsGameModesMenu(0);
         DisappearsSkinSelectMenu(0);
+        
+        ActionSys.GameModeChanged?.Invoke(GameMode.BeTheLast);
     }
 
     #region Subscription
@@ -120,13 +132,17 @@ public class UISystem : MonoBehaviour
         ActionSys.ObjectGotHit += Interaction;
         ActionSys.LevelUpped += LevelUpped;
         ActionSys.GameStatusChanged += GameStatusChange;
+        ActionSys.MaxLevelReached += MaxLevelReached;
     }
-    
+
+
+
     private void OnDisable()
     {
         ActionSys.ObjectGotHit -= Interaction;
         ActionSys.LevelUpped -= LevelUpped;
         ActionSys.GameStatusChanged -= GameStatusChange;
+        ActionSys.MaxLevelReached -= MaxLevelReached;
     }
 
     private void Interaction(IInteractable obj)
@@ -137,6 +153,7 @@ public class UISystem : MonoBehaviour
     
     private void LevelUpped(int point)
     {
+        UpdateNextLevelImages();
         StartCoroutine(SlideAnim(-_levelSlider.value));
     }
     
@@ -146,11 +163,11 @@ public class UISystem : MonoBehaviour
     private void Update()
     {
         if(GameController.Instance.Status != GameStatus.Playing) return;
-
-        UpdateLeaderboard();
+        
         UpdateTimeOrPlayerCount();
         UpdateKillCount();
-        
+        UpdateLeaderboard();
+        UpdateNextLevelImages();
         
         if (Input.GetKeyDown(KeyCode.A))
         {
@@ -221,8 +238,7 @@ public class UISystem : MonoBehaviour
         
     }
 
-
-
+    
     #region GameStatusChange
 
     private void GameStatusChange(GameStatus status)
@@ -238,6 +254,10 @@ public class UISystem : MonoBehaviour
                 break;
             case GameStatus.Playing:
                 PlayingUI();
+                UpdateLeaderboard();
+                UpdateKillCount();
+                UpdateTimeOrPlayerCount();
+                UpdateNextLevelImages();
                 break;
             case GameStatus.Paused:
                 Paused();
@@ -417,6 +437,7 @@ public class UISystem : MonoBehaviour
         _timerPlayerRect.DOMoveX(0, duration).SetEase(Ease.OutBack);
         _killsRect.DOMoveX(0, duration).SetEase(Ease.OutBack);
         _levelSliderRect.DOMoveY(_levelSliderOriginalYPosition, duration).SetEase(Ease.OutBack);
+        _destroyableObjectRect.DOMoveY(_destroyableObjectOriginalYPosition, duration).SetEase(Ease.OutBack);
         _leaderBoardRect.DOMoveX(Screen.width, duration).SetEase(Ease.OutBack).OnKill(() => callback?.Invoke());
     }
     
@@ -425,6 +446,7 @@ public class UISystem : MonoBehaviour
         _timerPlayerRect.DOMoveX(-1 * _timerPlayerRect.rect.width, duration);
         _killsRect.DOMoveX(-1 * _killsRect.rect.width, duration);
         _levelSliderRect.DOMoveY(Screen.height + _levelSliderRect.rect.height * 5/3, duration);
+        _destroyableObjectRect.DOMoveY(Screen.height + _destroyableObjectRect.rect.height * 4 / 3, duration);
         _leaderBoardRect.DOMoveX(Screen.width + _leaderBoardRect.rect.width, duration).OnKill(() => callback?.Invoke());
     }
 
@@ -539,7 +561,7 @@ public class UISystem : MonoBehaviour
         }
     }
 
-    void UpdateTimeOrPlayerCount()
+    private void UpdateTimeOrPlayerCount()
     {
         switch (GameController.Instance.Mode)
         {
@@ -552,9 +574,37 @@ public class UISystem : MonoBehaviour
         }
     }
 
-    void UpdateKillCount()
+    private void UpdateKillCount()
     {
         killText.text = "Kills: " + PlayerController.Player.PlayerProperty.KillCount;
+    }
+
+    private void UpdateNextLevelImages()
+    {
+        var currentLevel = PlayerController.Player.Level;
+        var nextLevel = currentLevel + 1;
+
+        if (GameController.Instance.RequiredLevels.Contains(currentLevel))
+        {
+            var index = GameController.Instance.RequiredLevels.IndexOf(currentLevel);
+            destroyableObjectObjItems[index].SetActive(true);
+        }
+        
+        if (GameController.Instance.RequiredLevels.Contains(nextLevel))
+        {
+            var index = GameController.Instance.RequiredLevels.IndexOf(nextLevel);
+            endOfSliderImage.sprite = newDestroyableObjectImages[index];
+        }
+        else
+        {
+            endOfSliderImage.sprite = normalImage;
+        }
+    }
+
+    private void MaxLevelReached()
+    {
+        _destroyableObjectRect.DOMoveY(_levelSliderOriginalYPosition, animationDuration);
+        _levelSliderRect.DOMoveY(Screen.height + _levelSliderRect.rect.height * 5/3, animationDuration);
     }
 
     #endregion
