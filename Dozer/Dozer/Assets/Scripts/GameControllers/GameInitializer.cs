@@ -9,38 +9,35 @@ using Random = UnityEngine.Random;
 public class GameInitializer : MonoBehaviour
 {
 
-    public static bool GameControllerReady = false;
-    public static bool UISystemReady = false;
-    
+    public static bool MapControllerReady = false;
+
     [SerializeField] private List<GameObject> maps;
     private void Start()
     {
-        
-        StartCoroutine(WaitForSpecificSystemReady(UISystem.Instance, (() =>
-        {
-            UISystemReady = true;
-            LoadTheGame();        
-        })));
-    }
-    
-    void LoadTheGame()
-    {
         ActionSys.GameStatusChanged(GameStatus.Loading);
+        StartCoroutine(WaitForSpecificSystemReady(UISystem.Instance,LoadTheGame));
+    }
+
+    private void LoadTheGame()
+    {
+        
         var ranInt = Random.Range(0, maps.Count);
         Instantiate(maps[ranInt]);
-        StartCoroutine(WaitForSpecificSystemReady(GameController.Instance, () =>
+        StartCoroutine(WaitForSpecificSystemReady(MapController.Instance, () =>
         {
-            GameControllerReady = true;
+            MapControllerReady = true;
         }));
     }
     
+    
     private static IEnumerator WaitForSpecificSystemReady(ISystem system, Action callback = null)
     {
+        system.System.enabled = true;
+        
         while (!system.SystemReady)
         {
             yield return null;
         }
-        
         callback?.Invoke();
     }
 }

@@ -90,6 +90,8 @@ public interface IInteractable
 public interface ISystem
 {
     bool SystemReady { get; }
+
+    Behaviour System { get; }
 }
 
 #endregion
