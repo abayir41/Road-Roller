@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,13 +19,13 @@ public class Config : ScriptableObject
     [SerializeField] private string baseSkinID;
     
     public List<string> CollisionObjectFilter => collisionObjectFilter;
-    public List<int> DestroyThresholds => destroyThresholds;
+    public List<int> DestroyThresholdsFromLevels => destroyThresholdsFromLevelBase;
     public List<int> ObjectHitPoints => objectHitPoints;
     public List<int> ObjectDestroyWait => objectDestroyWait;
     
     [Header("Collision System")]
     [SerializeField] private List<string> collisionObjectFilter;
-    [SerializeField] private List<int> destroyThresholds;
+    [SerializeField] private List<int> destroyThresholdsFromLevelBase;
     [SerializeField] private List<int> objectHitPoints;
     [SerializeField] private List<int> objectDestroyWait;
     

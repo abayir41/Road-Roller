@@ -40,7 +40,8 @@ public class GameController : MonoBehaviour
     
     //Collision System
     public List<string> CollisionObjectFilter => config.CollisionObjectFilter;
-    public List<int> DestroyThresholds => config.DestroyThresholds;
+    public List<int> DestroyThresholds => RequiredLevels.ConvertAll(requiredLevel => LevelThreshold[requiredLevel - 1]);
+    public List<int> RequiredLevels => config.DestroyThresholdsFromLevels;
     public List<int> ObjectHitPoints => config.ObjectHitPoints;
     public List<int> ObjectDestroyWait => config.ObjectDestroyWait;
     
