@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
@@ -84,12 +85,59 @@ public class UISystem : MonoBehaviour, ISystem
     [SerializeField] private Image endOfSliderImage;
     [SerializeField] private List<Sprite> newDestroyableObjectImages;
     [SerializeField] private Sprite normalImage;
+
+    [Header("End Text")] 
+    [SerializeField] private GameObject endText;
+    private RectTransform _endTextRectTransform;
+    private TextMeshProUGUI _endTextMeshProUGUI;
     
+    [Header("Pause Items")]
+    [SerializeField] private GameObject pauseParent;
+    [SerializeField] private List<GameObject> pauseItems;
+    [SerializeField] private GameObject pauseBackGround;
+    private float _pauseAlphaAmountBackground;
+    private Image _pauseBackground;
+    private List<RectTransform> _pauseRectTransforms;
+    private List<float> _pauseRectOriginalYPositions;
+
+    [Header("Need to Continue")] 
+    [SerializeField] private GameObject needToContinueParent;
+    [SerializeField] private List<GameObject> needToContinueItems;
+    [SerializeField] private GameObject needToContinueBackGround;
+    private float _needToContinueAlphaAmountBackground;
+    private Image _needToContinueBackground;
+    private List<RectTransform> _needToContinueRectTransforms;
+    private List<float> _needToContinueRectOriginalYPositions;
+
+    [Header("End Leaderboard Items")] 
+    [SerializeField] private GameObject timeOutOrPlayerCount;
+    [SerializeField] private List<GameObject> leaderBoardObjects;
+    [SerializeField] private GameObject rewardButtonObject;
+    [SerializeField] private GameObject clickToContinueObject;
+    private List<Image> _colorsOfLeaderboardObject;
+    private List<Color> _colorsOfTextMeshPros;
+
+
     private void Awake()
     {
         if(Instance == null)
             Instance = this;
 
+        _pauseBackground = pauseBackGround.GetComponent<Image>();
+        _pauseAlphaAmountBackground = _pauseBackground.color.a;
+        _pauseRectTransforms = pauseItems.Select(objects => objects.GetComponent<RectTransform>()).ToList();
+        _pauseRectOriginalYPositions = _pauseRectTransforms.Select(rectTransform => rectTransform.position.y).ToList();
+        
+        _needToContinueBackground = needToContinueBackGround.GetComponent<Image>();
+        _needToContinueAlphaAmountBackground = _needToContinueBackground.color.a;
+        _needToContinueRectTransforms =
+            needToContinueItems.Select(objects => objects.GetComponent<RectTransform>()).ToList();
+        _needToContinueRectOriginalYPositions =
+            _needToContinueRectTransforms.Select(rectTransform => rectTransform.position.y).ToList();
+        
+        _endTextRectTransform = endText.transform.GetChild(0).GetComponent<RectTransform>();
+        _endTextMeshProUGUI = endText.GetComponentInChildren<TextMeshProUGUI>();
+        
         _firstText = firstPartOfLeaderObj.GetComponentInChildren<TextMeshProUGUI>();
         _secondText = secondPartOfLeaderObj.GetComponentInChildren<TextMeshProUGUI>();
         _thirdText = thirdPartOfLeaderObj.GetComponentInChildren<TextMeshProUGUI>();
@@ -111,7 +159,8 @@ public class UISystem : MonoBehaviour, ISystem
         _skinSelectMenuRect = skinSelectMenu.GetComponent<RectTransform>();
         
         _clickToPlayText = clickToPlayButton.GetComponent<TextMeshProUGUI>();
-        _waitingMenuUIObjectsRectTransforms = waitingMenuUIObjects.ConvertAll(objects => objects.GetComponent<RectTransform>());
+        _waitingMenuUIObjectsRectTransforms =
+            waitingMenuUIObjects.ConvertAll(objects => objects.GetComponent<RectTransform>());
         _waitingMenuOriginalXPositions = _waitingMenuUIObjectsRectTransforms.ConvertAll(objects => objects.position.x);
     }
 
@@ -123,6 +172,9 @@ public class UISystem : MonoBehaviour, ISystem
         DisappearsSettingPanel(0);
         DisappearsGameModesMenu(0);
         DisappearsSkinSelectMenu(0);
+        DisappearsNeedToContinueItems(0);
+        DisappearsPauseItems(0);
+        DisappearsWaitingMenuItems(0, () => SystemReady = true);
         
         ActionSys.GameModeChanged?.Invoke(GameMode.BeTheLast);
     }
@@ -164,77 +216,60 @@ public class UISystem : MonoBehaviour, ISystem
 
     private void Update()
     {
-        if(GameController.Instance.Status != GameStatus.Playing) return;
-        
-        UpdateTimeOrPlayerCount();
-        UpdateKillCount();
-        UpdateLeaderboard();
-        UpdateNextLevelImages();
-        
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            DisappearsWaitingMenuItems(animationDuration, () => waitingMenuUI.SetActive(false));
-            GetSkinSelectMenu(animationDuration);
-        }
+        if(!GameInitializer.GameControllerReady) return;
 
-        if (Input.GetKeyDown(KeyCode.D))
+        #region Playing
+        if (GameController.Instance.Status == GameStatus.Playing)
         {
-            DisappearsSkinSelectMenu(animationDuration, () => skinSelectMenuParent.SetActive(false));
-            GetWaitingMenuItems(animationDuration);
+            UpdateTimeOrPlayerCount();
+            UpdateKillCount();
+            UpdateLeaderboard();
+            UpdateNextLevelImages();
         }
-        
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            DisappearsWaitingMenuItems(animationDuration, () =>
-            {
-                waitingMenuUI.SetActive(false);
-                GetGameModesMenu(animationDuration / 2);
-            });
-        }
+        #endregion
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            DisappearsGameModesMenu(animationDuration / 2, () =>
-            {
-                modeSelectMenuParent.SetActive(false);
-                GetWaitingMenuItems(animationDuration);
-            });
-            
-        }
-        
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            DisappearsWaitingMenuItems(animationDuration, () =>
-            {
-                waitingMenuUI.SetActive(false);
-                GetSettingsPanel(animationDuration);
-            });
-        }
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            DisappearsSettingPanel(animationDuration, () =>
-            {
-                settingsPanelParent.SetActive(false);
-                GetWaitingMenuItems(animationDuration);
-            });
-        }
-        
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKey(KeyCode.A))
         {
             DisappearsWaitingMenuItems(animationDuration, () =>
             {
                 waitingMenuUI.SetActive(false);
                 GetInGameUI(animationDuration);
-            });
+            });   
         }
 
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKey(KeyCode.S))
         {
             DisappearsInGameUI(animationDuration, () =>
             {
                 gameUI.SetActive(false);
-                GetWaitingMenuItems(animationDuration);
+                GetNeedToContinueItems(animationDuration);
+            });
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            DisappearsNeedToContinueItems(animationDuration, () =>
+            {
+                needToContinueParent.SetActive(false);
+                GetInGameUI(animationDuration);
+            });
+        }
+
+        if (Input.GetKey(KeyCode.F))
+        {
+            DisappearsInGameUI(animationDuration, () =>
+            {
+                gameUI.SetActive(false);
+                GetPauseItems(animationDuration);
+            });
+        }
+        
+        if (Input.GetKey(KeyCode.G))
+        {
+            DisappearsPauseItems(animationDuration, () =>
+            {
+                pauseParent.SetActive(false);
+                GetInGameUI(animationDuration);
             });
         }
         
@@ -256,10 +291,6 @@ public class UISystem : MonoBehaviour, ISystem
                 break;
             case GameStatus.Playing:
                 PlayingUI();
-                UpdateLeaderboard();
-                UpdateKillCount();
-                UpdateTimeOrPlayerCount();
-                UpdateNextLevelImages();
                 break;
             case GameStatus.Paused:
                 Paused();
@@ -280,12 +311,23 @@ public class UISystem : MonoBehaviour, ISystem
 
     private void WaitingMenu()
     {
-        DisableAllUI(waitingMenuUI);
+        GetWaitingMenuItems(0, () =>
+        {
+            DisableAllUI(waitingMenuUI);
+        });
     }
 
     private void PlayingUI()
     {
+
         DisableAllUI(gameUI);
+        
+        UpdateLeaderboard();
+        UpdateKillCount();
+        UpdateTimeOrPlayerCount();
+        UpdateNextLevelImages();
+        
+        
     }
 
     private void Paused()
@@ -306,23 +348,23 @@ public class UISystem : MonoBehaviour, ISystem
         pauseUI.SetActive(false);
         endUI.SetActive(false);
         
-        if (except == loadingUI)
+        if (except.Equals(loadingUI))
         {
             loadingUI.SetActive(true);
         }
-        else if (except == waitingMenuUI)
+        else if (except.Equals(waitingMenuUI))
         {
             waitingMenuUI.SetActive(true);
         }
-        else if (except == gameUI)
+        else if (except.Equals(gameUI))
         {
             gameUI.SetActive(true);
         }
-        else if (except == pauseUI)
+        else if (except.Equals(pauseUI))
         {
             pauseUI.SetActive(true);
         }
-        else if (except == endUI)
+        else if (except.Equals(endUI))
         {
             endUI.SetActive(true);
         }
@@ -451,6 +493,71 @@ public class UISystem : MonoBehaviour, ISystem
         _destroyableObjectRect.DOMoveY(Screen.height + _destroyableObjectRect.rect.height * 4 / 3, duration);
         _leaderBoardRect.DOMoveX(Screen.width + _leaderBoardRect.rect.width, duration).OnKill(() => callback?.Invoke());
     }
+
+    private void ShowEndText(float duration, Action callback = null)
+    {
+        endText.SetActive(true);
+        
+        
+        _endTextRectTransform.DOScaleX( 1.1f, duration);
+        _endTextRectTransform.DOScaleY(1.1f, duration).OnKill(() =>
+        {
+            callback?.Invoke();
+            _endTextRectTransform.DOScaleX( 1f, 0);
+            _endTextRectTransform.DOScaleY(1f, 0);
+        });
+        
+        _endTextMeshProUGUI.DOFade(1, duration / 4).OnKill(() =>
+        {
+            _endTextMeshProUGUI.DOFade(1, duration / 2).OnKill(() =>
+            {
+                _endTextMeshProUGUI.DOFade(0, duration / 4);
+                
+            });
+        });
+        
+    }
+    private void GetNeedToContinueItems(float duration, Action callback = null)
+    {
+        needToContinueParent.SetActive(true);
+        _needToContinueBackground.DOFade(_needToContinueAlphaAmountBackground, duration).OnKill((() => callback?.Invoke()));
+        
+        for (var i = 0; i < _needToContinueRectTransforms.Count; i++)
+        {
+            _needToContinueRectTransforms[i].DOMoveY(_needToContinueRectOriginalYPositions[i], duration)
+                    .SetEase(Ease.OutBack);
+        }
+    }
+    private void DisappearsNeedToContinueItems(float duration, Action callback = null)
+    {
+        _needToContinueBackground.DOFade(0, duration).OnKill((() => callback?.Invoke()));
+        _needToContinueRectTransforms.ForEach(rectTransform =>
+        {
+            rectTransform.DOMoveY(rectTransform.position.y - Screen.height, duration);
+        });
+    }
+    
+    private void GetPauseItems(float duration, Action callback = null)
+    {
+        pauseParent.SetActive(true);
+        _pauseBackground.DOFade(_pauseAlphaAmountBackground, duration).OnKill((() => callback?.Invoke()));
+        
+        for (var i = 0; i < _pauseRectTransforms.Count; i++)
+        {
+            _pauseRectTransforms[i].DOMoveY(_pauseRectOriginalYPositions[i], duration)
+                .SetEase(Ease.OutBack);
+        }
+    }
+    private void DisappearsPauseItems(float duration, Action callback = null)
+    {
+        _pauseBackground.DOFade(0, duration).OnKill((() => callback?.Invoke()));
+        _pauseRectTransforms.ForEach(rectTransform =>
+        {
+            rectTransform.DOMoveY(rectTransform.position.y - Screen.height, duration);
+        });
+    }
+
+    
 
     #endregion
 
@@ -619,4 +726,5 @@ public class UISystem : MonoBehaviour, ISystem
     }
 
     #endregion
+
 }
