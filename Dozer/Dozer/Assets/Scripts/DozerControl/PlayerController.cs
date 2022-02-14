@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     //Player Properties and references
     public Player PlayerProperty { get; set; }
     public string PlayerName => PlayerProperty.Name;
+    public int Level => PlayerProperty.Level;
+    public int Score => PlayerProperty.Score;
     
     //Local trigger System
     public CarActionSys ActionSysCar { get; private set; }
@@ -23,7 +25,6 @@ public class PlayerController : MonoBehaviour
 
     //Score System and References
     private ScoreSystem _scoreSystem;
-    public int Score => _scoreSystem.CurrentScore;
     public float RatioOfBetweenLevels => _scoreSystem.RatioOfBetweenLevels();
 
     #region Subscription
