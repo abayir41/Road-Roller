@@ -15,14 +15,14 @@ public class SkinSystem : MonoBehaviour
         GameObject skinGameObject;
         if (isAI)
         {
-            var ranInt = Random.Range(0, GameController.Instance.AllSkins.Count);
-            var randomSkin = GameController.Instance.AllSkins[ranInt];
+            var ranInt = Random.Range(0, GameController.AllSkins.Count);
+            var randomSkin = GameController.AllSkins[ranInt];
             skinGameObject = Instantiate(randomSkin.DozerSkin, visualPoint);
         }
         else
         {
             var skinName = RegisterSystem.Instance.GetDataAsString(MarketSystem.SelectedSkin);
-            var skinScriptable = GameController.Instance.AllSkins.First(skin => skin.ItemID == skinName);
+            var skinScriptable = GameController.AllSkins.First(skin => skin.ItemID == skinName);
             skinGameObject = Instantiate(skinScriptable.DozerSkin, visualPoint);
         }
 

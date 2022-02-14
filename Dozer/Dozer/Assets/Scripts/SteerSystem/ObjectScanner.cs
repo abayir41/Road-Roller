@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 
 public class ObjectScanner : MonoBehaviour, IObjectScanner
 {
-    public List<string> Filter => GameController.Instance.CollisionObjectFilter;
+    public List<string> Filter => GameController.GameConfig.CollisionObjectFilter;
 
     private void OnEnable()
     {

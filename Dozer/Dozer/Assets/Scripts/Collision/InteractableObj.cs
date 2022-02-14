@@ -19,7 +19,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
             }
             else
             {
-                return GameController.Instance.DestroyThresholds[ObjetTypeIndexMatcher(objectType)];
+                return GameController.DestroyThresholds[ObjetTypeIndexMatcher(objectType)];
             }
         }
     }
@@ -33,7 +33,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
             }
             else
             {
-                return GameController.Instance.ObjectHitPoints[ObjetTypeIndexMatcher(objectType)];
+                return GameController.GameConfig.ObjectHitPoints[ObjetTypeIndexMatcher(objectType)];
             }
         }
     }
@@ -47,7 +47,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
             }
             else
             {
-                return GameController.Instance.ObjectDestroyWait[ObjetTypeIndexMatcher(objectType)];
+                return GameController.GameConfig.ObjectDestroyWait[ObjetTypeIndexMatcher(objectType)];
             }
         }
     }
@@ -192,7 +192,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
     private void ChangeCrashColor(GameObject crash)
     {
         if (GetComponent<IColorChangerRandomly>() == null || crash.GetComponent<IColorChanger>() == null) return;
-        var gameController = GameController.Instance;
+        var gameController = MapController.Instance;
         var colorInterface = GetComponent<IColorChangerRandomly>();
         var colorChanger = crash.GetComponent<IColorChanger>();
         var colorDict = gameController.RandomlyChangedMaterialsListAndColours[colorInterface];

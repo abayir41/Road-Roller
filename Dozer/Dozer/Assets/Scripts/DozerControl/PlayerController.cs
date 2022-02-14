@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        _scoreSystem = new ScoreSystem(ActionSysCar, GameController.Instance.LevelThreshold, GameController.Instance.RewardPoints, PlayerProperty);
+        _scoreSystem = new ScoreSystem(ActionSysCar, GameController.GameConfig.LevelThresholds, GameController.GameConfig.RewardPoints, PlayerProperty);
     }
 
     #region Subscription Methods
