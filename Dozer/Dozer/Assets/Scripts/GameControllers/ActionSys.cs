@@ -13,9 +13,7 @@ public static class ActionSys //These are globally called
 
     public static Action<GameObject> ObjectDestroyed;
     
-    public static Action<string, int> ScoreChanged;
-
-    public static Action<IPurchasableDozer> SkinPurchased;
+    public static Action ResetGame;
 
     public static Action<GameStatus> GameStatusChanged;
 
