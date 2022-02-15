@@ -1,10 +1,9 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +11,7 @@ using UnityEngine.UI;
 public class UISystem : MonoBehaviour, ISystem
 {
 
-    public static UISystem Instance;
+    public static UISystem Instance { get; private set; }
 
     public bool SystemReady { get; private set; }
     public Behaviour System { get; private set; }
@@ -112,18 +111,47 @@ public class UISystem : MonoBehaviour, ISystem
     private List<RectTransform> _needToContinueRectTransforms;
     private List<float> _needToContinueRectOriginalYPositions;
 
-    [Header("Skin Unlock")] 
-    [SerializeField] private SkinUnlockUI skinUnlockUI;
-    private int _totalScore;
-    
     [Header("End Leaderboard Items")] 
+    [SerializeField] private GameObject endLeaderboardParent;
     [SerializeField] private GameObject timeOutOrPlayerCount;
     [SerializeField] private List<GameObject> leaderBoardObjects;
     [SerializeField] private GameObject rewardButtonObject;
     [SerializeField] private GameObject clickToContinueObject;
-    private List<Image> _colorsOfLeaderboardObject;
-    private List<Color> _colorsOfTextMeshPros;
+    private RectTransform _timeOutOrPlayerCountRect;
+    private TextMeshProUGUI _timeOutOrPlayerCountText;
+    private float _timeOrPlayerCountOriginalXPosition;
+    private RectTransform _rewardButtonRect;
+    private TextMeshProUGUI _clickToContinueText;
+    private float _rewardOriginalXPosition;
+    private List<Image> _imagesOfLeaderboardObject;
+    private List<TextMeshProUGUI> _textMeshProsOfLeaderboard;
+    private List<float> _alphasOfLeaderboardObjects;
 
+    [Header("Dead Screen")] 
+    [SerializeField] private GameObject deadScreenParent;
+    [SerializeField] private GameObject deadScreenBackGround;
+    [SerializeField] private GameObject deadScreenYouLostText;
+    [SerializeField] private GameObject deadScreenScoreText;
+    [SerializeField] private GameObject deadScreenClickToContinue;
+    private Image _deadScreenBackgroundImg;
+    private float _alphaOfDeadScreenBackGround;
+    private RectTransform _deadScreenYouLostRect;
+    private RectTransform _deadScreenScoreTextRect;
+    private TextMeshProUGUI _deadScreenClickToContinue;
+
+    [Header("Skin Unlock Screen")] 
+    [SerializeField] private GameObject skinUnlockParent;
+    [SerializeField] private GameObject skinTotalScoreTextObj;
+    [SerializeField] private GameObject skinUnlockObj;
+    [SerializeField] private GameObject newSkinUnlockedText;
+    [SerializeField] private GameObject skinUnlockClickToContinue;
+    [SerializeField] private SkinUnlockUI skinUnlockScript;
+    private RectTransform _newSkinUnlockedTextRect;
+    private TextMeshProUGUI _skinUnlockClickToContinueText;
+    private RectTransform _skinTotalScoreTextRect;
+    private RectTransform _skinUnlockRect;
+    private float _skinTotalScoreTextOriginalYPosition;
+    
 
     private void Awake()
     {
@@ -132,7 +160,31 @@ public class UISystem : MonoBehaviour, ISystem
 
         System = this;
 
-        _loadingBackgroundImage = loadingBackground.GetComponent<Image>();
+
+        _newSkinUnlockedTextRect = newSkinUnlockedText.GetComponent<RectTransform>();
+        _skinUnlockClickToContinueText = skinUnlockClickToContinue.GetComponent<TextMeshProUGUI>();
+        _skinTotalScoreTextRect = skinTotalScoreTextObj.GetComponent<RectTransform>();
+        _skinUnlockRect = skinUnlockObj.GetComponent<RectTransform>();
+        _skinTotalScoreTextOriginalYPosition = _skinTotalScoreTextRect.position.y;
+        
+        _deadScreenBackgroundImg = deadScreenBackGround.GetComponent<Image>();
+        _alphaOfDeadScreenBackGround = _deadScreenBackgroundImg.color.a;
+        _deadScreenYouLostRect = deadScreenYouLostText.GetComponent<RectTransform>();
+        _deadScreenScoreTextRect = deadScreenScoreText.GetComponent<RectTransform>();
+        _deadScreenClickToContinue = deadScreenClickToContinue.GetComponentInChildren<TextMeshProUGUI>();
+
+        _timeOutOrPlayerCountRect = timeOutOrPlayerCount.GetComponent<RectTransform>();
+        _timeOutOrPlayerCountText = timeOutOrPlayerCount.GetComponent<TextMeshProUGUI>();
+        _timeOrPlayerCountOriginalXPosition = _timeOutOrPlayerCountRect.position.x;
+        _rewardButtonRect = rewardButtonObject.GetComponent<RectTransform>();
+        _rewardOriginalXPosition = _rewardButtonRect.position.x;
+        _clickToContinueText = clickToContinueObject.GetComponentInChildren<TextMeshProUGUI>();
+        _imagesOfLeaderboardObject = leaderBoardObjects.ConvertAll(input => input.GetComponent<Image>());
+        _textMeshProsOfLeaderboard =
+            leaderBoardObjects.ConvertAll(input => input.GetComponentInChildren<TextMeshProUGUI>());
+        _alphasOfLeaderboardObjects = _imagesOfLeaderboardObject.ConvertAll(input => input.color.a);
+        
+            _loadingBackgroundImage = loadingBackground.GetComponent<Image>();
         _loadingTextMeshProUGUI = loadingText.GetComponent<TextMeshProUGUI>();
         
         _pauseBackground = pauseBackGround.GetComponent<Image>();
@@ -180,22 +232,24 @@ public class UISystem : MonoBehaviour, ISystem
     {
         DOTween.Init();
         
+        DisappearsSkinUnlockScreen(0);
+        DisappearsDeadScreen(0);
         DisappearsInGameUI(0);
         DisappearsSettingPanel(0);
         DisappearsGameModesMenu(0);
         DisappearsSkinSelectMenu(0);
         DisappearsNeedToContinueItems(0);
         DisappearsPauseItems(0);
+        DisappearsEndLeaderboard(0);
         DisappearsWaitingMenuItems(0, () =>
         {
             if (GameController.Status == GameStatus.Loading)
             {
-                GetLoadingScreen(0);
+                GetLoadingScreen(0, () =>  SystemReady = true);
             }
-            SystemReady = true;
         });
         
-        ActionSys.GameModeChanged?.Invoke(GameMode.BeTheLast);
+        ActionSys.GameModeChanged?.Invoke(GameMode.TimeCounting);
     }
 
     #region Subscription
@@ -208,8 +262,6 @@ public class UISystem : MonoBehaviour, ISystem
         ActionSys.MaxLevelReached += MaxLevelReached;
     }
 
-
-
     private void OnDisable()
     {
         ActionSys.ObjectGotHit -= Interaction;
@@ -217,6 +269,7 @@ public class UISystem : MonoBehaviour, ISystem
         ActionSys.GameStatusChanged -= GameStatusChange;
         ActionSys.MaxLevelReached -= MaxLevelReached;
     }
+    
 
     private void Interaction(IInteractable obj)
     {
@@ -235,7 +288,6 @@ public class UISystem : MonoBehaviour, ISystem
 
     private void Update()
     {
-        if(!GameInitializer.MapControllerReady) return;
 
         #region Playing
         if (GameController.Status == GameStatus.Playing)
@@ -257,25 +309,29 @@ public class UISystem : MonoBehaviour, ISystem
         switch (status)
         {
             case GameStatus.Loading:
-                Loading();
+                OpenLoadingScreen();
                 break;
             case GameStatus.WaitingOnMenu:
                 OpenWaitingMenu();
                 break;
             case GameStatus.Playing:
-                PlayingUI();
+                OpenPlayingUI();
                 break;
             case GameStatus.Paused:
-                Paused();
+                OpenPausedScreenUI();
+                break;
+            case GameStatus.Lost:
+                OpenLostGameUI();
                 break;
             case GameStatus.Ended:
-                EndUI();
+                OpenEndUI();
                 break;
         }
         
     }
     
-    private void Loading(Action callback = null)
+    
+    private void OpenLoadingScreen(Action callback = null)
     {
         _disappearsCurrentUI?.Invoke(animationDuration, () =>
         {
@@ -283,6 +339,7 @@ public class UISystem : MonoBehaviour, ISystem
         });
     }
 
+    // ReSharper disable once MemberCanBePrivate.Global Because Of Button can access them
     public void OpenWaitingMenu(Action callback = null)
     {
         _disappearsCurrentUI?.Invoke(animationDuration, () =>
@@ -291,7 +348,8 @@ public class UISystem : MonoBehaviour, ISystem
         });
     }
 
-    private void PlayingUI(Action callback = null)
+    // ReSharper disable once MemberCanBePrivate.Global Because Of Button can access them
+    public void OpenPlayingUI(Action callback = null)
     {
         UpdateLeaderboard();
         UpdateKillCount();
@@ -304,7 +362,7 @@ public class UISystem : MonoBehaviour, ISystem
         });
     }
 
-    private void Paused(Action callback = null)
+    private void OpenPausedScreenUI(Action callback = null)
     {
         _disappearsCurrentUI?.Invoke(animationDuration, () =>
         {
@@ -313,17 +371,93 @@ public class UISystem : MonoBehaviour, ISystem
     }
 
 
-    private void EndUI(Action callback = null)
+    private void OpenEndUI(Action callback = null)
     {
-        _disappearsCurrentUI?.Invoke(animationDuration, (() =>
+        if (GameController.Mode == GameMode.TimeCounting)
         {
-            
-        }));
+            _disappearsCurrentUI?.Invoke(animationDuration, () =>
+            {
+                GetNeedToContinueItems(animationDuration, () => callback?.Invoke());
+            });
+        }
+        else if (GameController.Mode == GameMode.BeTheLast)
+        {
+            _disappearsCurrentUI?.Invoke(animationDuration, () =>
+            {
+                ShowEndText(animationDuration * 5, () =>
+                {
+                    GetEndLeaderboard(animationDuration, () => callback?.Invoke());
+                });
+            });
+        }
     }
+
+    private void OpenEndLeaderboardUI(Action callback = null)
+    {
+        _disappearsCurrentUI?.Invoke(animationDuration, () =>
+        {
+            GetEndLeaderboard(animationDuration, () => callback?.Invoke());
+        });
+    }
+
+    private void OpenLostGameUI(Action callback = null)
+    {
+        _disappearsCurrentUI?.Invoke(animationDuration,null);
+        ShowEndText(animationDuration * 5, () =>
+        {
+            GetDeadScreen(animationDuration, () => callback?.Invoke());
+        });    
+    }
+
+    private void OpenSkinUnlockUI(Action callback = null)
+    {
+        _disappearsCurrentUI?.Invoke(animationDuration, () =>
+        {
+            GetSkinUnlockScreen(animationDuration, () =>
+            {
+                skinUnlockScript.ScrollTheImage(GameController.Instance.PercentageCalculator(), animationDuration * 10, () =>
+                {
+                    if (GameController.Instance.NewSkinUnlocked())
+                    {
+                        GetNewSkinUnlockedText(animationDuration, () => callback?.Invoke());
+                    }
+                    else
+                    {
+                        GetSkinUnlockClickToContinue(animationDuration, () => callback?.Invoke());
+                    }
+                });
+            });
+        });
+    }
+    
+    private void OpenGameModes(Action callback = null)
+    {
+        _disappearsCurrentUI?.Invoke(animationDuration, () =>
+        {
+            GetGameModesMenu(animationDuration, () => callback?.Invoke());
+        });
+    }
+    
+    private void OpenSettings(Action callback = null)
+    {
+        _disappearsCurrentUI?.Invoke(animationDuration, () =>
+        {
+            GetSettingsPanel(animationDuration,() => callback?.Invoke());
+        });
+    }
+
+    private void OpenSkinMenu(Action callback = null)
+    {
+        _disappearsCurrentUI?.Invoke(animationDuration, () =>
+        {
+            GetSkinSelectMenu(animationDuration,() => callback?.Invoke());
+        });
+    }
+
     #endregion
     
     #region Animations
-
+    
     private IEnumerator SlideAnim(float increase)
     {
         float timeElapsed = 0;
@@ -345,7 +479,7 @@ public class UISystem : MonoBehaviour, ISystem
             yield return null;
         }
     }
-
+    
     private void GetLoadingScreen(float duration, Action callback = null)
     {
         _disappearsCurrentUI = DisappearsLoadingScreen;
@@ -353,7 +487,6 @@ public class UISystem : MonoBehaviour, ISystem
         _loadingBackgroundImage.DOFade(1, duration);
         _loadingTextMeshProUGUI.DOFade(1, duration).OnKill(() => callback?.Invoke());
     }
-
     private void DisappearsLoadingScreen(float duration, Action callback = null)
     {
         callback += () => loadingScreenParent.SetActive(false);
@@ -383,7 +516,6 @@ public class UISystem : MonoBehaviour, ISystem
                 .SetEase(Ease.OutBack);
         }
     }
-
     private void DisappearsWaitingMenuItems(float duration , Action callback = null)
     {
         callback += () => waitingMenuUI.SetActive(false);
@@ -403,7 +535,7 @@ public class UISystem : MonoBehaviour, ISystem
         }
         
     }
-
+    
     private void GetSkinSelectMenu(float duration, Action callback = null)
     {
         _disappearsCurrentUI = DisappearsSkinSelectMenu;
@@ -412,13 +544,12 @@ public class UISystem : MonoBehaviour, ISystem
         _skinSelectMenuRect.DOMoveY(0, duration).OnKill(() => callback?.Invoke());
 
     }
-
     private void DisappearsSkinSelectMenu(float duration, Action callback = null)
     {
         callback += () => skinSelectMenuParent.SetActive(false);
         _skinSelectMenuRect.DOMoveY(-1 * _skinSelectMenuRect.rect.height, duration).OnKill(() => callback?.Invoke());
     }
-
+    
     private void GetGameModesMenu(float duration, Action callback = null)
     {
         _disappearsCurrentUI = DisappearsGameModesMenu;
@@ -426,13 +557,12 @@ public class UISystem : MonoBehaviour, ISystem
         
         _modeSelectMenuRect.DOScaleY(1, duration).OnKill(() => callback?.Invoke());
     }
-    
     private void DisappearsGameModesMenu(float duration, Action callback = null)
     {
         callback += () => modeSelectMenuParent.SetActive(false);
         _modeSelectMenuRect.DOScaleY(0, duration).OnKill(() => callback?.Invoke());
     }
-
+    
     private void GetSettingsPanel(float duration, Action callback = null)
     {
         _disappearsCurrentUI = DisappearsSettingPanel;
@@ -440,7 +570,6 @@ public class UISystem : MonoBehaviour, ISystem
 
         _settingsPanel.DOMoveY((float) Screen.height / 2, duration).SetEase(Ease.OutBack).OnKill(() => callback?.Invoke());
     }
-
     private void DisappearsSettingPanel(float duration, Action callback = null)
     {
         callback += () => settingsPanelParent.SetActive(false);
@@ -458,7 +587,6 @@ public class UISystem : MonoBehaviour, ISystem
         _destroyableObjectRect.DOMoveY(_destroyableObjectOriginalYPosition, duration).SetEase(Ease.OutBack);
         _leaderBoardRect.DOMoveX(Screen.width, duration).SetEase(Ease.OutBack).OnKill(() => callback?.Invoke());
     }
-    
     private void DisappearsInGameUI(float duration, Action callback = null)
     {
         callback += () => gameUI.SetActive(false);
@@ -469,10 +597,11 @@ public class UISystem : MonoBehaviour, ISystem
         _destroyableObjectRect.DOMoveY(Screen.height + _destroyableObjectRect.rect.height * 4 / 3, duration);
         _leaderBoardRect.DOMoveX(Screen.width + _leaderBoardRect.rect.width, duration).OnKill(() => callback?.Invoke());
     }
+    
     private void ShowEndText(float duration, Action callback = null)
     {
         endText.SetActive(true);
-
+        
         callback += () => endText.SetActive(false);
         
         _endTextRectTransform.DOScaleX( 1.1f, duration);
@@ -493,6 +622,7 @@ public class UISystem : MonoBehaviour, ISystem
         });
         
     }
+    
     private void GetNeedToContinueItems(float duration, Action callback = null)
     {
         _disappearsCurrentUI = DisappearsNeedToContinueItems;
@@ -537,35 +667,166 @@ public class UISystem : MonoBehaviour, ISystem
             rectTransform.DOMoveY(rectTransform.position.y - Screen.height, duration);
         });
     }
-
     
+    private void GetEndLeaderboard(float duration, Action callback = null)
+    {
+        _disappearsCurrentUI = DisappearsEndLeaderboard;
+        
+        endLeaderboardParent.SetActive(true);
+        
+        _timeOutOrPlayerCountRect.DOMoveX(_timeOrPlayerCountOriginalXPosition, duration).SetEase(Ease.OutBack).OnKill(
+            () =>
+            {
+                StartCoroutine(DelayedStart());
+                IEnumerator DelayedStart()
+                {
+                    for (var i = 0; i < _imagesOfLeaderboardObject.Count; i++)
+                    {
+                        _imagesOfLeaderboardObject[i].DOFade(_alphasOfLeaderboardObjects[i], duration);
+                        _textMeshProsOfLeaderboard[i].DOFade(1, duration);
+                        yield return new WaitForSeconds(duration / 2);
+                    }
+
+                    _rewardButtonRect.DOMoveX(_rewardOriginalXPosition, duration).OnKill(() =>
+                    {
+                        _clickToContinueText.DOFade(1, duration).OnKill(() => callback?.Invoke());
+                    });
+                }            
+            });
+    }
+    private void DisappearsEndLeaderboard(float duration, Action callback = null)
+    {
+
+        callback += () => endLeaderboardParent.SetActive(false);
+        _timeOutOrPlayerCountRect.DOMoveX(-1 * _timeOutOrPlayerCountRect.rect.width, duration).SetEase(Ease.OutBack).OnKill(
+            () =>
+            {
+                StartCoroutine(DelayedStart());
+                IEnumerator DelayedStart()
+                {
+                    for (var i = 0; i < _imagesOfLeaderboardObject.Count; i++)
+                    {
+                        _imagesOfLeaderboardObject[i].DOFade(0, duration);
+                        _textMeshProsOfLeaderboard[i].DOFade(0, duration);
+                        yield return new WaitForSeconds(duration / 2);
+                    }
+
+                    _rewardButtonRect.DOMoveX(-1 * _rewardButtonRect.rect.width, duration).OnKill(() =>
+                    {
+                        _clickToContinueText.DOFade(0, duration).OnKill(() => callback?.Invoke());
+                    });
+                }            
+            });
+    }
+    
+    private void GetDeadScreen(float duration, Action callback = null)
+    {
+        _disappearsCurrentUI = DisappearsDeadScreen;
+        deadScreenParent.SetActive(true);
+        
+        _deadScreenBackgroundImg.DOFade(_alphaOfDeadScreenBackGround, duration).OnKill(() =>
+        {
+            _deadScreenYouLostRect.DOMoveX((float) Screen.width / 2, duration).SetEase(Ease.OutBack).OnKill(() =>
+            {
+                _deadScreenScoreTextRect.DOMoveX((float) Screen.width / 2, duration).SetEase(Ease.OutBack).OnKill(() =>
+                {
+                    _deadScreenClickToContinue.DOFade(1, duration).OnKill(() => callback?.Invoke());
+                });
+            });
+        });
+    }
+    private void DisappearsDeadScreen(float duration, Action callback = null)
+    {
+        callback += () => deadScreenParent.SetActive(false);
+        _deadScreenBackgroundImg.DOFade(0, duration).OnKill(() =>
+        {
+            _deadScreenYouLostRect.DOMoveX(-1 * _deadScreenYouLostRect.rect.width, duration).SetEase(Ease.OutBack).OnKill(() =>
+            {
+                _deadScreenScoreTextRect.DOMoveX(-1 * _deadScreenScoreTextRect.rect.width, duration).SetEase(Ease.OutBack).OnKill(() =>
+                {
+                    _deadScreenClickToContinue.DOFade(0, duration).OnKill(() => callback?.Invoke());
+                });
+            });
+        });
+    }
+
+    #region SkinUnlockScreenEnvo
+
+    private void GetSkinUnlockScreen(float duration, Action callback = null)
+    {
+        _disappearsCurrentUI = DisappearsSkinUnlockScreen;
+        skinUnlockParent.SetActive(true);
+        _skinTotalScoreTextRect.DOMoveY(_skinTotalScoreTextOriginalYPosition, duration).SetEase(Ease.OutBack);
+        _skinUnlockRect.DOScaleX(1f, duration).SetEase(Ease.OutBack);
+        _skinUnlockRect.DOScaleY(1f, duration).SetEase(Ease.OutBack).OnKill(() => callback?.Invoke());
+    }
+    private void DisappearsSkinUnlockScreen(float duration, Action callback = null)
+    {
+        callback += () => skinUnlockParent.SetActive(false);
+        DisappearNewSkinUnlockedText(duration);
+        _skinTotalScoreTextRect.DOMoveY(Screen.height + _skinTotalScoreTextRect.rect.height, duration);
+        _skinUnlockRect.DOScaleX(0, duration);
+        _skinUnlockRect.DOScaleY(0, duration).OnKill(() => callback?.Invoke());
+    }
+
+    private void GetNewSkinUnlockedText(float duration, Action callback = null)
+    {
+        newSkinUnlockedText.SetActive(true);
+        _newSkinUnlockedTextRect.DOScaleX(1f, duration).SetEase(Ease.OutBack);
+        _newSkinUnlockedTextRect.DOScaleY(1f, duration).SetEase(Ease.OutBack).OnKill(() =>
+        {
+            GetSkinUnlockClickToContinue(duration, () => callback?.Invoke());
+        });
+    }
+    private void DisappearNewSkinUnlockedText(float duration, Action callback = null)
+    {
+        callback += () => newSkinUnlockedText.SetActive(false);
+        DisappearSkinUnlockClickToContinue(duration);
+        _newSkinUnlockedTextRect.DOScaleX(0f, duration);
+        _newSkinUnlockedTextRect.DOScaleY(0f, duration).OnKill(() => callback?.Invoke());
+    }
+
+    private void GetSkinUnlockClickToContinue(float duration, Action callback = null)
+    {
+        skinUnlockClickToContinue.SetActive(true);
+        _skinUnlockClickToContinueText.DOFade(1, duration).OnKill(() => callback?.Invoke());
+    }
+    
+    private void DisappearSkinUnlockClickToContinue(float duration, Action callback = null)
+    {
+        callback += () => skinUnlockClickToContinue.SetActive(false);
+        _skinUnlockClickToContinueText.DOFade(0, duration).OnKill(() => callback?.Invoke());
+    }
+
+    #endregion
+
+
+
 
     #endregion
 
     #region ButtonMethods
 
-    public void OpenGameModes()
+
+    public void OpenGameModesButton()
     {
-        _disappearsCurrentUI?.Invoke(animationDuration, () =>
-        {
-            GetGameModesMenu(animationDuration);
-        });
+       OpenGameModes();
+    }
+    
+    public void OpenSettingsButton()
+    {
+        OpenSettings();
     }
 
-    public void OpenSettings()
+    public void OpenSkinMenuButton()
     {
-        _disappearsCurrentUI?.Invoke(animationDuration, () =>
-        {
-            GetSettingsPanel(animationDuration);
-        });
+       OpenSkinMenu();
     }
 
-    public void OpenSkinMenu()
+    
+    public void OpenWaitingMenuButton()
     {
-        _disappearsCurrentUI?.Invoke(animationDuration, () =>
-        {
-            GetSkinSelectMenu(animationDuration);
-        });
+        OpenWaitingMenu();
     }
     
     public void GameModeChange(int modeIndex)
@@ -581,12 +842,56 @@ public class UISystem : MonoBehaviour, ISystem
         }
     }
 
-    public void StartGame()
+
+
+    public void StartGameButton()
     {
-       _disappearsCurrentUI?.Invoke(animationDuration, () =>
-       {
-           ActionSys.GameStatusChanged?.Invoke(GameStatus.Playing);
-       });
+        ActionSys.GameStatusChanged?.Invoke(GameStatus.Playing);
+    }
+
+    public void ClickToContinueHalfTime()
+    {
+        ActionSys.GameStatusChanged?.Invoke(GameStatus.Playing);
+    }
+
+    public void ClickToContinueDeadScreen()
+    {
+        OpenLoadingScreen(() =>
+        {
+            Debug.LogError("Not Implemented");
+        });
+    }
+
+    public void ClickToContinueEndLeaderboard()
+    {
+        if (GameController.Instance.IsThereAnyNewSkin())
+        {
+            OpenSkinUnlockUI();
+        }
+        else
+        {
+            OpenLoadingScreen(() =>
+            {
+                Debug.LogError("Not Implemented");
+            });
+        }
+    }
+
+    public void ClickToContinueSkinUnlock()
+    {
+        OpenLoadingScreen(() =>
+        {
+            Debug.LogError("Not Implemented");
+        });
+    }
+    public void ExtraTimeButton()
+    {
+        Debug.LogError("Not Implemented");
+    }
+
+    public void ClickToContinueNeedToContinue()
+    {
+        OpenEndLeaderboardUI();
     }
 
     #endregion
@@ -676,7 +981,7 @@ public class UISystem : MonoBehaviour, ISystem
         switch (GameController.Mode)
         {
             case GameMode.TimeCounting:
-                timePlayerText.text = MinuteAndSecondConverter(MapController.Instance.TimeLeft);
+                timePlayerText.text = MinuteAndSecondConverter(GameController.Instance.TimeLeft);
                 break;
             case GameMode.BeTheLast:
                 timePlayerText.text = "Player: " + LeaderboardsAbstract.Instance.AlivePlayerCount;
