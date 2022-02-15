@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 public class MapController : MonoBehaviour, ISystem
 {
-    public static MapController Instance;
+    public static MapController Instance { get; private set; }
     public bool SystemReady { get; private set; }
     public Behaviour System { get; private set; }
 
@@ -39,7 +39,7 @@ public class MapController : MonoBehaviour, ISystem
     //Market System
     
 
-    [Header("Game Settings")] 
+    [Header("Map Settings")] 
     [SerializeField] private int playerCount;
     [SerializeField] private List<Transform> spawnPoints;
     public List<Player> Players { get; set; }
@@ -67,8 +67,8 @@ public class MapController : MonoBehaviour, ISystem
         _cameraTrans = _cameraGameObject.transform;
         _camera = _cameraGameObject.GetComponent<Camera>();
 
-        if (RegisterSystem.Instance.GetDataAsString(MarketSystem.SelectedSkin) == "") 
-            RegisterSystem.Instance.SaveData(MarketSystem.SelectedSkin,GameController.GameConfig.BaseSkinID);
+        if (RegisterSystem.Instance.GetDataAsString(GameController.GameConfig.SelectedSkin) == "") 
+            RegisterSystem.Instance.SaveData(GameController.GameConfig.SelectedSkin,GameController.GameConfig.BaseSkinID);
     }
 
     private void Start()
@@ -80,6 +80,7 @@ public class MapController : MonoBehaviour, ISystem
 
     private void Update()
     {
+        if(GameController.Status != GameStatus.Playing) return;
         
         var dozerTransPosition = _dozerTrans.position;
         ObjectFollower(_cameraFarFromDozer,dozerTransPosition,_cameraTrans);
