@@ -8,7 +8,7 @@ public abstract class LeaderboardsAbstract : MonoBehaviour
 {
     protected Dictionary<string, Player> PlayerAndScoreDictionary;
 
-    public static LeaderBoardSystem Instance;  
+    public static LeaderBoardSystem Instance { get; protected set; }  
 
     protected virtual void Awake()
     {

@@ -20,13 +20,14 @@ public class SkinUnlockUI : MonoBehaviour
     private void Start()
     {
         DOTween.Init();
+        mask.padding = new Vector4(0,GameController.SkinUnlockProgressPercentage/100*_parentHeight,0, 0);
     }
 
     public void ScrollTheImage(float percentage, float duration, Action callback = null)
     {
-        DOTween.To(() => mask.padding.z, 
-            value => mask.padding.Set(0,0,0,value),
+        DOTween.To(() => mask.padding.y, 
+            value => mask.padding = new Vector4(0,value,0,0),
             percentage/100*_parentHeight, duration)
-            .OnKill((() => callback?.Invoke()));
+            .OnKill(() => callback?.Invoke());
     }
 }

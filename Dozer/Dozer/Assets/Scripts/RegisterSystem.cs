@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RegisterSystem : MonoBehaviour , IRegisterSystem
 {
-    public static IRegisterSystem Instance;
+    public static IRegisterSystem Instance { get; private set; }
 
     private void Awake()
     {

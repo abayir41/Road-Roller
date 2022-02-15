@@ -15,14 +15,14 @@ public class SkinSystem : MonoBehaviour
         GameObject skinGameObject;
         if (isAI)
         {
-            var ranInt = Random.Range(0, GameController.AllSkins.Count);
-            var randomSkin = GameController.AllSkins[ranInt];
+            var ranInt = Random.Range(0, GameController.GameConfig.DozerSkins.Count);
+            var randomSkin = GameController.GameConfig.DozerSkins[ranInt];
             skinGameObject = Instantiate(randomSkin.DozerSkin, visualPoint);
         }
         else
         {
-            var skinName = RegisterSystem.Instance.GetDataAsString(MarketSystem.SelectedSkin);
-            var skinScriptable = GameController.AllSkins.First(skin => skin.ItemID == skinName);
+            var skinName = RegisterSystem.Instance.GetDataAsString(GameController.GameConfig.SelectedSkin);
+            var skinScriptable = GameController.GameConfig.DozerSkins.First(skin => skin.ItemID == skinName);
             skinGameObject = Instantiate(skinScriptable.DozerSkin, visualPoint);
         }
 
@@ -31,7 +31,5 @@ public class SkinSystem : MonoBehaviour
         {
             interactableObj.meshRenderers.Add(meshRenderer);
         }
-
-        this.enabled = false;
     }
 }

@@ -43,8 +43,8 @@ public class MapController : MonoBehaviour, ISystem
     [SerializeField] private int playerCount;
     [SerializeField] private List<Transform> spawnPoints;
     public List<Player> Players { get; set; }
-    
-    
+
+
     //GameMode Settings
     public int TimeLeft => GameController.GameConfig.MatchTimeAsSecond - (int) _timer;
     private float _timer;
