@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +7,8 @@ using UnityEngine.UI;
 public interface IPurchasable
 {
     string ItemID { get; }
-    int Price { get; }
+    
+    int ScoreThreshold { get; }
 }
 
 public interface IPurchasableDozer : IPurchasable
