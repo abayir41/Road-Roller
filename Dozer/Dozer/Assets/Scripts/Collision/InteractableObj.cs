@@ -201,13 +201,6 @@ public class InteractableObj : MonoBehaviour, IInteractable
     }
     private void OnDestroy()
     {
-        if (GetComponent<PlayerController>() == PlayerController.Player)
-        {
-            ActionSys.GameStatusChanged?.Invoke(GameStatus.Ended);   
-        }
-        else
-        {
-            ActionSys.ObjectDestroyed?.Invoke(gameObject);    
-        }
+        ActionSys.ObjectDestroyed?.Invoke(gameObject);
     }
 }
