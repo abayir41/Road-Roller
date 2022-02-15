@@ -8,8 +8,8 @@ public class SkinScriptable : ScriptableObject , IPurchasableDozer
     public string ItemID => itemID;
     [SerializeField] private string itemID;
 
-    public int Price => price;
-    [SerializeField] public int price;
+    public int ScoreThreshold => scoreThreshold;
+    [SerializeField] public int scoreThreshold;
 
     public GameObject DozerSkin => dozerSkin;
     [SerializeField] private GameObject dozerSkin;
