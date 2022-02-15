@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public static PlayerController Player;
+    public static PlayerController Player { get; private set; }
 
     //Player Properties and references
     public Player PlayerProperty { get; set; }
@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
     private void LevelUpped(int obj)
     {
         if (Player == this)
-            ActionSys.LevelUpped(obj);
+            ActionSys.LevelUpped?.Invoke(obj);
     }
 
     private void Interaction(IInteractable obj)
@@ -78,13 +78,13 @@ public class PlayerController : MonoBehaviour
         _scoreSystem.AddScore(obj.ObjectHitPoint);
 
         if (Player == this)
-            ActionSys.ObjectGotHit(obj);
+            ActionSys.ObjectGotHit?.Invoke(obj);
     }
 
     private void MaxLevelReached()
     {
         if (Player == this)
-            ActionSys.MaxLevelReached();
+            ActionSys.MaxLevelReached?.Invoke();
     }
 
     #endregion
@@ -93,6 +93,11 @@ public class PlayerController : MonoBehaviour
     private void OnDestroy()
     {
         PlayerProperty.IsDead = true;
+
+        if (Player == this)
+        {
+            ActionSys.GameStatusChanged?.Invoke(GameStatus.Lost);
+        }
     }
 }
 
