@@ -14,9 +14,21 @@ public class GameConfig : ScriptableObject
 
     public string DozerTag => dozerTag;
     [SerializeField] private string dozerTag;
+    
+    public string BaseSkinID => DozerSkins[0].ItemID;
+    
+    public string ScoreSaverText => scoreSaverText;
+    [Header("Just Be Sure there are not any same string")]
+    [SerializeField] private string scoreSaverText;
 
-    public string BaseSkinID => baseSkinID;
-    [SerializeField] private string baseSkinID;
+    public string TotalScore => totalScore;
+    [SerializeField] private string totalScore;
+    
+    public string SelectedSkin => selectedSkin;
+    [SerializeField] private string selectedSkin;
+
+    public string SavedProgressSkinUnlock => savedProgressSkinUnlock;
+    [SerializeField] private string savedProgressSkinUnlock;
     
     public List<string> CollisionObjectFilter => collisionObjectFilter;
     public List<int> DestroyThresholdsFromLevels => destroyThresholdsFromLevelBase;
@@ -44,5 +56,11 @@ public class GameConfig : ScriptableObject
     
     [Header("Game Mode Setting")] 
     [SerializeField] private int matchTimeAsSeconds;
+    
+    
+    public List<SkinScriptable> DozerSkins => dozerSkins;
+
+    [Header("Skin System")]
+    [SerializeField] private List<SkinScriptable> dozerSkins;
 
 }
