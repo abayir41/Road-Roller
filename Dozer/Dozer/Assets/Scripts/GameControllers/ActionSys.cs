@@ -15,6 +15,8 @@ public static class ActionSys //These are globally called
     
     public static Action ResetGame;
 
+    public static Action<int> SkinSelected;
+
     public static Action<GameStatus> GameStatusChanged;
 
     public static Action<GameMode> GameModeChanged;
