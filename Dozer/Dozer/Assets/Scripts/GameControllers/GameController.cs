@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameController : MonoBehaviour
+public class GameController : MonoBehaviour, ISystem
 {
     public static GameController Instance { get; private set; }
 
@@ -22,9 +22,13 @@ public class GameController : MonoBehaviour
 
     #endregion
 
-    public static List<SkinScriptable> AllSkins => MarketSystem.Instance.DozerSkins;
+    public static int UnlockedSkinIndex
+    {
+        get => RegisterSystem.Instance.GetDataAsInt(GameConfig.UnlockedSkinString);
+        
+        private set => RegisterSystem.Instance.SaveData(GameConfig.UnlockedSkinString, value);
+    }
 
-    public static int UnlockedSkinIndex { get; private set; } = 1;
     public static int TotalScore
     {
         get => RegisterSystem.Instance.GetDataAsInt(GameConfig.TotalScore);
@@ -37,6 +41,12 @@ public class GameController : MonoBehaviour
         set => RegisterSystem.Instance.SaveData(GameConfig.SavedProgressSkinUnlock,value);
     }
 
+    public static int SelectedSkinIndex
+    {
+        get => RegisterSystem.Instance.GetDataAsInt(GameConfig.SelectedSkinIndexString);
+        set => RegisterSystem.Instance.SaveData(GameConfig.SelectedSkinIndexString, value);
+    }
+
     public int TimeLeft => GameConfig.MatchTimeAsSecond - (int) _timer;
     private float _timer;
 
@@ -46,6 +56,7 @@ public class GameController : MonoBehaviour
             Instance = this;
 
         GameConfig = config;
+
     }
 
     private void Update()
@@ -82,12 +93,14 @@ public class GameController : MonoBehaviour
     {
         ActionSys.GameStatusChanged += GameStatusChanged;
         ActionSys.GameModeChanged += GameModeChanged;
+        ActionSys.SkinSelected += SelectedSkin;
     }
     
     private void OnDisable()
     {
         ActionSys.GameStatusChanged -= GameStatusChanged;
         ActionSys.GameModeChanged -= GameModeChanged;
+        ActionSys.SkinSelected -= SelectedSkin;
     }
     
     private void GameStatusChanged(GameStatus status)
@@ -102,45 +115,72 @@ public class GameController : MonoBehaviour
         {
             _timer += 1.0f;
         }
+
+        if (status == GameStatus.Ended)
+        {
+            TotalScore += PlayerController.Player.Score;
+        }
     }
     
     private void GameModeChanged(GameMode obj)
     {
         Mode = obj;
     }
+    
+    public void ResetTheSystem()
+    {
+        _timer = 0;
+        if (IsThereAnyNewSkin())
+        {
+            return;
+        }
 
+        if (NewSkinUnlocked())
+        {
+            UnlockedSkinIndex += 1;
+            SkinUnlockProgressPercentage = 0;
+        }
+        else
+        {
+            SkinUnlockProgressPercentage = PercentageCalculator();
+        }
+    }
 
-
+    private void SelectedSkin(int ID)
+    {
+        SelectedSkinIndex = ID;
+    }
     #endregion
 
     
-    public bool IsThereAnyNewSkin()
+    public static bool IsThereAnyNewSkin()
     {
-        if (GameConfig.DozerSkins.Count == UnlockedSkinIndex)
+        if (GameConfig.DozerSkins.Count - 1 == UnlockedSkinIndex)
         {
             return false;
         }
 
         return true;
     }
-    public bool NewSkinUnlocked()
+    public static bool NewSkinUnlocked()
     {
-        if (GameConfig.DozerSkins[UnlockedSkinIndex].ScoreThreshold <= TotalScore)
+        if (GameConfig.DozerSkins[UnlockedSkinIndex + 1].ScoreThreshold <= TotalScore)
         {
             return true;
         }
         return false;
     }
 
-    public float PercentageCalculator()
+    public static float PercentageCalculator()
     {
 
-        var result = TotalScore >= GameConfig.DozerSkins[UnlockedSkinIndex].ScoreThreshold
+        var result = TotalScore >= GameConfig.DozerSkins[UnlockedSkinIndex + 1].ScoreThreshold
             ? 100 : 
-            ((float)(TotalScore - GameConfig.DozerSkins[UnlockedSkinIndex - 1].ScoreThreshold) / 
-             (GameConfig.DozerSkins[UnlockedSkinIndex].ScoreThreshold - GameConfig.DozerSkins[UnlockedSkinIndex - 1].ScoreThreshold)) * 100;
-        
+            ((float)(TotalScore - GameConfig.DozerSkins[UnlockedSkinIndex].ScoreThreshold) / 
+             (GameConfig.DozerSkins[UnlockedSkinIndex + 1].ScoreThreshold - GameConfig.DozerSkins[UnlockedSkinIndex].ScoreThreshold)) * 100;
+
         return result;
     }
-
+    
+    
 }
