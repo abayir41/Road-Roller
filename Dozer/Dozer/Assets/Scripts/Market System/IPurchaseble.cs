@@ -15,7 +15,7 @@ public interface IPurchasableDozer : IPurchasable
 {
     GameObject DozerSkin { get; }
     
-    Image Preview { get; }
+    Sprite Preview { get; }
 }
 
 
