@@ -14,7 +14,7 @@ public class SkinScriptable : ScriptableObject , IPurchasableDozer
     public GameObject DozerSkin => dozerSkin;
     [SerializeField] private GameObject dozerSkin;
 
-    public Image Preview => preview;
-    [SerializeField] private Image preview;
+    public Sprite Preview => preview;
+    [SerializeField] private Sprite preview;
 
 }
