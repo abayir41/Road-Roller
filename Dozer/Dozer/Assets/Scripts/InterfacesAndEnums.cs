@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -90,9 +90,7 @@ public interface IInteractable
 
 public interface ISystem
 {
-    bool SystemReady { get; }
-
-    Behaviour System { get; }
+    void ResetTheSystem();
 }
 
 #endregion
