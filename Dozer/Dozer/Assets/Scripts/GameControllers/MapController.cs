@@ -6,11 +6,9 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 
-public class MapController : MonoBehaviour, ISystem
+public class MapController : MonoBehaviour
 {
     public static MapController Instance { get; private set; }
-    public bool SystemReady { get; private set; }
-    public Behaviour System { get; private set; }
 
     //Dozer Movement and process 
     [Header("Dozer Settings")]
@@ -45,19 +43,11 @@ public class MapController : MonoBehaviour, ISystem
     public List<Player> Players { get; set; }
 
 
-    //GameMode Settings
-    public int TimeLeft => GameController.GameConfig.MatchTimeAsSecond - (int) _timer;
-    private float _timer;
-
-
     private void Awake()
     {
         
-        if (Instance == null)
-            Instance = this;
+        Instance = this;
 
-        System = this;
-        
         RandomlyChangedMaterialsListAndColours = new Dictionary<IColorChanger, Dictionary<int, Color>>();
         _dozerFollowers = new List<Transform>();
         Players = new List<Player>();
@@ -66,16 +56,12 @@ public class MapController : MonoBehaviour, ISystem
         if (!(Camera.main is null)) _cameraGameObject = Camera.main.gameObject;
         _cameraTrans = _cameraGameObject.transform;
         _camera = _cameraGameObject.GetComponent<Camera>();
-
-        if (RegisterSystem.Instance.GetDataAsString(GameController.GameConfig.SelectedSkin) == "") 
-            RegisterSystem.Instance.SaveData(GameController.GameConfig.SelectedSkin,GameController.GameConfig.BaseSkinID);
+        
     }
 
     private void Start()
     {
         PrepareScene();
-        SystemReady = true;
-        ActionSys.GameStatusChanged?.Invoke(GameStatus.WaitingOnMenu);
     }
 
     private void Update()
@@ -240,7 +226,7 @@ public class MapController : MonoBehaviour, ISystem
             
             if (i == 0) //Spawning normal dozer and caching some variables
             {
-                var normalDozer = Instantiate(playerDozer);
+                var normalDozer = Instantiate(playerDozer, GameInitializer.CurrentMap.transform);
                 
                 RegisterTheDozer(normalDozer, "You");
                 SetDozerFollowers();
@@ -254,7 +240,7 @@ public class MapController : MonoBehaviour, ISystem
             }
             else //Spawning AI 
             {
-                var dozerAI = Instantiate(aiDozer);
+                var dozerAI = Instantiate(aiDozer, GameInitializer.CurrentMap.transform);
                 
                 RegisterTheDozer(dozerAI, LeaderboardsAbstract.Instance.GetRandomName());
                 
