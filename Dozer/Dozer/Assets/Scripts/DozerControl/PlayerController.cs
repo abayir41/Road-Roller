@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
     {
         PlayerProperty.IsDead = true;
 
-        if (Player == this)
+        if (Player == this && GameController.Status == GameStatus.Playing)
         {
             ActionSys.GameStatusChanged?.Invoke(GameStatus.Lost);
         }
