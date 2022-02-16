@@ -24,11 +24,14 @@ public class GameConfig : ScriptableObject
     public string TotalScore => totalScore;
     [SerializeField] private string totalScore;
     
-    public string SelectedSkin => selectedSkin;
-    [SerializeField] private string selectedSkin;
+    public string SelectedSkinIndexString => selectedSkinIndexString;
+    [SerializeField] private string selectedSkinIndexString;
 
     public string SavedProgressSkinUnlock => savedProgressSkinUnlock;
     [SerializeField] private string savedProgressSkinUnlock;
+    
+    public string UnlockedSkinString => unlockedSkinString;
+    [SerializeField] private string unlockedSkinString;
     
     public List<string> CollisionObjectFilter => collisionObjectFilter;
     public List<int> DestroyThresholdsFromLevels => destroyThresholdsFromLevelBase;
