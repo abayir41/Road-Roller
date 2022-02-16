@@ -159,7 +159,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
         particle.transform.localPosition = Vector3.zero;
         particle.transform.localRotation = Quaternion.Euler(Vector3.zero);
         particle.transform.localScale = Vector3.one;
-        particle.transform.parent = null;
+        particle.transform.parent = GameInitializer.CurrentMap.transform;
         
         var particleSys = particle.GetComponent<ParticleSystem>();
         var boxCollider = shapeOfParticleCollider;
@@ -187,7 +187,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
         crash.transform.localPosition = Vector3.zero;
         crash.transform.localRotation = Quaternion.Euler(Vector3.zero);
         crash.transform.localScale = Vector3.one;
-        crash.transform.parent = null;
+        crash.transform.parent = GameInitializer.CurrentMap.transform;
     }
     private void ChangeCrashColor(GameObject crash)
     {
