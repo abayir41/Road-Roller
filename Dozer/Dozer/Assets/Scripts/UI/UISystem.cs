@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +12,6 @@ public class UISystem : MonoBehaviour, ISystem
 {
 
     public static UISystem Instance { get; private set; }
-
-    public bool SystemReady { get; private set; }
-    public Behaviour System { get; private set; }
 
     [SerializeField] private float animationDuration = 0.2f;
 
@@ -40,6 +37,7 @@ public class UISystem : MonoBehaviour, ISystem
     [Header("Skin Select Menu Settings")] 
     [SerializeField] private GameObject skinSelectMenuParent;
     [SerializeField] private GameObject skinSelectMenu;
+    [SerializeField] private List<GameObject> skinsContentItems;
     private RectTransform _skinSelectMenuRect;
 
     [Header("Game Mode Select Menu Settings")] 
@@ -158,8 +156,6 @@ public class UISystem : MonoBehaviour, ISystem
         if(Instance == null)
             Instance = this;
 
-        System = this;
-
 
         _newSkinUnlockedTextRect = newSkinUnlockedText.GetComponent<RectTransform>();
         _skinUnlockClickToContinueText = skinUnlockClickToContinue.GetComponent<TextMeshProUGUI>();
@@ -231,25 +227,6 @@ public class UISystem : MonoBehaviour, ISystem
     private void Start()
     {
         DOTween.Init();
-        
-        DisappearsSkinUnlockScreen(0);
-        DisappearsDeadScreen(0);
-        DisappearsInGameUI(0);
-        DisappearsSettingPanel(0);
-        DisappearsGameModesMenu(0);
-        DisappearsSkinSelectMenu(0);
-        DisappearsNeedToContinueItems(0);
-        DisappearsPauseItems(0);
-        DisappearsEndLeaderboard(0);
-        DisappearsWaitingMenuItems(0, () =>
-        {
-            if (GameController.Status == GameStatus.Loading)
-            {
-                GetLoadingScreen(0, () =>  SystemReady = true);
-            }
-        });
-        
-        ActionSys.GameModeChanged?.Invoke(GameMode.TimeCounting);
     }
 
     #region Subscription
@@ -415,9 +392,9 @@ public class UISystem : MonoBehaviour, ISystem
         {
             GetSkinUnlockScreen(animationDuration, () =>
             {
-                skinUnlockScript.ScrollTheImage(GameController.Instance.PercentageCalculator(), animationDuration * 10, () =>
+                skinUnlockScript.ScrollTheImage(GameController.PercentageCalculator(), animationDuration * 10, () =>
                 {
-                    if (GameController.Instance.NewSkinUnlocked())
+                    if (GameController.NewSkinUnlocked())
                     {
                         GetNewSkinUnlockedText(animationDuration, () => callback?.Invoke());
                     }
@@ -858,13 +835,13 @@ public class UISystem : MonoBehaviour, ISystem
     {
         OpenLoadingScreen(() =>
         {
-            Debug.LogError("Not Implemented");
+            ActionSys.ResetGame?.Invoke();
         });
     }
 
     public void ClickToContinueEndLeaderboard()
     {
-        if (GameController.Instance.IsThereAnyNewSkin())
+        if (GameController.IsThereAnyNewSkin())
         {
             OpenSkinUnlockUI();
         }
@@ -872,7 +849,7 @@ public class UISystem : MonoBehaviour, ISystem
         {
             OpenLoadingScreen(() =>
             {
-                Debug.LogError("Not Implemented");
+                 ActionSys.ResetGame?.Invoke();
             });
         }
     }
@@ -881,7 +858,7 @@ public class UISystem : MonoBehaviour, ISystem
     {
         OpenLoadingScreen(() =>
         {
-            Debug.LogError("Not Implemented");
+            ActionSys.ResetGame?.Invoke();
         });
     }
     public void ExtraTimeButton()
@@ -894,6 +871,34 @@ public class UISystem : MonoBehaviour, ISystem
         OpenEndLeaderboardUI();
     }
 
+    public void RefreshSkinSelectItems()
+    {
+        skinsContentItems.ForEach(o => o.SetActive(false));
+        
+        for (int i = 0; i < GameController.GameConfig.DozerSkins.Count; i++)
+        {
+            skinsContentItems[i].transform.GetChild(0).GetComponent<Image>().sprite =
+                GameController.GameConfig.DozerSkins[i].Preview;
+        }
+        for (int i = 0; i <= GameController.UnlockedSkinIndex; i++)
+        {
+            skinsContentItems[i].SetActive(true);
+        }
+    }
+
+    public void SkinSelected(int ID)
+    {
+        for (int i = 0; i < skinsContentItems.Count; i++)
+        {
+            if(i == ID) 
+                skinsContentItems[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+            else
+                skinsContentItems[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+        }
+        
+        ActionSys.SkinSelected?.Invoke(ID);
+    }
+    
     #endregion
 
     #region GameDynamics
@@ -1032,5 +1037,24 @@ public class UISystem : MonoBehaviour, ISystem
     }
 
     #endregion
+
+    public void ResetTheSystem()
+    {
+        _disappearsCurrentUI = DisappearsLoadingScreen;
+        skinUnlockScript.ResetTheSystem();
+        RefreshSkinSelectItems();
+        SkinSelected(GameController.SelectedSkinIndex);
+        
+        DisappearsSkinUnlockScreen(0);
+        DisappearsDeadScreen(0);
+        DisappearsInGameUI(0);
+        DisappearsSettingPanel(0);
+        DisappearsGameModesMenu(0);
+        DisappearsSkinSelectMenu(0);
+        DisappearsNeedToContinueItems(0);
+        DisappearsPauseItems(0);
+        DisappearsEndLeaderboard(0);
+        DisappearsWaitingMenuItems(0);
+    }
 
 }
