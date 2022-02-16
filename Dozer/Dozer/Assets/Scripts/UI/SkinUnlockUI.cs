@@ -5,8 +5,10 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkinUnlockUI : MonoBehaviour
+public class SkinUnlockUI : MonoBehaviour, ISystem
 {
+ 
+
     [SerializeField] private RectMask2D mask;
     [SerializeField] private RectTransform parentRectTransform;
     private float _paddingAmount;
@@ -30,4 +32,11 @@ public class SkinUnlockUI : MonoBehaviour
             percentage/100*_parentHeight, duration)
             .OnKill(() => callback?.Invoke());
     }
+
+    public void ResetTheSystem()
+    {
+        mask.padding = new Vector4(0,GameController.SkinUnlockProgressPercentage/100*_parentHeight,0, 0);
+    }
+
+
 }
