@@ -7,29 +7,52 @@ using Random = UnityEngine.Random;
 
 public class SkinSystem : MonoBehaviour
 {
+    private GameObject _spawnedSkin;
+    private Transform visualPoint;
     private void Start()
     {
-        var visualPoint = GetComponent<CarSystem>().VisualPoint;
+        visualPoint = GetComponent<CarSystem>().VisualPoint;
         var isAI = GetComponent<PlayerController>().IsAI;
         var interactableObj = GetComponent<InteractableObj>();
-        GameObject skinGameObject;
         if (isAI)
         {
             var ranInt = Random.Range(0, GameController.GameConfig.DozerSkins.Count);
             var randomSkin = GameController.GameConfig.DozerSkins[ranInt];
-            skinGameObject = Instantiate(randomSkin.DozerSkin, visualPoint);
+            _spawnedSkin = Instantiate(randomSkin.DozerSkin, visualPoint);
         }
         else
         {
-            var skinName = RegisterSystem.Instance.GetDataAsString(GameController.GameConfig.SelectedSkin);
-            var skinScriptable = GameController.GameConfig.DozerSkins.First(skin => skin.ItemID == skinName);
-            skinGameObject = Instantiate(skinScriptable.DozerSkin, visualPoint);
+            var skinIndex = RegisterSystem.Instance.GetDataAsInt(GameController.GameConfig.SelectedSkinIndexString);
+            var skinScriptable = GameController.GameConfig.DozerSkins[skinIndex];
+            _spawnedSkin = Instantiate(skinScriptable.DozerSkin, visualPoint);
         }
 
-        var meshRenderers = skinGameObject.GetComponentsInChildren<MeshRenderer>();
+        var meshRenderers = _spawnedSkin.GetComponentsInChildren<MeshRenderer>();
         foreach (var meshRenderer in meshRenderers)
         {
             interactableObj.meshRenderers.Add(meshRenderer);
         }
+    }
+
+    private void OnEnable()
+    {
+        var isAI = GetComponent<PlayerController>().IsAI;
+        if (isAI) return;
+
+        ActionSys.SkinSelected += RefreshSkin;
+    }
+
+    private void OnDisable()
+    {
+        var isAI = GetComponent<PlayerController>().IsAI;
+        if (isAI) return;
+
+        ActionSys.SkinSelected -= RefreshSkin;
+    }
+
+    void RefreshSkin(int ID)
+    {
+        Destroy(_spawnedSkin);
+        _spawnedSkin = Instantiate(GameController.GameConfig.DozerSkins[ID].DozerSkin, visualPoint);
     }
 }
