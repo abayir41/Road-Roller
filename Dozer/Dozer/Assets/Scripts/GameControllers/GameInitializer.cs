@@ -6,38 +6,77 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class GameInitializer : MonoBehaviour
+public class GameInitializer : MonoBehaviour, ISystem
 {
 
-    public static bool MapControllerReady = false;
-
     [SerializeField] private List<GameObject> maps;
+    public static GameObject CurrentMap { get; private set; }
     private void Start()
     {
-        ActionSys.GameStatusChanged(GameStatus.Loading);
-        StartCoroutine(WaitForSpecificSystemReady(UISystem.Instance,LoadTheGame));
+        PlayerPrefs.DeleteAll();
+        StartCoroutine(InitializedGame());
     }
 
-    private void LoadTheGame()
+    IEnumerator InitializedGame()
     {
+        ActionSys.GameStatusChanged?.Invoke(GameStatus.Loading);
         
+        yield return 0;
+        
+        UISystem.Instance.ResetTheSystem();
+
+        yield return 0;
+        
+        LoadTheGame();
+        
+        yield return 0;
+        
+        ActionSys.GameModeChanged?.Invoke(GameMode.TimeCounting);
+        
+        yield return 0;
+        
+        ActionSys.GameStatusChanged?.Invoke(GameStatus.WaitingOnMenu);
+    }
+
+    private void LoadTheGame(Action callback = null)
+    {
         var ranInt = Random.Range(0, maps.Count);
-        Instantiate(maps[ranInt]);
-        StartCoroutine(WaitForSpecificSystemReady(MapController.Instance, () =>
-        {
-            MapControllerReady = true;
-        }));
+        CurrentMap = Instantiate(maps[ranInt]);
     }
     
-    
-    private static IEnumerator WaitForSpecificSystemReady(ISystem system, Action callback = null)
+    private void OnEnable()
     {
-        system.System.enabled = true;
+        ActionSys.ResetGame += ResetTheSystem;
+    }
+
+    private void OnDisable()
+    {
+        ActionSys.ResetGame -= ResetTheSystem;
+    }
+
+    public void ResetTheSystem()
+    {
+        StartCoroutine(ResetGame());
+    }
+
+    IEnumerator ResetGame()
+    {
+        Destroy(CurrentMap);
+
+        yield return 0;
         
-        while (!system.SystemReady)
-        {
-            yield return null;
-        }
-        callback?.Invoke();
+        GameController.Instance.ResetTheSystem();
+
+        yield return 0;
+
+        UISystem.Instance.ResetTheSystem();
+
+        yield return 0;
+        
+        LoadTheGame();
+
+        yield return 0;
+        
+        ActionSys.GameStatusChanged?.Invoke(GameStatus.WaitingOnMenu);
     }
 }
