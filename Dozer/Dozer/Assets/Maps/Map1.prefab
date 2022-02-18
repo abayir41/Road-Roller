@@ -477,9 +477,8 @@ GameObject:
   m_Component:
   - component: {fileID: 9169183695151967576}
   - component: {fileID: 9169183695151967579}
-  - component: {fileID: 9169183695151967577}
   m_Layer: 0
-  m_Name: Game Controller
+  m_Name: Map Controller
   m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -514,7 +513,7 @@ MonoBehaviour:
   playerDozer: {fileID: 5810240144904009790, guid: 790b01b7606da304197450acf4585446, type: 3}
   aiDozer: {fileID: 5020395865685476948, guid: bf7ef8e8c57cd894aa01941d95779835, type: 3}
   cameraDistanceDivider: 60
-  playerCount: 9
+  playerCount: 3
   spawnPoints:
   - {fileID: 5823136723877564545}
   - {fileID: 2527309989259591721}
@@ -525,27 +524,6 @@ MonoBehaviour:
   - {fileID: 6283674745343557719}
   - {fileID: 6021629141798173527}
   - {fileID: 9127910405132249550}
---- !u!114 &9169183695151967577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9169183695151967578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 492beab62f966fb4f808da8b08f7a8f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  names:
-  - Deneme
-  - Kipici
-  - Bayir
-  - Fatih
-  - Zenci
-  - Kral
-  - Manyak
-  colors: []
 --- !u!1 &9169183695266249791
 GameObject:
   m_ObjectHideFlags: 0
@@ -1571,7 +1549,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
