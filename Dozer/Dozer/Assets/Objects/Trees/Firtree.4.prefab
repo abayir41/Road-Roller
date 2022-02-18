@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 7066289470850707456}
   - component: {fileID: 2648517996996412933}
   - component: {fileID: 8722224524928254757}
-  - component: {fileID: 5576917183389794259}
   - component: {fileID: -6010388942876588533}
   - component: {fileID: 8738686354320628753}
   m_Layer: 0
@@ -105,6 +104,7 @@ MonoBehaviour:
   - {r: 0, g: 0.8962264, b: 0.13413747, a: 0}
   - {r: 0.04185582, g: 0.7924528, b: 0, a: 0}
   - {r: 0, g: 0.6415094, b: 0.0014268496, a: 0}
+  paintMaterialIndexes: 01000000
 --- !u!65 &2648517996996412933
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -134,19 +134,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &5576917183389794259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3926481918053345406}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c88d25e844c62f49b545af745fd1187, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  materialIndexes: 01000000
 --- !u!114 &-6010388942876588533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,10 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f6db4b812fd8814b9a0e5e87d43f0a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyThreshold: 0
-  objectHitPoint: 10
   objectType: 0
-  delayWhileCollision: 5
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   particleVolumeMultiplier: 1
   particleCount: 170

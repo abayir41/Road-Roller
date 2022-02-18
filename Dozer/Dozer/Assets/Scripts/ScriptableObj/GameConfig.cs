@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
 
 [CreateAssetMenu(fileName = "GameConfig", menuName = "GameConfig")]
 public class GameConfig : ScriptableObject
@@ -17,21 +13,21 @@ public class GameConfig : ScriptableObject
     
     public string BaseSkinID => DozerSkins[0].ItemID;
     
+    
+    
+    public string TotalScore => totalScore;
+    public string SelectedSkinIndexString => selectedSkinIndexString;
+    public string SavedProgressSkinUnlock => savedProgressSkinUnlock;
+    public string UnlockedSkinString => unlockedSkinString;
     public string ScoreSaverText => scoreSaverText;
     [Header("Just Be Sure there are not any same string")]
     [SerializeField] private string scoreSaverText;
-
-    public string TotalScore => totalScore;
     [SerializeField] private string totalScore;
-    
-    public string SelectedSkinIndexString => selectedSkinIndexString;
     [SerializeField] private string selectedSkinIndexString;
-
-    public string SavedProgressSkinUnlock => savedProgressSkinUnlock;
     [SerializeField] private string savedProgressSkinUnlock;
-    
-    public string UnlockedSkinString => unlockedSkinString;
     [SerializeField] private string unlockedSkinString;
+
+    
     
     public List<string> CollisionObjectFilter => collisionObjectFilter;
     public List<int> DestroyThresholdsFromLevels => destroyThresholdsFromLevelBase;
@@ -65,5 +61,13 @@ public class GameConfig : ScriptableObject
 
     [Header("Skin System")]
     [SerializeField] private List<SkinScriptable> dozerSkins;
+
+
+    public List<string> Names => names;
+    public List<Color> Colors => colors;
+    
+    [Header("Leaderboard System")]
+    [SerializeField] private List<string> names;
+    [SerializeField] private List<Color> colors;
 
 }

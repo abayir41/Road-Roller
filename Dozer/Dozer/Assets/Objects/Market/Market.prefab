@@ -94,7 +94,6 @@ GameObject:
   - component: {fileID: 255916516460652689}
   - component: {fileID: 2628227344993969929}
   - component: {fileID: 4122154574004242621}
-  - component: {fileID: 6378885788481725027}
   m_Layer: 0
   m_Name: Bed_2
   m_TagString: Untagged
@@ -182,19 +181,7 @@ MonoBehaviour:
   - {r: 0.24719654, g: 0.9528302, b: 0.3519631, a: 0}
   - {r: 0.24624039, g: 1, b: 0.2028302, a: 0}
   - {r: 0.20198467, g: 0.8396226, b: 0.20198467, a: 0}
---- !u!114 &6378885788481725027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 632245680725854602}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c88d25e844c62f49b545af745fd1187, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  materialIndexes: 01000000
+  paintMaterialIndexes: 01000000
 --- !u!1 &4669376349126775522
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,7 +194,6 @@ GameObject:
   - component: {fileID: 1189274300857768568}
   - component: {fileID: 2998208624827269412}
   - component: {fileID: 2989993817041992632}
-  - component: {fileID: 8504272554459548341}
   m_Layer: 0
   m_Name: Bed_3
   m_TagString: Untagged
@@ -295,19 +281,7 @@ MonoBehaviour:
   - {r: 0.24719654, g: 0.9528302, b: 0.3519631, a: 0}
   - {r: 0.24624039, g: 1, b: 0.2028302, a: 0}
   - {r: 0.20198467, g: 0.8396226, b: 0.20198467, a: 0}
---- !u!114 &8504272554459548341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4669376349126775522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c88d25e844c62f49b545af745fd1187, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  materialIndexes: 01000000
+  paintMaterialIndexes: 01000000
 --- !u!1 &7701565689276796215
 GameObject:
   m_ObjectHideFlags: 0

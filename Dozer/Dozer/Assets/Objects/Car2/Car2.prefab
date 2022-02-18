@@ -46,7 +46,6 @@ GameObject:
   - component: {fileID: 7227864373593981715}
   - component: {fileID: 6350304191486793257}
   - component: {fileID: 4981067170841691563}
-  - component: {fileID: -651032829903413755}
   m_Layer: 0
   m_Name: Car2
   m_TagString: Destroyable
@@ -140,6 +139,7 @@ MonoBehaviour:
   - {r: 1, g: 0.2216981, b: 0.2216981, a: 1}
   - {r: 0.19339621, g: 0.36402804, b: 1, a: 1}
   - {r: 0.98374146, g: 1, b: 0.23113209, a: 1}
+  paintMaterialIndexes: 04000000
 --- !u!65 &3338334252677374949
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -193,10 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f6db4b812fd8814b9a0e5e87d43f0a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyThreshold: 0
-  objectHitPoint: 10
   objectType: 0
-  delayWhileCollision: 5
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   particleVolumeMultiplier: 1
   particleCount: 250
@@ -209,19 +206,6 @@ MonoBehaviour:
   - {fileID: 8759284022906536997}
   disableColliders:
   - {fileID: 3338334252677374949}
---- !u!114 &-651032829903413755
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4759825729611391488}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c88d25e844c62f49b545af745fd1187, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  materialIndexes: 04000000
 --- !u!1 &6650353791102886413
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -42,6 +40,7 @@ public class GameInitializer : MonoBehaviour, ISystem
     {
         var ranInt = Random.Range(0, maps.Count);
         CurrentMap = Instantiate(maps[ranInt]);
+        callback?.Invoke();
     }
     
     private void OnEnable()

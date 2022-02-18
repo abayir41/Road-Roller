@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "Skin", menuName = "SkinMenu")]
 public class SkinScriptable : ScriptableObject , IPurchasableDozer

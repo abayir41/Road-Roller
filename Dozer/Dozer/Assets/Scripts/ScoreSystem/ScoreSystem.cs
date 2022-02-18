@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public class ScoreSystem
 {
@@ -9,8 +8,12 @@ public class ScoreSystem
     
     //Player and properties
     private Player Player { get; }
-    public int CurrentLevel { get => Player.Level; private set => Player.Level = value; }
-    public int CurrentScore { get => Player.Score; private set => Player.Score = value; }
+
+    private int CurrentLevel { get => Player.Level;
+        set => Player.Level = value; }
+
+    private int CurrentScore { get => Player.Score;
+        set => Player.Score = value; }
 
     //Trigger
     private CarActionSys CarActionSys { get; }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = System.Random;
@@ -7,8 +6,8 @@ using UnityRandom = UnityEngine.Random;
 
 public class LeaderBoardSystem : LeaderboardsAbstract
 {
-    public List<string> names;
-    public List<Color> colors;
+    private List<string> names => GameController.GameConfig.Names;
+    private List<Color> colors => GameController.GameConfig.Colors;
 
     protected override void Awake()
     {
@@ -81,6 +80,6 @@ public class LeaderBoardSystem : LeaderboardsAbstract
             UnityRandom.Range(0f, 1f), 
             UnityRandom.Range(0f, 1f), 
             UnityRandom.Range(0f, 1f)
-        );;
+        );
     }
 }

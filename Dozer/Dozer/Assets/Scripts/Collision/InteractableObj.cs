@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -137,8 +136,9 @@ public class InteractableObj : MonoBehaviour, IInteractable
     private IEnumerator IEInteraction(float delay)
     {
         var particle = SpawnParticle();
-        if (particle == null) yield return null;
-        Destroy(particle,2f);
+        if (particle != null)
+            Destroy(particle,2f);
+        
         foreach (var meshRenderer in meshRenderers)
         {
             meshRenderer.enabled = false;

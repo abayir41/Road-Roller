@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -8,11 +6,17 @@ using Random = UnityEngine.Random;
 
 public class ColorChanger : MonoBehaviour, IColorChangerRandomly
 {
+
     public Color[] Colors => presetColors;
-    [SerializeField]
-    private Color[] presetColors;
+    [SerializeField] private Color[] presetColors;
+
+    public List<int> PaintMaterialIndexes => paintMaterialIndexes;
+    [SerializeField] private List<int> paintMaterialIndexes;
+    
     private Renderer _renderer;
+    
     private MaterialPropertyBlock _materialProperty;
+    
     private Dictionary<int, Color> _materialInColors;
     private void Awake()
     {
@@ -30,4 +34,6 @@ public class ColorChanger : MonoBehaviour, IColorChangerRandomly
     {
         ChangeColor(presetColors[Random.Range(0, presetColors.Length)],materialIndex);
     }
+
+    
 }

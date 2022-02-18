@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +39,7 @@ public class MapController : MonoBehaviour
     [Header("Map Settings")] 
     [SerializeField] private int playerCount;
     [SerializeField] private List<Transform> spawnPoints;
-    public List<Player> Players { get; set; }
+    private List<Player> Players { get; set; }
 
 
     private void Awake()
@@ -288,14 +287,12 @@ public class MapController : MonoBehaviour
         var colorableObjs = FindObjectsOfType<ColorChanger>().ToList();
         foreach (var colorableObj in colorableObjs)
         {
-            var materialIndexes = colorableObj.gameObject.GetComponent<IRandomlyPaintedMaterialIndex>().MaterialIndexes;
-            foreach (var materialIndex in materialIndexes)
+            foreach (var materialIndex in colorableObj.PaintMaterialIndexes)
             {
-                var colorChangerRandomly = colorableObj.gameObject.GetComponent<IColorChangerRandomly>();
-                var colors = colorChangerRandomly.Colors;
+                var colors = colorableObj.Colors;
                 var randomInt = Random.Range(0, colors.Length);
-                colorChangerRandomly.ChangeColor(colors[randomInt],materialIndex);
-                RandomlyChangedMaterialsListAndColours.Add(colorChangerRandomly,new Dictionary<int, Color>(){{materialIndex,colors[randomInt]}});
+                colorableObj.ChangeColor(colors[randomInt],materialIndex);
+                RandomlyChangedMaterialsListAndColours.Add(colorableObj,new Dictionary<int, Color>(){{materialIndex,colors[randomInt]}});
             }
         }
     }

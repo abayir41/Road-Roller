@@ -56,7 +56,7 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
             var isThereAnySuitablePointOfTarget = NavMesh.SamplePosition(targetPosition, out var nearestPointOfTarget, 100000000.0f, NavMesh.AllAreas);
             var isThereAnySuitablePointOfAI = NavMesh.SamplePosition(_selfTransform.position, out var nearestPointOfAI, 100000000.0f, NavMesh.AllAreas);
             
-            var checkIfPathExist = false;
+            bool checkIfPathExist;
             if (isThereAnySuitablePointOfAI && isThereAnySuitablePointOfTarget)
             {
                 checkIfPathExist = NavMesh.CalculatePath(nearestPointOfAI.position, nearestPointOfTarget.position, NavMesh.AllAreas, _path);

@@ -44,7 +44,6 @@ GameObject:
   - component: {fileID: 672720493979761339}
   - component: {fileID: 7681037151497896532}
   - component: {fileID: 4739234961982199715}
-  - component: {fileID: 5586535415942529519}
   - component: {fileID: 6305861539445789202}
   - component: {fileID: 4241238207574937155}
   m_Layer: 0
@@ -140,6 +139,7 @@ MonoBehaviour:
   - {r: 0.17181943, g: 0.7924528, b: 0, a: 1}
   - {r: 0.7735849, g: 0.4036492, b: 0, a: 1}
   - {r: 0.735849, g: 0, b: 0, a: 1}
+  paintMaterialIndexes: 00000000
 --- !u!54 &7681037151497896532
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -169,19 +169,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.3155198, y: 4.9305596, z: 2.2955823}
   m_Center: {x: 0.04798668, y: 1.2338241, z: 8.399898}
---- !u!114 &5586535415942529519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9214079748922924805}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c88d25e844c62f49b545af745fd1187, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  materialIndexes: 00000000
 --- !u!114 &6305861539445789202
 MonoBehaviour:
   m_ObjectHideFlags: 0

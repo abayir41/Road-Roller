@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour, ISystem
@@ -32,19 +30,19 @@ public class GameController : MonoBehaviour, ISystem
     public static int TotalScore
     {
         get => RegisterSystem.Instance.GetDataAsInt(GameConfig.TotalScore);
-        set => RegisterSystem.Instance.SaveData(GameConfig.TotalScore, value);
+        private set => RegisterSystem.Instance.SaveData(GameConfig.TotalScore, value);
     }
     
     public static float SkinUnlockProgressPercentage
     {
         get => RegisterSystem.Instance.GetDataAsFloat(GameConfig.SavedProgressSkinUnlock);
-        set => RegisterSystem.Instance.SaveData(GameConfig.SavedProgressSkinUnlock,value);
+        private set => RegisterSystem.Instance.SaveData(GameConfig.SavedProgressSkinUnlock,value);
     }
 
     public static int SelectedSkinIndex
     {
         get => RegisterSystem.Instance.GetDataAsInt(GameConfig.SelectedSkinIndexString);
-        set => RegisterSystem.Instance.SaveData(GameConfig.SelectedSkinIndexString, value);
+        private set => RegisterSystem.Instance.SaveData(GameConfig.SelectedSkinIndexString, value);
     }
 
     public int TimeLeft => GameConfig.MatchTimeAsSecond - (int) _timer;
@@ -138,9 +136,9 @@ public class GameController : MonoBehaviour, ISystem
         }
     }
     
-    private void SelectedSkin(int ID)
+    private void SelectedSkin(int id)
     {
-        SelectedSkinIndex = ID;
+        SelectedSkinIndex = id;
     }
     #endregion
 

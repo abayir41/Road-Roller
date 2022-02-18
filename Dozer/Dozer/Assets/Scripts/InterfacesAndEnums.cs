@@ -41,11 +41,21 @@ public interface IColorChangerRandomly : IColorChanger
 {
     Color[] Colors { get; }
     void SelectColorRandomly(Color[] presetColors,int materialIndex);
+    List<int> PaintMaterialIndexes { get;}
 }
 
-interface IRandomlyPaintedMaterialIndex
+public interface IPurchasable
 {
-    List<int> MaterialIndexes { get;}
+    string ItemID { get; }
+    
+    int ScoreThreshold { get; }
+}
+
+public interface IPurchasableDozer : IPurchasable
+{
+    GameObject DozerSkin { get; }
+    
+    Sprite Preview { get; }
 }
 
 #endregion
@@ -92,6 +102,8 @@ public interface ISystem
 {
     void ResetTheSystem();
 }
+
+
 
 #endregion
 

@@ -1025,6 +1025,11 @@ public class UISystem : MonoBehaviour, ISystem
     {
         Debug.LogError("Not Implemented");
     }
+    
+    public void DoubleScoreButton()
+    {
+        Debug.LogError("Not Implemented");
+    }
 
     public void ClickToContinueNeedToContinue()
     {
