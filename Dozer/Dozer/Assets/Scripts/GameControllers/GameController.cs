@@ -62,29 +62,26 @@ public class GameController : MonoBehaviour, ISystem
     private void Update()
     {
 
-        if(Status != GameStatus.Playing) return;
-        
-        if (Mode == GameMode.TimeCounting)
+        if (Status == GameStatus.Playing)
         {
-            _timer += Time.deltaTime;
-
-            if (TimeLeft == GameConfig.MatchTimeAsSecond / 2)
+            if (Mode == GameMode.TimeCounting)
             {
-                ActionSys.GameStatusChanged?.Invoke(GameStatus.Paused);
+                _timer += Time.deltaTime;
+
+                if (TimeLeft == GameConfig.MatchTimeAsSecond / 2)
+                {
+                    ActionSys.GameStatusChanged?.Invoke(GameStatus.Paused);
+                }
+
+                if (TimeLeft == 0)
+                {
+                    ActionSys.GameStatusChanged?.Invoke(GameStatus.Ended);
+                }
             }
 
-            if (TimeLeft == 0)
-            {
-                ActionSys.GameStatusChanged?.Invoke(GameStatus.Ended);
-            }
-        }
-        else if (Mode == GameMode.BeTheLast)
-        {
             if(LeaderboardsAbstract.Instance.AlivePlayerCount == 1) 
                 ActionSys.GameStatusChanged?.Invoke(GameStatus.Ended);
         }
-
-        
     }
 
     #region Subscription
@@ -130,29 +127,25 @@ public class GameController : MonoBehaviour, ISystem
     public void ResetTheSystem()
     {
         _timer = 0;
-        if (IsThereAnyNewSkin())
+        if (!IsThereAnyNewSkin())
         {
             return;
         }
-
         if (NewSkinUnlocked())
         {
             UnlockedSkinIndex += 1;
             SkinUnlockProgressPercentage = 0;
         }
-        else
-        {
-            SkinUnlockProgressPercentage = PercentageCalculator();
-        }
     }
-
+    
     private void SelectedSkin(int ID)
     {
         SelectedSkinIndex = ID;
     }
     #endregion
 
-    
+
+    #region GameMethods
     public static bool IsThereAnyNewSkin()
     {
         if (GameConfig.DozerSkins.Count - 1 == UnlockedSkinIndex)
@@ -181,6 +174,24 @@ public class GameController : MonoBehaviour, ISystem
 
         return result;
     }
+
+
+    public bool IsTimeOutRewardVideoReady()
+    {
+        Debug.LogWarning("Reward Video Not Implemented");
+        return true;
+    }
+
+    public bool IsEndLeaderboardVideoReady()
+    {
+        Debug.LogWarning("Reward Video Not Implemented");
+        return true;
+    }
+    
+
+    #endregion
+    
+
     
     
 }
