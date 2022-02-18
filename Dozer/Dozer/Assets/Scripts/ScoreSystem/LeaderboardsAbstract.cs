@@ -4,42 +4,46 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public abstract class LeaderboardsAbstract : MonoBehaviour
+public abstract class LeaderboardsAbstract : MonoBehaviour, ISystem
 {
-    protected Dictionary<string, Player> PlayerAndScoreDictionary;
+    protected List<Player> PlayerList;
 
     public static LeaderBoardSystem Instance { get; protected set; }  
 
     protected virtual void Awake()
     {
-        PlayerAndScoreDictionary = new Dictionary<string, Player>();
+        PlayerList = new List<Player>();
     }
     
-    public int TotalPlayerCount => PlayerAndScoreDictionary.Count;
+    public int TotalPlayerCount => PlayerList.Count;
 
-    public int AlivePlayerCount => PlayerAndScoreDictionary.Count(pair => !pair.Value.IsDead);
+    public int AlivePlayerCount => PlayerList.Count(pair => !pair.IsDead);
 
-    public void AddPlayer(string playerName, Player player)
+    public void AddPlayer(Player player)
     {
-        PlayerAndScoreDictionary.Add(playerName, player);    
+        PlayerList.Add(player);    
     }
     
-    public void RemovePlayer(string playerName)
+    public void RemovePlayer(Player player)
     {
-        PlayerAndScoreDictionary.Remove(playerName);
+        PlayerList.Remove(player);
     }
 
     public Player GetPlayerByName(string playerName)
     {
-        return PlayerAndScoreDictionary[playerName];
+        return PlayerList.First(player => player.Name.Equals(playerName));
     }
     
     public int GetPlayerRank(Player player, bool addDeadPlayers = false)
     {
         return GetLeaderBoard(addDeadPlayers).IndexOf(player) + 1;
     }
-    
 
+    public void ResetTheSystem()
+    {
+        PlayerList = new List<Player>();
+    }
+    
     public abstract List<Player> GetLeaderBoard(bool addDeadPlayers = false);
     public abstract List<Player> GetLeaderBoard(int playerCount, bool addDeadPlayers = false);
     

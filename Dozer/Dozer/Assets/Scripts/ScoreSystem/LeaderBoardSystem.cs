@@ -18,33 +18,30 @@ public class LeaderBoardSystem : LeaderboardsAbstract
 
     public override List<Player> GetLeaderBoard(bool addDeadPlayers = false)
     {
-        var leaderBoard = PlayerAndScoreDictionary
-            .Where(pair => !pair.Value.IsDead || addDeadPlayers) //selecting according to dead or not 
-            .OrderByDescending(pair => pair.Value.Score)//Ordering
-            .ToDictionary(pair => pair.Key, pair => pair.Value)//converting to dictionary to get keys
-            .Values; //get keys
-
-        var leaderBoardAsAList = new List<Player>(leaderBoard);
-        return leaderBoardAsAList;
+        var leaderBoard = PlayerList
+            .Where(pair => !pair.IsDead || addDeadPlayers) //selecting according to dead or not 
+            .OrderByDescending(pair => pair.Score) //Ordering
+            .ToList();
+        
+        return leaderBoard;
     }
     
     public override List<Player> GetLeaderBoard(int playerCount, bool addDeadPlayers = false)
     {
-        var leaderBoard = PlayerAndScoreDictionary
-            .Where(pair => !pair.Value.IsDead || addDeadPlayers) //selecting according to dead or not 
-            .OrderByDescending(pair => pair.Value.Score)//Ordering
-            .Take(playerCount)//Taking head of list
-            .ToDictionary(pair => pair.Key, pair => pair.Value)//converting to dictionary to get keys
-            .Values; //get keys
+        var leaderBoard = PlayerList
+            .Where(pair => !pair.IsDead || addDeadPlayers) //selecting according to dead or not 
+            .OrderByDescending(pair => pair.Score) //Ordering
+            .Take(playerCount) //Taking head of list
+            .ToList();
 
-        var leaderBoardAsAList = new List<Player>(leaderBoard);
-        return leaderBoardAsAList;
+        
+        return leaderBoard;
     }
 
 
     public string GetRandomName()
     {
-        var suitableNames = names.Where(player => !PlayerAndScoreDictionary.ContainsKey(player)).ToArray();
+        var suitableNames = names.Where(player => PlayerList.All(player1 => player1.Name != player)).ToArray();
         if (suitableNames.Length == 0)
         {
             return RandomString(5);
@@ -58,7 +55,7 @@ public class LeaderBoardSystem : LeaderboardsAbstract
 
     public Color GetRandomColor()
     {
-        var suitableColors = colors.Where(player => PlayerAndScoreDictionary.All(pair => pair.Value.PlayerColor != player)).ToArray();
+        var suitableColors = colors.Where(player => PlayerList.All(pair => pair.PlayerColor != player)).ToArray();
         if (suitableColors.Length == 0)
         {
             return RandomColor();
