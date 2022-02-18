@@ -71,6 +71,11 @@ public class UISystem : MonoBehaviour, ISystem
     [SerializeField] private GameObject firstPartOfLeaderObj;
     [SerializeField] private GameObject secondPartOfLeaderObj;
     [SerializeField] private GameObject thirdPartOfLeaderObj;
+    private float _alphaBackgroundAmount;
+    private Image _firstLeaderBackground;
+    private Image _secondLeaderBackground;
+    private Image _thirdLeaderBackground;
+    private Image _fourthLeaderBackground;
     private TextMeshProUGUI _firstText;
     private TextMeshProUGUI _secondText;
     private TextMeshProUGUI _thirdText;
@@ -102,12 +107,18 @@ public class UISystem : MonoBehaviour, ISystem
 
     [Header("Need to Continue")] 
     [SerializeField] private GameObject needToContinueParent;
-    [SerializeField] private List<GameObject> needToContinueItems;
+    [SerializeField] private GameObject needToContinueTimeOut;
+    [SerializeField] private GameObject needToContinueRewardImage;
+    [SerializeField] private GameObject needToContinueRewardButton;
     [SerializeField] private GameObject needToContinueBackGround;
+    [SerializeField] private GameObject needToContinueClickToContinue;
+    private TextMeshProUGUI _needToContinueClickToContinueText;
     private float _needToContinueAlphaAmountBackground;
     private Image _needToContinueBackground;
-    private List<RectTransform> _needToContinueRectTransforms;
-    private List<float> _needToContinueRectOriginalYPositions;
+    private RectTransform _needToContinueTimeOutRect;
+    private RectTransform _needToContinueRewardImageRect;
+    private RectTransform _needToContinueRewardButtonRect;
+    private float _needToContinueTimeOutOriginalYPosition;
 
     [Header("End Leaderboard Items")] 
     [SerializeField] private GameObject endLeaderboardParent;
@@ -135,6 +146,7 @@ public class UISystem : MonoBehaviour, ISystem
     private float _alphaOfDeadScreenBackGround;
     private RectTransform _deadScreenYouLostRect;
     private RectTransform _deadScreenScoreTextRect;
+    private TextMeshProUGUI _deadScreenYourScoreText;
     private TextMeshProUGUI _deadScreenClickToContinue;
 
     [Header("Skin Unlock Screen")] 
@@ -144,7 +156,10 @@ public class UISystem : MonoBehaviour, ISystem
     [SerializeField] private GameObject newSkinUnlockedText;
     [SerializeField] private GameObject skinUnlockClickToContinue;
     [SerializeField] private SkinUnlockUI skinUnlockScript;
+    [SerializeField] private List<GameObject> skinUnlockImageObjs;
     private RectTransform _newSkinUnlockedTextRect;
+    private TextMeshProUGUI _skinUnlockTotalScoreText;
+    private List<Image> _skinUnlockNewSkinImages;
     private TextMeshProUGUI _skinUnlockClickToContinueText;
     private RectTransform _skinTotalScoreTextRect;
     private RectTransform _skinUnlockRect;
@@ -157,12 +172,15 @@ public class UISystem : MonoBehaviour, ISystem
             Instance = this;
 
 
+        _skinUnlockNewSkinImages = skinUnlockImageObjs.ConvertAll(input => input.GetComponent<Image>());
+        _skinUnlockTotalScoreText = skinTotalScoreTextObj.GetComponentInChildren<TextMeshProUGUI>();
         _newSkinUnlockedTextRect = newSkinUnlockedText.GetComponent<RectTransform>();
         _skinUnlockClickToContinueText = skinUnlockClickToContinue.GetComponent<TextMeshProUGUI>();
         _skinTotalScoreTextRect = skinTotalScoreTextObj.GetComponent<RectTransform>();
         _skinUnlockRect = skinUnlockObj.GetComponent<RectTransform>();
         _skinTotalScoreTextOriginalYPosition = _skinTotalScoreTextRect.position.y;
-        
+
+        _deadScreenYourScoreText = deadScreenScoreText.GetComponent<TextMeshProUGUI>();
         _deadScreenBackgroundImg = deadScreenBackGround.GetComponent<Image>();
         _alphaOfDeadScreenBackGround = _deadScreenBackgroundImg.color.a;
         _deadScreenYouLostRect = deadScreenYouLostText.GetComponent<RectTransform>();
@@ -187,17 +205,23 @@ public class UISystem : MonoBehaviour, ISystem
         _pauseAlphaAmountBackground = _pauseBackground.color.a;
         _pauseRectTransforms = pauseItems.Select(objects => objects.GetComponent<RectTransform>()).ToList();
         _pauseRectOriginalYPositions = _pauseRectTransforms.Select(rectTransform => rectTransform.position.y).ToList();
-        
+
+        _needToContinueClickToContinueText = needToContinueClickToContinue.GetComponentInChildren<TextMeshProUGUI>();
         _needToContinueBackground = needToContinueBackGround.GetComponent<Image>();
         _needToContinueAlphaAmountBackground = _needToContinueBackground.color.a;
-        _needToContinueRectTransforms =
-            needToContinueItems.Select(objects => objects.GetComponent<RectTransform>()).ToList();
-        _needToContinueRectOriginalYPositions =
-            _needToContinueRectTransforms.Select(rectTransform => rectTransform.position.y).ToList();
+        _needToContinueRewardButtonRect = needToContinueRewardButton.GetComponent<RectTransform>();
+        _needToContinueRewardImageRect = needToContinueRewardImage.GetComponent<RectTransform>();
+        _needToContinueTimeOutRect = needToContinueTimeOut.GetComponent<RectTransform>();
+        _needToContinueTimeOutOriginalYPosition = _needToContinueTimeOutRect.position.y;
         
         _endTextRectTransform = endText.transform.GetChild(0).GetComponent<RectTransform>();
         _endTextMeshProUGUI = endText.GetComponentInChildren<TextMeshProUGUI>();
         
+        _firstLeaderBackground = firstPartOfLeaderObj.GetComponent<Image>();
+        _secondLeaderBackground = secondPartOfLeaderObj.GetComponent<Image>();
+        _thirdLeaderBackground = thirdPartOfLeaderObj.GetComponent<Image>();
+        _fourthLeaderBackground = fourthPartOfLeaderObj.GetComponent<Image>();
+        _alphaBackgroundAmount = _firstLeaderBackground.color.a;
         _firstText = firstPartOfLeaderObj.GetComponentInChildren<TextMeshProUGUI>();
         _secondText = secondPartOfLeaderObj.GetComponentInChildren<TextMeshProUGUI>();
         _thirdText = thirdPartOfLeaderObj.GetComponentInChildren<TextMeshProUGUI>();
@@ -226,7 +250,7 @@ public class UISystem : MonoBehaviour, ISystem
 
     private void Start()
     {
-        DOTween.Init();
+        DOTween.Init(logBehaviour:LogBehaviour.Verbose);
     }
 
     #region Subscription
@@ -301,6 +325,7 @@ public class UISystem : MonoBehaviour, ISystem
                 OpenLostGameUI();
                 break;
             case GameStatus.Ended:
+                UpdateEndLeaderBoard();
                 OpenEndUI();
                 break;
         }
@@ -354,16 +379,50 @@ public class UISystem : MonoBehaviour, ISystem
         {
             _disappearsCurrentUI?.Invoke(animationDuration, () =>
             {
-                GetNeedToContinueItems(animationDuration, () => callback?.Invoke());
+                if (GameController.Instance.IsTimeOutRewardVideoReady())
+                {
+                    GetNeedToContinueItems(animationDuration, () =>
+                    {
+                        GetNeedToContinueVideoItems(animationDuration, () =>
+                        {
+                            GetNeedToContinueClickToContinue(animationDuration, () => callback?.Invoke());
+                        });
+                    });
+                }
+                else
+                {
+                    GetNeedToContinueItems(animationDuration, () =>
+                    {
+                        GetNeedToContinueClickToContinue(animationDuration, () => callback?.Invoke());
+                    });
+                }
             });
         }
         else if (GameController.Mode == GameMode.BeTheLast)
         {
+            UpdateEndText("You WON!!");
+            
             _disappearsCurrentUI?.Invoke(animationDuration, () =>
             {
                 ShowEndText(animationDuration * 5, () =>
                 {
-                    GetEndLeaderboard(animationDuration, () => callback?.Invoke());
+                    if (GameController.Instance.IsEndLeaderboardVideoReady())
+                    {
+                        GetEndLeaderboard(animationDuration, () =>
+                        {
+                            GetEndLeaderboardRewardButton(animationDuration, () =>
+                            {
+                                GetEndLeaderboardClickToContinue(animationDuration, () => callback?.Invoke());
+                            });       
+                        });
+                    }
+                    else
+                    {
+                        GetEndLeaderboard(animationDuration, () =>
+                        {
+                            GetEndLeaderboardClickToContinue(animationDuration, () => callback?.Invoke());
+                        });
+                    }
                 });
             });
         }
@@ -373,12 +432,31 @@ public class UISystem : MonoBehaviour, ISystem
     {
         _disappearsCurrentUI?.Invoke(animationDuration, () =>
         {
-            GetEndLeaderboard(animationDuration, () => callback?.Invoke());
+            if (GameController.Instance.IsEndLeaderboardVideoReady())
+            {
+                GetEndLeaderboard(animationDuration, () =>
+                {
+                    GetEndLeaderboardRewardButton(animationDuration, () =>
+                    {
+                        GetEndLeaderboardClickToContinue(animationDuration, () => callback?.Invoke());
+                    });       
+                });
+            }
+            else
+            {
+                GetEndLeaderboard(animationDuration, () =>
+                {
+                    GetEndLeaderboardClickToContinue(animationDuration, () => callback?.Invoke());
+                });
+            }
         });
     }
 
     private void OpenLostGameUI(Action callback = null)
     {
+        UpdateEndText("You CRASHED!!");
+        UpdateDeadScreen();
+        
         _disappearsCurrentUI?.Invoke(animationDuration,null);
         ShowEndText(animationDuration * 5, () =>
         {
@@ -388,10 +466,13 @@ public class UISystem : MonoBehaviour, ISystem
 
     private void OpenSkinUnlockUI(Action callback = null)
     {
+        UpdateSkinUnlockScreen();
+        
         _disappearsCurrentUI?.Invoke(animationDuration, () =>
         {
             GetSkinUnlockScreen(animationDuration, () =>
             {
+                ScoreIncreaseAnim(animationDuration * 10);
                 skinUnlockScript.ScrollTheImage(GameController.PercentageCalculator(), animationDuration * 10, () =>
                 {
                     if (GameController.NewSkinUnlocked())
@@ -599,29 +680,55 @@ public class UISystem : MonoBehaviour, ISystem
         });
         
     }
-    
-    private void GetNeedToContinueItems(float duration, Action callback = null)
+
+    #region NeedToContinue
+
+        private void GetNeedToContinueItems(float duration, Action callback = null)
     {
         _disappearsCurrentUI = DisappearsNeedToContinueItems;
         needToContinueParent.SetActive(true);
-        _needToContinueBackground.DOFade(_needToContinueAlphaAmountBackground, duration).OnKill((() => callback?.Invoke()));
-        
-        for (var i = 0; i < _needToContinueRectTransforms.Count; i++)
-        {
-            _needToContinueRectTransforms[i].DOMoveY(_needToContinueRectOriginalYPositions[i], duration)
-                    .SetEase(Ease.OutBack);
-        }
+        _needToContinueBackground.DOFade(_needToContinueAlphaAmountBackground, duration).OnKill(() => callback?.Invoke());
+        _needToContinueTimeOutRect.DOMoveY(_needToContinueTimeOutOriginalYPosition, duration).SetEase(Ease.OutBack);
+
     }
     private void DisappearsNeedToContinueItems(float duration, Action callback = null)
     {
         callback += () => needToContinueParent.SetActive(false);
-        
-        _needToContinueBackground.DOFade(0, duration).OnKill((() => callback?.Invoke()));
-        _needToContinueRectTransforms.ForEach(rectTransform =>
-        {
-            rectTransform.DOMoveY(rectTransform.position.y - Screen.height, duration);
-        });
+        DisappearsNeedToContinueVideoItems(duration);
+        _needToContinueBackground.DOFade(0, duration).OnKill(() => callback?.Invoke());
+        _needToContinueTimeOutRect.DOMoveY(Screen.height + _needToContinueTimeOutRect.rect.height, duration);
     }
+
+    private void GetNeedToContinueVideoItems(float duration, Action callback = null)
+    {
+        _needToContinueRewardImageRect.DOScaleY(1f, duration).SetEase(Ease.OutBack);
+        _needToContinueRewardImageRect.DOScaleX(1f, duration).SetEase(Ease.OutBack);
+
+        _needToContinueRewardButtonRect.DOScaleX(1f, duration).SetEase(Ease.OutBack);
+        _needToContinueRewardButtonRect.DOScaleY(1f, duration).SetEase(Ease.OutBack).OnKill(() => callback?.Invoke());
+    }
+    
+    private void DisappearsNeedToContinueVideoItems(float duration, Action callback = null)
+    {
+        DisappearNeedToContinueClickToContinue(duration);
+        _needToContinueRewardImageRect.DOScaleY(0f, duration).SetEase(Ease.OutBack);
+        _needToContinueRewardImageRect.DOScaleX(0f, duration).SetEase(Ease.OutBack);
+
+        _needToContinueRewardButtonRect.DOScaleX(0f, duration).SetEase(Ease.OutBack);
+        _needToContinueRewardButtonRect.DOScaleY(0f, duration).SetEase(Ease.OutBack).OnKill(() => callback?.Invoke());
+    }
+
+    private void GetNeedToContinueClickToContinue(float duration, Action callback = null)
+    {
+        _needToContinueClickToContinueText.DOFade(1f, duration).OnKill(() => callback?.Invoke());
+    }
+    
+    private void DisappearNeedToContinueClickToContinue(float duration, Action callback = null)
+    {
+        _needToContinueClickToContinueText.DOFade(0f, duration).OnKill(() => callback?.Invoke());
+    }
+
+    #endregion
     
     private void GetPauseItems(float duration, Action callback = null)
     {
@@ -644,12 +751,14 @@ public class UISystem : MonoBehaviour, ISystem
             rectTransform.DOMoveY(rectTransform.position.y - Screen.height, duration);
         });
     }
-    
+
+    #region EndLeaderboard
     private void GetEndLeaderboard(float duration, Action callback = null)
     {
         _disappearsCurrentUI = DisappearsEndLeaderboard;
         
         endLeaderboardParent.SetActive(true);
+        
         
         _timeOutOrPlayerCountRect.DOMoveX(_timeOrPlayerCountOriginalXPosition, duration).SetEase(Ease.OutBack).OnKill(
             () =>
@@ -657,17 +766,25 @@ public class UISystem : MonoBehaviour, ISystem
                 StartCoroutine(DelayedStart());
                 IEnumerator DelayedStart()
                 {
-                    for (var i = 0; i < _imagesOfLeaderboardObject.Count; i++)
+                    var players = LeaderboardsAbstract.Instance.GetLeaderBoard(true);
+                    var capacity = players.Count >= _textMeshProsOfLeaderboard.Count
+                        ? _textMeshProsOfLeaderboard.Count
+                        : players.Count;
+                    
+                    for (var i = 0; i < capacity; i++)
                     {
-                        _imagesOfLeaderboardObject[i].DOFade(_alphasOfLeaderboardObjects[i], duration);
-                        _textMeshProsOfLeaderboard[i].DOFade(1, duration);
-                        yield return new WaitForSeconds(duration / 2);
+                        if (i == capacity - 1)
+                        {
+                            _imagesOfLeaderboardObject[i].DOFade(_alphasOfLeaderboardObjects[i], duration);
+                            _textMeshProsOfLeaderboard[i].DOFade(1, duration).OnKill(() => callback?.Invoke());
+                        }
+                        else
+                        {
+                            _imagesOfLeaderboardObject[i].DOFade(_alphasOfLeaderboardObjects[i], duration);
+                            _textMeshProsOfLeaderboard[i].DOFade(1, duration);
+                            yield return new WaitForSeconds(duration / 2);
+                        }
                     }
-
-                    _rewardButtonRect.DOMoveX(_rewardOriginalXPosition, duration).OnKill(() =>
-                    {
-                        _clickToContinueText.DOFade(1, duration).OnKill(() => callback?.Invoke());
-                    });
                 }            
             });
     }
@@ -681,20 +798,55 @@ public class UISystem : MonoBehaviour, ISystem
                 StartCoroutine(DelayedStart());
                 IEnumerator DelayedStart()
                 {
+                    var players = LeaderboardsAbstract.Instance.GetLeaderBoard(true);
+                    var capacity = players.Count >= _textMeshProsOfLeaderboard.Count
+                        ? _textMeshProsOfLeaderboard.Count
+                        : players.Count;
+                    
                     for (var i = 0; i < _imagesOfLeaderboardObject.Count; i++)
                     {
-                        _imagesOfLeaderboardObject[i].DOFade(0, duration);
-                        _textMeshProsOfLeaderboard[i].DOFade(0, duration);
-                        yield return new WaitForSeconds(duration / 2);
+                        if (i == capacity - 1)
+                        {
+                            _imagesOfLeaderboardObject[i].DOFade(0, duration);
+                            _textMeshProsOfLeaderboard[i].DOFade(0, duration);
+                        }
+                        else
+                        {
+                            _imagesOfLeaderboardObject[i].DOFade(0, duration);
+                            _textMeshProsOfLeaderboard[i].DOFade(0, duration);
+                            yield return new WaitForSeconds(duration / 4);
+                        }
                     }
-
-                    _rewardButtonRect.DOMoveX(-1 * _rewardButtonRect.rect.width, duration).OnKill(() =>
-                    {
-                        _clickToContinueText.DOFade(0, duration).OnKill(() => callback?.Invoke());
-                    });
+                    
+                    DisappearsEndLeaderboardRewardButton(duration, () => callback?.Invoke());
                 }            
             });
     }
+
+    private void GetEndLeaderboardRewardButton(float duration, Action callback = null)
+    {
+        _rewardButtonRect.DOMoveX(_rewardOriginalXPosition, duration).OnKill(() => callback?.Invoke());
+    }
+
+    private void DisappearsEndLeaderboardRewardButton(float duration, Action callback = null)
+    {
+        DisappearEndLeaderboardClickToContinue(duration);
+        _rewardButtonRect.DOMoveX(-1 * _rewardButtonRect.rect.width, duration).OnKill(() => callback?.Invoke());
+    }
+
+    private void GetEndLeaderboardClickToContinue(float duration, Action callback = null)
+    {
+        _clickToContinueText.DOFade(1, duration).OnKill(() => callback?.Invoke());
+    }
+    
+    private void DisappearEndLeaderboardClickToContinue(float duration, Action callback = null)
+    {
+        _clickToContinueText.DOFade(0, duration).OnKill(() => callback?.Invoke());
+    }
+    
+
+    #endregion
+
     
     private void GetDeadScreen(float duration, Action callback = null)
     {
@@ -717,9 +869,9 @@ public class UISystem : MonoBehaviour, ISystem
         callback += () => deadScreenParent.SetActive(false);
         _deadScreenBackgroundImg.DOFade(0, duration).OnKill(() =>
         {
-            _deadScreenYouLostRect.DOMoveX(-1 * _deadScreenYouLostRect.rect.width, duration).SetEase(Ease.OutBack).OnKill(() =>
+            _deadScreenYouLostRect.DOMoveX(-3 * _deadScreenYouLostRect.rect.width, duration).SetEase(Ease.OutBack).OnKill(() =>
             {
-                _deadScreenScoreTextRect.DOMoveX(-1 * _deadScreenScoreTextRect.rect.width, duration).SetEase(Ease.OutBack).OnKill(() =>
+                _deadScreenScoreTextRect.DOMoveX(-3 * _deadScreenScoreTextRect.rect.width, duration).SetEase(Ease.OutBack).OnKill(() =>
                 {
                     _deadScreenClickToContinue.DOFade(0, duration).OnKill(() => callback?.Invoke());
                 });
@@ -775,11 +927,19 @@ public class UISystem : MonoBehaviour, ISystem
         _skinUnlockClickToContinueText.DOFade(0, duration).OnKill(() => callback?.Invoke());
     }
 
+    private void ScoreIncreaseAnim(float duration, Action callback = null)
+    {
+        var x = (float)(GameController.TotalScore -
+                 LeaderboardsAbstract.Instance.GetPlayerByName("You").Score);
+        DOTween.To(() => x, value =>
+        {
+            x = value;
+            _skinUnlockTotalScoreText.text = "Total Score: " + (int)x;
+        }, GameController.TotalScore, duration).OnKill(() => callback?.Invoke());
+    }
     #endregion
 
-
-
-
+    
     #endregion
 
     #region ButtonMethods
@@ -871,7 +1031,7 @@ public class UISystem : MonoBehaviour, ISystem
         OpenEndLeaderboardUI();
     }
 
-    public void RefreshSkinSelectItems()
+    private void RefreshSkinSelectItems()
     {
         skinsContentItems.ForEach(o => o.SetActive(false));
         
@@ -886,17 +1046,17 @@ public class UISystem : MonoBehaviour, ISystem
         }
     }
 
-    public void SkinSelected(int ID)
+    public void SkinSelected(int id)
     {
         for (int i = 0; i < skinsContentItems.Count; i++)
         {
-            if(i == ID) 
+            if(i == id) 
                 skinsContentItems[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
             else
                 skinsContentItems[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
         }
         
-        ActionSys.SkinSelected?.Invoke(ID);
+        ActionSys.SkinSelected?.Invoke(id);
     }
     
     #endregion
@@ -916,69 +1076,100 @@ public class UISystem : MonoBehaviour, ISystem
                 break;
         }
 
-        for (int i = 0; i < 4; i++)
+        
+        if (stat.Count < 1)
         {
-            switch (i)
+            var c = _firstLeaderBackground.color;
+            _firstLeaderBackground.color = new Color(c.r, c.g, c.b, 0);
+            
+            c = _firstText.color;
+            _firstText.color = new Color(c.r, c.g, c.b, 0);
+        }
+        else
+        {
+            var c = _firstLeaderBackground.color;
+            _firstLeaderBackground.color = new Color(c.r, c.g, c.b, _alphaBackgroundAmount);
+            
+            c = _firstText.color;
+            _firstText.color = new Color(c.r, c.g, c.b, 1);
+            
+            _firstText.text = "1-" + stat[0].Name;
+            _firstText.color = stat[0].PlayerColor;
+        }
+        
+        if (stat.Count < 2)
+        {
+            var c = _secondLeaderBackground.color;
+            _secondLeaderBackground.color = new Color(c.r, c.g, c.b, 0);
+            
+            c = _secondText.color;
+            _secondText.color = new Color(c.r, c.g, c.b, 0);
+        }
+        else
+        {
+            var c = _secondLeaderBackground.color;
+            _secondLeaderBackground.color = new Color(c.r, c.g, c.b, _alphaBackgroundAmount);
+            
+            c = _secondText.color;
+            _secondText.color = new Color(c.r, c.g, c.b, 1);
+            
+            _secondText.text = "2-" + stat[1].Name;
+            _secondText.color = stat[1].PlayerColor;
+        }
+        
+        
+        if (stat.Count < 3)
+        {
+            var c = _thirdLeaderBackground.color;
+            _thirdLeaderBackground.color = new Color(c.r, c.g, c.b, 0);
+            
+            c = _thirdText.color;
+            _thirdText.color = new Color(c.r, c.g, c.b, 0);
+        }
+        else
+        {
+            var c = _thirdLeaderBackground.color;
+            _thirdLeaderBackground.color = new Color(c.r, c.g, c.b, _alphaBackgroundAmount);
+            
+            c = _thirdText.color;
+            _thirdText.color = new Color(c.r, c.g, c.b, 1);
+            
+            _thirdText.text = "3-" + stat[2].Name;
+            _thirdText.color = stat[2].PlayerColor;
+        }
+        
+        if(stat.All(player => player.Name != "You"))
+        {
+            var c = _fourthLeaderBackground.color;
+            _fourthLeaderBackground.color = new Color(c.r, c.g, c.b, _alphaBackgroundAmount);
+            
+            c = _fourthText.color;
+            _fourthText.color = new Color(c.r, c.g, c.b, 1);
+            
+            var player = LeaderboardsAbstract.Instance.GetPlayerByName("You");
+            
+            switch (GameController.Mode)
             {
-                case 0:
-                    if (stat.Count < 1)
-                    {
-                        firstPartOfLeaderObj.SetActive(false);
-                    }
-                    else
-                    {
-                        _firstText.text = "1-" + stat[0].Name;
-                        _firstText.color = stat[0].PlayerColor;
-                    }
+                case GameMode.TimeCounting:
+                    _fourthText.text = LeaderboardsAbstract.Instance.GetPlayerRank(player, true) + "-" + player.Name;
                     break;
-                case 1:
-                    if (stat.Count < 2)
-                    {
-                        secondPartOfLeaderObj.SetActive(false);
-                    }
-                    else
-                    {
-                        _secondText.text = "2-" + stat[1].Name;
-                        _secondText.color = stat[1].PlayerColor;
-                    }
-                    break;
-                case 2:
-                    if (stat.Count < 3)
-                    {
-                        thirdPartOfLeaderObj.SetActive(false);
-                    }
-                    else
-                    {
-                        _thirdText.text = "3-" + stat[2].Name;
-                        _thirdText.color = stat[2].PlayerColor;
-                    }
-                    break;
-                case 3:
-                    if(stat.All(player => player.Name != "You"))
-                    {
-                        fourthPartOfLeaderObj.SetActive(true);
-                        var player = LeaderboardsAbstract.Instance.GetPlayerByName("You");
-            
-                        switch (GameController.Mode)
-                        {
-                            case GameMode.TimeCounting:
-                                _fourthText.text = LeaderboardsAbstract.Instance.GetPlayerRank(player, true) + "-" + player.Name;
-                                break;
-                            case GameMode.BeTheLast:
-                                _fourthText.text = LeaderboardsAbstract.Instance.GetPlayerRank(player) + "-" + player.Name;
-                                break;
-                        }
-            
-                        _fourthText.text = LeaderboardsAbstract.Instance.GetPlayerRank(player, true) + "-" + player.Name;
-                        _fourthText.color = player.PlayerColor;
-                    }
-                    else
-                    {
-                        fourthPartOfLeaderObj.SetActive(false);   
-                    }
+                case GameMode.BeTheLast:
+                    _fourthText.text = LeaderboardsAbstract.Instance.GetPlayerRank(player) + "-" + player.Name;
                     break;
             }
+            
+            _fourthText.text = LeaderboardsAbstract.Instance.GetPlayerRank(player, true) + "-" + player.Name;
+            _fourthText.color = player.PlayerColor;
         }
+        else
+        {
+            var c = _fourthLeaderBackground.color;
+            _fourthLeaderBackground.color = new Color(c.r, c.g, c.b, 0);
+            
+            c = _fourthText.color;
+            _fourthText.color = new Color(c.r, c.g, c.b, 0);
+        }
+        
     }
 
     private void UpdateTimeOrPlayerCount()
@@ -1027,6 +1218,39 @@ public class UISystem : MonoBehaviour, ISystem
         _levelSliderRect.DOMoveY(Screen.height + _levelSliderRect.rect.height * 5/3, animationDuration);
     }
 
+    private void UpdateEndLeaderBoard()
+    {
+
+        var players = LeaderboardsAbstract.Instance.GetLeaderBoard(true);
+        var capacity = players.Count >= _textMeshProsOfLeaderboard.Count
+            ? _textMeshProsOfLeaderboard.Count
+            : players.Count;
+        
+        for (int i = 0; i < capacity; i++)
+        {
+            _textMeshProsOfLeaderboard[i].text = (i+1) + "- " + players[i].Name;
+            _textMeshProsOfLeaderboard[i].color = players[i].PlayerColor;
+        }
+    }
+
+    private void UpdateEndText(string text)
+    {
+        _endTextMeshProUGUI.text = text;
+    }
+
+    private void UpdateSkinUnlockScreen()
+    {
+        _skinUnlockTotalScoreText.text = "Total Score: " +
+                                    (GameController.TotalScore -
+                                     LeaderboardsAbstract.Instance.GetPlayerByName("You").Score);
+        _skinUnlockNewSkinImages.ForEach(image => image.sprite = GameController.GameConfig.DozerSkins[GameController.UnlockedSkinIndex + 1].Preview);
+    }
+
+    private void UpdateDeadScreen()
+    {
+        _deadScreenYourScoreText.text = "Your Score: " + LeaderboardsAbstract.Instance.GetPlayerByName("You").Score;
+    }
+
     #endregion
 
     #region Utilities
@@ -1045,6 +1269,7 @@ public class UISystem : MonoBehaviour, ISystem
         RefreshSkinSelectItems();
         SkinSelected(GameController.SelectedSkinIndex);
         
+        
         DisappearsSkinUnlockScreen(0);
         DisappearsDeadScreen(0);
         DisappearsInGameUI(0);
@@ -1055,6 +1280,7 @@ public class UISystem : MonoBehaviour, ISystem
         DisappearsPauseItems(0);
         DisappearsEndLeaderboard(0);
         DisappearsWaitingMenuItems(0);
+        
     }
 
 }
