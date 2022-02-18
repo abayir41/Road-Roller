@@ -14,10 +14,10 @@ public class GameInitializer : MonoBehaviour, ISystem
     private void Start()
     {
         PlayerPrefs.DeleteAll();
-        StartCoroutine(InitializedGame());
+        StartCoroutine(InitializeTheGame());
     }
 
-    IEnumerator InitializedGame()
+    private IEnumerator InitializeTheGame()
     {
         ActionSys.GameStatusChanged?.Invoke(GameStatus.Loading);
         
@@ -59,9 +59,13 @@ public class GameInitializer : MonoBehaviour, ISystem
         StartCoroutine(ResetGame());
     }
 
-    IEnumerator ResetGame()
+    private IEnumerator ResetGame()
     {
         Destroy(CurrentMap);
+
+        yield return 0;
+        
+        LeaderboardsAbstract.Instance.ResetTheSystem();
 
         yield return 0;
         

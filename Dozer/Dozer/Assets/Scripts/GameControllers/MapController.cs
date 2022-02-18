@@ -256,7 +256,7 @@ public class MapController : MonoBehaviour
         var player = new Player(playerName, GameController.GameConfig.StartScore, LeaderboardsAbstract.Instance.GetRandomColor());
         dozer.GetComponent<PlayerController>().PlayerProperty = player;
         Players.Add(player);
-        LeaderboardsAbstract.Instance.AddPlayer(playerName, player);
+        LeaderboardsAbstract.Instance.AddPlayer(player);
     }
 
     private void SetDozerFollowers()
