@@ -1074,7 +1074,7 @@ public class UISystem : MonoBehaviour, ISystem
         switch (GameController.Mode)
         {
             case GameMode.TimeCounting:
-                stat = LeaderboardsAbstract.Instance.GetLeaderBoard(3, true);
+                stat = LeaderboardsAbstract.Instance.GetLeaderBoard(3);
                 break;
             case GameMode.BeTheLast:
                 stat = LeaderboardsAbstract.Instance.GetLeaderBoard(3);
