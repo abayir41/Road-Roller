@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,9 +35,11 @@ public class MapController : MonoBehaviour
     private static int MaxGrowPoint => PlayerController.Player.MaxGrow;
 
     //Market System
-    
+
 
     [Header("Map Settings")] 
+    [SerializeField] private float mapStartVelocity;
+    [SerializeField] private float velocityDivider;
     [SerializeField] private int playerCount;
     [SerializeField] private List<Transform> spawnPoints;
     private List<Player> Players { get; set; }
@@ -103,7 +106,7 @@ public class MapController : MonoBehaviour
     private void LevelUpped(int reward)
     {
         if(PlayerController.Player.Score >= MaxGrowPoint) return;
-        StartCoroutine(CameraDistanceIncrease(reward / 3f));
+        StartCoroutine(CameraDistanceIncrease(reward));
     }
     
     private void Interaction(IInteractable interactable)
@@ -225,25 +228,34 @@ public class MapController : MonoBehaviour
             
             if (i == 0) //Spawning normal dozer and caching some variables
             {
-                var normalDozer = Instantiate(playerDozer, GameInitializer.CurrentMap.transform);
+                var normalDozer = Instantiate(playerDozer, spawnPoints[ranInt]);
                 
                 RegisterTheDozer(normalDozer, "You");
                 SetDozerFollowers();
                 
-                normalDozer.transform.position = spawnPoints[ranInt].position; //setting position
+                normalDozer.transform.localPosition = Vector3.zero;//setting position
+                normalDozer.transform.localEulerAngles = Vector3.zero;//Setting Rot
+                normalDozer.transform.localScale = Vector3.one;//setting local scale
+                normalDozer.transform.parent = GameInitializer.CurrentMap.transform;
                 _dozerTrans = normalDozer.transform; //caching dozer transform
 
+                normalDozer.GetComponent<CarController>().SetVelocity(mapStartVelocity,velocityDivider);
+                
                 SetTheCamera();
                 
                 spawnPoints.Remove(spawnPoints[ranInt]);
             }
             else //Spawning AI 
             {
-                var dozerAI = Instantiate(aiDozer, GameInitializer.CurrentMap.transform);
+                var dozerAI = Instantiate(aiDozer, spawnPoints[ranInt]);
                 
                 RegisterTheDozer(dozerAI, LeaderboardsAbstract.Instance.GetRandomName());
                 
-                dozerAI.transform.position = spawnPoints[ranInt].position;
+                dozerAI.transform.localPosition = Vector3.zero;//setting position
+                dozerAI.transform.localEulerAngles = Vector3.zero;//Setting Rot
+                dozerAI.transform.localScale = Vector3.one;//setting local scale
+                dozerAI.transform.parent = GameInitializer.CurrentMap.transform;
+                dozerAI.GetComponent<CarController>().SetVelocity(mapStartVelocity,velocityDivider);
                 spawnPoints.Remove(spawnPoints[ranInt]);
             }
             
