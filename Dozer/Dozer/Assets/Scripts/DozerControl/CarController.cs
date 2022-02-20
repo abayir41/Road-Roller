@@ -3,15 +3,34 @@ using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
-    [SerializeField] private float velocityMultiplier;
+    private float _velocityMultiplier;
     [SerializeField] private float angularVelocityMultiplier;
+    private float _velocityMultiplierDivider;
     private PlayerController _playerController;
     private Rigidbody _rigidbody;
     private ISteerSystem _steerSystem;
 
-    public void SetVelocity(int maxGrowPoint)
+
+
+    private void OnEnable()
     {
-        velocityMultiplier = (float)_playerController.Score / maxGrowPoint * 20f + 3f;
+        _playerController.ActionSysCar.LevelUpped += SetVelocity;
+    }
+
+    private void OnDisable()
+    {
+        _playerController.ActionSysCar.LevelUpped -= SetVelocity;
+    }
+    
+    private void SetVelocity(int velocity)
+    {
+        _velocityMultiplier += velocity / _velocityMultiplierDivider;
+    }
+    
+    public void SetVelocity(float startVelocity,float velocityDivider)
+    {
+        _velocityMultiplierDivider = velocityDivider;
+        _velocityMultiplier = startVelocity;
     }
 
     // Start is called before the first frame update
@@ -21,7 +40,6 @@ public class CarController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.inertiaTensorRotation = Quaternion.identity;
         _steerSystem = GetComponent<ISteerSystem>();
-        _rigidbody.velocity = transform.forward * velocityMultiplier;
     }
 
     private void Update()
@@ -32,9 +50,9 @@ public class CarController : MonoBehaviour
             _rigidbody.angularVelocity = Vector3.zero;
             return;
         }
-        
-        _rigidbody.velocity = transform.forward * velocityMultiplier;
-        
+
+        _rigidbody.velocity = transform.forward * _velocityMultiplier;
+
         var angle = _steerSystem.Angle;
         var registeredTurns = (int)Math.Abs(angle) / 90;
         var lastAngle = ((int) Math.Abs(angle) % 90) * Utilities.PosOrNeg(angle);
