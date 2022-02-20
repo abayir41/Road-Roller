@@ -34,3 +34,23 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9cfec8b5ba3e4bf4e9a6c5a8164cd006, type: 2}
   - {fileID: 11400000, guid: b2991523abdad9d4fb2cc4c071a55a82, type: 2}
   - {fileID: 11400000, guid: e91c28fdccf37974fbebf5534384aa94, type: 2}
+  names:
+  - Ahmet
+  - "Bay\u0131r"
+  - Deneme
+  - John
+  - Asd
+  - Meraba
+  - Tarik
+  - Muhi
+  - Guss
+  colors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0.88550186, a: 1}
+  - {r: 0.24918175, g: 0, b: 1, a: 1}
+  - {r: 0, g: 0.87715816, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0.46609783, a: 1}
+  - {r: 0.93584406, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0.563343, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
