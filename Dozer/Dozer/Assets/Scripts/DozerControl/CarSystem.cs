@@ -25,11 +25,13 @@ public class CarSystem : MonoBehaviour
     
     private void OnEnable()
     {
+        _playerController.ActionSysCar.ObjectGotHit += Interact;
         _playerController.ActionSysCar.LevelUpped += Interact;
     }
     
     private void OnDisable()
     {
+        _playerController.ActionSysCar.ObjectGotHit -= Interact;
         _playerController.ActionSysCar.LevelUpped -= Interact;
     }
 
@@ -42,6 +44,12 @@ public class CarSystem : MonoBehaviour
         StartCoroutine(GrowAnim(bodyGrowingPoint,reward));
     }
     
+    //Stands For normal gains
+    private void Interact(IInteractable interactable)
+    {
+        if (_playerController.Score >= MaxGrowPoint) return;
+        StartCoroutine(GrowAnim(bodyGrowingPoint,interactable.ObjectHitPoint));
+    }
 
     private IEnumerator GrowAnim(Transform growPart,float growAmount)
     {
