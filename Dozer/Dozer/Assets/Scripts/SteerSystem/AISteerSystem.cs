@@ -27,6 +27,7 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
     private NavMeshPath _path;
     private Vector3 _destination;
     private int _cornerIndexer;
+    private float _timerForChangeTarget;
 
     private void Awake()
     {
@@ -40,16 +41,18 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
     {
         Angle = 0;
     }
-
+    
     private void Update()
     {
         
-
+        // ReSharper disable once Unity.PerformanceCriticalCodeNullComparison
         if (_target == null)
         {
             _target = ObjectSelector();
             if (_target == null) return;
             
+            
+            // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
             var targetInteractableObj = _target.GetComponent<InteractableObj>();
             var targetPosition = targetInteractableObj.ColliderPosition;
 
@@ -93,6 +96,12 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
             _target = null;
             return;
         }
+
+        _timerForChangeTarget += Time.deltaTime;
+        if (_timerForChangeTarget > 2f)
+        {
+            _target = null;
+        }
     }
 
     private GameObject ObjectSelector()
@@ -113,13 +122,14 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
     }
     private Vector3 DestinationCalculator()
     {
-        if (_cornerIndexer == _path.corners.Length - 1)  
+        if (_cornerIndexer == _path.corners.Length - 1)
         {
             return _target.GetComponent<InteractableObj>().ColliderPosition;
         }
          
         if (Vector3.Distance(_destination, _selfTransform.position) < cornerDistanceThreshold)
         {
+            _timerForChangeTarget = 0;
             _cornerIndexer += 1;
             return _path.corners[_cornerIndexer];
         }
