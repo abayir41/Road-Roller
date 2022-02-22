@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: skin1
   scoreThreshold: 100
-  dozerSkin: {fileID: 6754892339302217108, guid: 3c2843ce2e48d964fa575f8ea2445682, type: 3}
-  preview: {fileID: 21300010, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  dozerSkin: {fileID: 5027659646038820467, guid: 78262687927291c4f946d71c23e460dc, type: 3}
+  preview: {fileID: 21300000, guid: 475b40e1e55e6004e93e68b34f963cc2, type: 3}

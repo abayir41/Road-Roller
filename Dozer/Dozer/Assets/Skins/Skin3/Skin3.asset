@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aea2381c252dae6458088e2f0311aa2a, type: 3}
-  m_Name: Skin2
+  m_Name: Skin3
   m_EditorClassIdentifier: 
-  itemID: skin2
-  scoreThreshold: 200
-  dozerSkin: {fileID: 8290178272924530036, guid: 124530fba61436542aa3cab3006c1a6e, type: 3}
-  preview: {fileID: 21300000, guid: 9484eb5f5e7456f4e94c3b953367bc62, type: 3}
+  itemID: skin3
+  scoreThreshold: 300
+  dozerSkin: {fileID: 309126374872277823, guid: 25ae7b4d66702e94e8a5df4d7e2afbbe, type: 3}
+  preview: {fileID: 21300000, guid: 315b1bfe4fbef7b44b8b485a42177b9c, type: 3}

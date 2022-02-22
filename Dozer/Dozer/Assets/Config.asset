@@ -19,21 +19,12 @@ MonoBehaviour:
   selectedSkinIndexString: SelectedSkin
   savedProgressSkinUnlock: SavedProgress
   unlockedSkinString: UnlockedSkin
-  collisionObjectFilter:
-  - Dozer
-  - Destroyable
-  - House
-  destroyThresholdsFromLevelBase: 01000000030000000500000007000000
-  objectHitPoints: 0a0000000a0000000a0000000a000000
-  objectDestroyWait: 01000000010000000100000001000000
-  startScore: 1
-  levelThresholds: 000000000a000000320000006400000096000000c8000000fa0000002c0100005e01000090010000
-  rewardPoints: 00000000e8030000e8030000e8030000e8030000e8030000e8030000e8030000e8030000e8030000
   matchTimeAsSeconds: 120
   dozerSkins:
   - {fileID: 11400000, guid: 9cfec8b5ba3e4bf4e9a6c5a8164cd006, type: 2}
   - {fileID: 11400000, guid: b2991523abdad9d4fb2cc4c071a55a82, type: 2}
   - {fileID: 11400000, guid: e91c28fdccf37974fbebf5534384aa94, type: 2}
+  - {fileID: 11400000, guid: 35a10155254193a49a2e2f43de3030a2, type: 2}
   names:
   - Ahmet
   - "Bay\u0131r"
