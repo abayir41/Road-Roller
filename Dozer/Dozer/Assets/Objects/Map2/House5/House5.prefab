@@ -162,11 +162,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f6db4b812fd8814b9a0e5e87d43f0a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectType: 0
+  objectType: 1
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
-  particleVolumeMultiplier: 1
-  particleCount: 700
-  particleSize: 1
+  particleVolumeMultiplier: 1.3
+  particleCount: 5000
+  particleSize: 0.013
   crashGameObject: {fileID: 7107377379377871735, guid: 29e4f0870272b9f4c958103301a894da, type: 3}
   crashPos: {fileID: 6635364178356574561}
   particleObjSpawnParent: {fileID: 7220682998001765058}

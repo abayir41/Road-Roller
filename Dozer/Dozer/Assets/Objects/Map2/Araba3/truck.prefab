@@ -23,13 +23,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1066254539132710281}
-  m_LocalRotation: {x: -0.7071068, y: -0.7071067, z: -0.000000053385072, w: 0.000000053385083}
-  m_LocalPosition: {x: 0.018031023, y: -0.08255616, z: -0.000012468603}
-  m_LocalScale: {x: 0.4081628, y: 0.4081628, z: 0.4081627}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: -0.0058, y: -0.084, z: -0.0012}
+  m_LocalScale: {x: 3.266224, y: 1.6499982, z: 0.6778822}
   m_Children: []
   m_Father: {fileID: 5936575164332243472}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 90}
 --- !u!1 &8906701116581957300
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,7 +137,7 @@ MonoBehaviour:
   - {r: 1, g: 0, b: 0, a: 0}
   - {r: 0, g: 0.053973675, b: 1, a: 0}
   - {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 0}
-  paintMaterialIndexes: 
+  paintMaterialIndexes: 00000000
 --- !u!54 &2967912635400503146
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -194,8 +194,8 @@ MonoBehaviour:
   objectType: 0
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   particleVolumeMultiplier: 1
-  particleCount: 400
-  particleSize: 1
+  particleCount: 600
+  particleSize: 0.05
   crashGameObject: {fileID: 7107377379377871735, guid: 29e4f0870272b9f4c958103301a894da, type: 3}
   crashPos: {fileID: 7107845437092678982}
   particleObjSpawnParent: {fileID: 5936575164332243472}

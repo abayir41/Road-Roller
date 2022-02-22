@@ -194,7 +194,7 @@ GameObject:
   - component: {fileID: 6644884416975016268}
   m_Layer: 0
   m_Name: Body-Collider
-  m_TagString: Untagged
+  m_TagString: Roller
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -224,8 +224,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.6357281, y: 4.0693946, z: 7.8172174}
-  m_Center: {x: 0.027544718, y: 1.5346985, z: -0.85332185}
+  m_Size: {x: 2.6357281, y: 6.9763126, z: 7.8172164}
+  m_Center: {x: 0.0275447, y: 0.08123291, z: -0.8533218}
 --- !u!1 &5549156558291021702
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,7 +235,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8463930689500569964}
-  - component: {fileID: 5549156558291021703}
+  - component: {fileID: 6155144836655381853}
   m_Layer: 0
   m_Name: Front-Collider
   m_TagString: Roller
@@ -257,8 +257,8 @@ Transform:
   m_Father: {fileID: 5310531986341161442}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
---- !u!64 &5549156558291021703
-MeshCollider:
+--- !u!135 &6155144836655381853
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -267,10 +267,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -5495902117074765545, guid: 12c62a388e5d62641b91385ced99dda0, type: 3}
+  serializedVersion: 2
+  m_Radius: 0.010779728
+  m_Center: {x: -0.00166217, y: -0.00035829996, z: 0}
 --- !u!1 &5810240144904009790
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,7 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c40db312bc43114449d6b1f555b8eb78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  angularVelocityMultiplier: 1
+  angularVelocityDivider: 100
 --- !u!114 &8971242722936087709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,7 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c110685cbdffb3f42a2f356decabadff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radiusOfSteerDivider: 20
+  radiusOfSteerDivider: 30
   minThreshold: 1
 --- !u!114 &1600789546934555971
 MonoBehaviour:
@@ -443,7 +442,7 @@ MonoBehaviour:
   meshRenderers: []
   disableColliders:
   - {fileID: 6644884416975016268}
-  - {fileID: 5549156558291021703}
+  - {fileID: 6155144836655381853}
 --- !u!114 &947974457557461837
 MonoBehaviour:
   m_ObjectHideFlags: 0

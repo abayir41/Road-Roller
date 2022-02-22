@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c40db312bc43114449d6b1f555b8eb78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  angularVelocityMultiplier: 5
+  angularVelocityDivider: 5
 --- !u!114 &232283156785605417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,7 +293,7 @@ MonoBehaviour:
   shapeOfParticleCollider: {fileID: 5276326485410541350}
   meshRenderers: []
   disableColliders:
-  - {fileID: 6344597352342704621}
+  - {fileID: 6631306516094977259}
   - {fileID: 5276326485410541350}
 --- !u!114 &3389896659274365675
 MonoBehaviour:
@@ -316,7 +316,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6952420715719499526}
-  - component: {fileID: 6344597352342704621}
+  - component: {fileID: 6631306516094977259}
   m_Layer: 0
   m_Name: Front-Collider
   m_TagString: Roller
@@ -338,8 +338,8 @@ Transform:
   m_Father: {fileID: 6682450576619640712}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
---- !u!64 &6344597352342704621
-MeshCollider:
+--- !u!135 &6631306516094977259
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -348,10 +348,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -5495902117074765545, guid: 12c62a388e5d62641b91385ced99dda0, type: 3}
+  serializedVersion: 2
+  m_Radius: 0.010779728
+  m_Center: {x: -0.00166217, y: -0.00035829996, z: 0}
 --- !u!1 &6703179367849708081
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,8 +393,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.6357281, y: 4.0693946, z: 7.8172174}
-  m_Center: {x: 0.027544718, y: 1.5346985, z: -0.85332185}
+  m_Size: {x: 2.6357281, y: 8.377968, z: 7.8172164}
+  m_Center: {x: 0.0275447, y: -0.6195903, z: -0.8533218}
 --- !u!1 &8228591423204003737
 GameObject:
   m_ObjectHideFlags: 0
