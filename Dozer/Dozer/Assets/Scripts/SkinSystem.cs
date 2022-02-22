@@ -23,6 +23,10 @@ public class SkinSystem : MonoBehaviour
             _spawnedSkin = Instantiate(skinScriptable.DozerSkin, _visualPoint);
         }
 
+        _spawnedSkin.transform.localPosition = Vector3.zero;
+        _spawnedSkin.transform.localEulerAngles = Vector3.zero;
+        _spawnedSkin.transform.localScale = Vector3.one;
+        
         var meshRenderers = _spawnedSkin.GetComponentsInChildren<MeshRenderer>();
         foreach (var meshRenderer in meshRenderers)
         {

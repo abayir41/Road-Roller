@@ -88,8 +88,7 @@ public class UISystem : MonoBehaviour, ISystem
     [Header("Next Level Images")]
     [SerializeField] private List<GameObject> destroyableObjectObjItems;
     [SerializeField] private Image endOfSliderImage;
-    [SerializeField] private List<Sprite> newDestroyableObjectImages;
-    [SerializeField] private Sprite normalImage;
+    private List<Image> _destroyableObjImages;
 
     [Header("End Text")] 
     [SerializeField] private GameObject endText;
@@ -172,6 +171,8 @@ public class UISystem : MonoBehaviour, ISystem
             Instance = this;
 
 
+        _destroyableObjImages = destroyableObjectObjItems.ConvertAll(input => input.GetComponent<Image>());
+        
         _skinUnlockNewSkinImages = skinUnlockImageObjs.ConvertAll(input => input.GetComponent<Image>());
         _skinUnlockTotalScoreText = skinTotalScoreTextObj.GetComponentInChildren<TextMeshProUGUI>();
         _newSkinUnlockedTextRect = newSkinUnlockedText.GetComponent<RectTransform>();
@@ -993,10 +994,17 @@ public class UISystem : MonoBehaviour, ISystem
 
     public void ClickToContinueDeadScreen()
     {
-        OpenLoadingScreen(() =>
+        if (GameController.IsThereAnyNewSkin())
         {
-            ActionSys.ResetGame?.Invoke();
-        });
+            OpenSkinUnlockUI();
+        }
+        else
+        {
+            OpenLoadingScreen(() =>
+            {
+                ActionSys.ResetGame?.Invoke();
+            });
+        }
     }
 
     public void ClickToContinueEndLeaderboard()
@@ -1034,21 +1042,6 @@ public class UISystem : MonoBehaviour, ISystem
     public void ClickToContinueNeedToContinue()
     {
         OpenEndLeaderboardUI();
-    }
-
-    private void RefreshSkinSelectItems()
-    {
-        skinsContentItems.ForEach(o => o.SetActive(false));
-        
-        for (int i = 0; i < GameController.GameConfig.DozerSkins.Count; i++)
-        {
-            skinsContentItems[i].transform.GetChild(0).GetComponent<Image>().sprite =
-                GameController.GameConfig.DozerSkins[i].Preview;
-        }
-        for (int i = 0; i <= GameController.UnlockedSkinIndex; i++)
-        {
-            skinsContentItems[i].SetActive(true);
-        }
     }
 
     public void SkinSelected(int id)
@@ -1189,6 +1182,23 @@ public class UISystem : MonoBehaviour, ISystem
                 break;
         }
     }
+    
+    private void RefreshSkinSelectItems()
+    {
+        skinsContentItems.ForEach(o => o.SetActive(false));
+        
+        for (int i = 0; i < GameController.GameConfig.DozerSkins.Count; i++)
+        {
+            skinsContentItems[i].transform.GetChild(0).GetComponent<Image>().sprite =
+                GameController.GameConfig.DozerSkins[i].Preview;
+        }
+        for (int i = 0; i <= GameController.UnlockedSkinIndex; i++)
+        {
+            skinsContentItems[i].SetActive(true);
+        }
+    }
+
+ 
 
     private void UpdateKillCount()
     {
@@ -1200,23 +1210,37 @@ public class UISystem : MonoBehaviour, ISystem
         var currentLevel = PlayerController.Player.Level;
         var nextLevel = currentLevel + 1;
 
-        if (GameController.GameConfig.DestroyThresholdsFromLevels.Contains(currentLevel))
+        for (int i = 0; i < MapController.Instance.mapConfig.NewDestroyableObjectImages.Count; i++)
         {
-            var index = GameController.GameConfig.DestroyThresholdsFromLevels.IndexOf(currentLevel);
+            _destroyableObjImages[i].sprite = MapController.Instance.mapConfig.NewDestroyableObjectImages[i];
+        }
+        
+        if (MapController.Instance.mapConfig.DestroyThresholdsFromLevels.Contains(currentLevel))
+        {
+            var index = MapController.Instance.mapConfig.DestroyThresholdsFromLevels.IndexOf(currentLevel);
             destroyableObjectObjItems[index].SetActive(true);
         }
         
-        if (GameController.GameConfig.DestroyThresholdsFromLevels.Contains(nextLevel))
+        if (MapController.Instance.mapConfig.DestroyThresholdsFromLevels.Contains(nextLevel))
         {
-            var index = GameController.GameConfig.DestroyThresholdsFromLevels.IndexOf(nextLevel);
-            endOfSliderImage.sprite = newDestroyableObjectImages[index];
+            var index = MapController.Instance.mapConfig.DestroyThresholdsFromLevels.IndexOf(nextLevel);
+            endOfSliderImage.sprite = MapController.Instance.mapConfig.NewDestroyableObjectImages[index];
         }
         else
         {
-            endOfSliderImage.sprite = normalImage;
+            endOfSliderImage.sprite = MapController.Instance.mapConfig.NormalImage;
         }
     }
 
+    private void ResetNextLevelImages()
+    {
+        _levelSlider.value = 0;
+        foreach (var destroyableObjImage in destroyableObjectObjItems)
+        {
+            destroyableObjImage.SetActive(false);
+        }
+    }
+    
     private void MaxLevelReached()
     {
         _destroyableObjectRect.DOMoveY(_levelSliderOriginalYPosition, animationDuration);
@@ -1234,7 +1258,9 @@ public class UISystem : MonoBehaviour, ISystem
         for (int i = 0; i < capacity; i++)
         {
             _textMeshProsOfLeaderboard[i].text = (i+1) + "- " + players[i].Name;
-            _textMeshProsOfLeaderboard[i].color = players[i].PlayerColor;
+            var clr = _textMeshProsOfLeaderboard[i].color;
+            var newClr = players[i].PlayerColor;
+            _textMeshProsOfLeaderboard[i].color = new Color(newClr.r,newClr.g,newClr.b,clr.a);
         }
     }
 
@@ -1273,7 +1299,7 @@ public class UISystem : MonoBehaviour, ISystem
         skinUnlockScript.ResetTheSystem();
         RefreshSkinSelectItems();
         SkinSelected(GameController.SelectedSkinIndex);
-        
+        ResetNextLevelImages();
         
         DisappearsSkinUnlockScreen(0);
         DisappearsDeadScreen(0);

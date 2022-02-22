@@ -100,6 +100,7 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
         _timerForChangeTarget += Time.deltaTime;
         if (_timerForChangeTarget > 2f)
         {
+            _destination = transform.forward * 10;
             _target = null;
         }
     }
