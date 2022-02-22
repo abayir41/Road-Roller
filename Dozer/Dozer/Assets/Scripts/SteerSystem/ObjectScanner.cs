@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObjectScanner : MonoBehaviour, IObjectScanner
 {
-    public List<string> Filter => GameController.GameConfig.CollisionObjectFilter;
+    public List<string> Filter => MapController.Instance.mapConfig.CollisionObjectFilter;
 
     private void OnEnable()
     {

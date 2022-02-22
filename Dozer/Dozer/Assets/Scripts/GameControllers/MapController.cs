@@ -9,11 +9,9 @@ using Random = UnityEngine.Random;
 public class MapController : MonoBehaviour
 {
     public static MapController Instance { get; private set; }
-
+    
     //Dozer Movement and process 
     [Header("Dozer Settings")]
-    [SerializeField] private GameObject playerDozer;
-    [SerializeField] private GameObject aiDozer;
     private List<Transform> _dozerFollowers;
     private Transform _dozerTrans;
     
@@ -22,7 +20,6 @@ public class MapController : MonoBehaviour
 
     //Camera Movement
     [Header("Camera Movement")]
-    [SerializeField] private int cameraDistanceDivider;
     private GameObject _cameraGameObject;
     private Transform _cameraTrans;
     private Camera _camera;
@@ -33,14 +30,12 @@ public class MapController : MonoBehaviour
     private bool _houseTriggered;
     
     private static int MaxGrowPoint => PlayerController.Player.MaxGrow;
+    
 
-    //Market System
-
-
+    
+    
+    public MapConfig mapConfig;
     [Header("Map Settings")] 
-    [SerializeField] private float mapStartVelocity;
-    [SerializeField] private float velocityDivider;
-    [SerializeField] private int playerCount;
     [SerializeField] private List<Transform> spawnPoints;
     private List<Player> Players { get; set; }
 
@@ -123,7 +118,7 @@ public class MapController : MonoBehaviour
     {
         float timeElapsed = 0;
         
-        var goalScale = _cameraFarFromDozer.normalized * distance / cameraDistanceDivider;
+        var goalScale = _cameraFarFromDozer.normalized * distance / mapConfig.CameraDistanceDivider;
 
         var cachedGrow = Vector3.zero;
 
@@ -222,13 +217,13 @@ public class MapController : MonoBehaviour
     
     private void SpawnCars()
     {
-        for (var i = 0; i < playerCount; i++)
+        for (var i = 0; i < mapConfig.PlayerCount; i++)
         {
             var ranInt = Random.Range(0, spawnPoints.Count);
             
             if (i == 0) //Spawning normal dozer and caching some variables
             {
-                var normalDozer = Instantiate(playerDozer, spawnPoints[ranInt]);
+                var normalDozer = Instantiate(mapConfig.PlayerDozer, spawnPoints[ranInt]);
                 
                 RegisterTheDozer(normalDozer, "You");
                 SetDozerFollowers();
@@ -239,7 +234,7 @@ public class MapController : MonoBehaviour
                 normalDozer.transform.parent = GameInitializer.CurrentMap.transform;
                 _dozerTrans = normalDozer.transform; //caching dozer transform
 
-                normalDozer.GetComponent<CarController>().SetVelocity(mapStartVelocity,velocityDivider);
+                normalDozer.GetComponent<CarController>().SetVelocity(mapConfig.MapStartVelocity,mapConfig.VelocityDivider);
                 
                 SetTheCamera();
                 
@@ -247,7 +242,7 @@ public class MapController : MonoBehaviour
             }
             else //Spawning AI 
             {
-                var dozerAI = Instantiate(aiDozer, spawnPoints[ranInt]);
+                var dozerAI = Instantiate(mapConfig.AIDozer, spawnPoints[ranInt]);
                 
                 RegisterTheDozer(dozerAI, LeaderboardsAbstract.Instance.GetRandomName());
                 
@@ -255,7 +250,7 @@ public class MapController : MonoBehaviour
                 dozerAI.transform.localEulerAngles = Vector3.zero;//Setting Rot
                 dozerAI.transform.localScale = Vector3.one;//setting local scale
                 dozerAI.transform.parent = GameInitializer.CurrentMap.transform;
-                dozerAI.GetComponent<CarController>().SetVelocity(mapStartVelocity,velocityDivider);
+                dozerAI.GetComponent<CarController>().SetVelocity(mapConfig.MapStartVelocity,mapConfig.VelocityDivider);
                 spawnPoints.Remove(spawnPoints[ranInt]);
             }
             
@@ -264,7 +259,7 @@ public class MapController : MonoBehaviour
 
     private void RegisterTheDozer(GameObject dozer, string playerName)
     {
-        var player = new Player(playerName, GameController.GameConfig.StartScore, LeaderboardsAbstract.Instance.GetRandomColor());
+        var player = new Player(playerName, Instance.mapConfig.StartScore, LeaderboardsAbstract.Instance.GetRandomColor());
         dozer.GetComponent<PlayerController>().PlayerProperty = player;
         Players.Add(player);
         LeaderboardsAbstract.Instance.AddPlayer(player);
@@ -304,7 +299,7 @@ public class MapController : MonoBehaviour
                 var colors = colorableObj.Colors;
                 var randomInt = Random.Range(0, colors.Length);
                 colorableObj.ChangeColor(colors[randomInt],materialIndex);
-                RandomlyChangedMaterialsListAndColours.Add(colorableObj,new Dictionary<int, Color>(){{materialIndex,colors[randomInt]}});
+                RandomlyChangedMaterialsListAndColours.Add(colorableObj,new Dictionary<int, Color>{{materialIndex,colors[randomInt]}});
             }
         }
     }

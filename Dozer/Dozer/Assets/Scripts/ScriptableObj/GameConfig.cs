@@ -27,29 +27,6 @@ public class GameConfig : ScriptableObject
     [SerializeField] private string savedProgressSkinUnlock;
     [SerializeField] private string unlockedSkinString;
 
-    
-    
-    public List<string> CollisionObjectFilter => collisionObjectFilter;
-    public List<int> DestroyThresholdsFromLevels => destroyThresholdsFromLevelBase;
-    public List<int> ObjectHitPoints => objectHitPoints;
-    public List<int> ObjectDestroyWait => objectDestroyWait;
-    
-    [Header("Collision System")]
-    [SerializeField] private List<string> collisionObjectFilter;
-    [SerializeField] private List<int> destroyThresholdsFromLevelBase;
-    [SerializeField] private List<int> objectHitPoints;
-    [SerializeField] private List<int> objectDestroyWait;
-    
-    
-    public int StartScore => startScore;
-    public List<int> LevelThresholds => levelThresholds; 
-    public List<int> RewardPoints => rewardPoints;
-    
-    [Header("Score System")]
-    [SerializeField] private int startScore;
-    [SerializeField] private List<int> levelThresholds; //This has to begin with 0
-    [SerializeField] private List<int> rewardPoints;
-
 
     public int MatchTimeAsSecond => matchTimeAsSeconds;
     

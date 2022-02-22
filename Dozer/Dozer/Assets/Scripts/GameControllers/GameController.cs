@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour, ISystem
 
     public static GameConfig GameConfig;
     [SerializeField] private GameConfig config;
-    public static List<int> DestroyThresholds => GameConfig.DestroyThresholdsFromLevels.ConvertAll(requiredLevel => GameConfig.LevelThresholds[requiredLevel - 1]);
+    public static List<int> DestroyThresholds => MapController.Instance.mapConfig.DestroyThresholdsFromLevels.ConvertAll(requiredLevel => MapController.Instance.mapConfig.LevelThresholds[requiredLevel - 1]);
     
     #endregion
 
@@ -111,7 +111,7 @@ public class GameController : MonoBehaviour, ISystem
             _timer += 1.0f;
         }
 
-        if (status == GameStatus.Ended)
+        if (status == GameStatus.Ended || status == GameStatus.Lost)
         {
             TotalScore += PlayerController.Player.Score;
         }

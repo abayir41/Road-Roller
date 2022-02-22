@@ -32,7 +32,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
             }
             else
             {
-                return GameController.GameConfig.ObjectHitPoints[ObjetTypeIndexMatcher(objectType)];
+                return MapController.Instance.mapConfig.ObjectHitPoints[ObjetTypeIndexMatcher(objectType)];
             }
         }
     }
@@ -46,7 +46,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
             }
             else
             {
-                return GameController.GameConfig.ObjectDestroyWait[ObjetTypeIndexMatcher(objectType)];
+                return MapController.Instance.mapConfig.ObjectDestroyWait[ObjetTypeIndexMatcher(objectType)];
             }
         }
     }
