@@ -4,7 +4,7 @@ using UnityEngine;
 public class CarController : MonoBehaviour
 {
     private float _velocityMultiplier;
-    [SerializeField] private float angularVelocityMultiplier;
+    [SerializeField] private float angularVelocityDivider;
     private float _velocityMultiplierDivider;
     private PlayerController _playerController;
     private Rigidbody _rigidbody;
@@ -52,12 +52,6 @@ public class CarController : MonoBehaviour
         }
 
         _rigidbody.velocity = transform.forward * _velocityMultiplier;
-
-        var angle = _steerSystem.Angle;
-        var registeredTurns = (int)Math.Abs(angle) / 90;
-        var lastAngle = ((int) Math.Abs(angle) % 90) * Utilities.PosOrNeg(angle);
-        var playerInput = Mathf.Sin(lastAngle * Mathf.Deg2Rad);
-        playerInput += registeredTurns * Utilities.PosOrNeg(angle);
-        _rigidbody.angularVelocity = Vector3.up * (angularVelocityMultiplier * playerInput);
+        _rigidbody.angularVelocity = Vector3.up * (_steerSystem.Angle / angularVelocityDivider);
     }
 }
