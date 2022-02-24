@@ -18,6 +18,14 @@ public static class ActionSys //These are globally called
     public static Action<GameStatus> GameStatusChanged;
 
     public static Action<GameMode> GameModeChanged;
+
+    public static Action<AudioClip> PlaySound;
+
+    public static Action Vibrate;
+
+    public static Action ToggleVibrationSystem;
+
+    public static Action ToggleSoundSystem;
 }
 
 public class CarActionSys //These are dozer-based called
