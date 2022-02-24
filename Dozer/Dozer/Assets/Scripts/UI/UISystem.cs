@@ -558,21 +558,30 @@ public class UISystem : MonoBehaviour, ISystem
         _disappearsCurrentUI = DisappearsWaitingMenuItems;
         waitingMenuUI.SetActive(true);
 
-        _clickToPlayText.DOFade(1, duration).OnKill((() =>
-        {
-            foreach (var waitingMenuButton in waitingMenuButtons)
-            {
-                waitingMenuButton.interactable = true;
-            }
-            
-            callback?.Invoke();
-        }));
+        _clickToPlayText.DOFade(1, duration * 7).SetLoops(-1, LoopType.Yoyo);
 
         for (var i = 0; i < _waitingMenuUIObjectsRectTransforms.Count; i++)
         {
-            var rectTransform = _waitingMenuUIObjectsRectTransforms[i];
-            rectTransform.DOMoveX(_waitingMenuOriginalXPositions[i], duration)
-                .SetEase(Ease.OutBack);
+            if (i == 0)
+            {
+                var rectTransform = _waitingMenuUIObjectsRectTransforms[i];
+                rectTransform.DOMoveX(_waitingMenuOriginalXPositions[i], duration)
+                    .SetEase(Ease.OutBack).OnKill((() =>
+                    {
+                        foreach (var waitingMenuButton in waitingMenuButtons)
+                        {
+                            waitingMenuButton.interactable = true;
+                        }
+            
+                        callback?.Invoke();
+                    }));
+            }
+            else
+            {
+                var rectTransform = _waitingMenuUIObjectsRectTransforms[i];
+                rectTransform.DOMoveX(_waitingMenuOriginalXPositions[i], duration)
+                    .SetEase(Ease.OutBack);
+            }
         }
     }
     private void DisappearsWaitingMenuItems(float duration , Action callback = null)
@@ -702,8 +711,14 @@ public class UISystem : MonoBehaviour, ISystem
 
     private void GetNeedToContinueVideoItems(float duration, Action callback = null)
     {
-        _needToContinueRewardImageRect.DOScaleY(1f, duration).SetEase(Ease.OutBack);
-        _needToContinueRewardImageRect.DOScaleX(1f, duration).SetEase(Ease.OutBack);
+        _needToContinueRewardImageRect.DOScaleY(1f, duration).SetEase(Ease.OutBack).OnKill(() =>
+        {
+            _needToContinueRewardImageRect.DOScaleY(1.2f, duration * 7).SetLoops(-1, LoopType.Yoyo);
+        });
+        _needToContinueRewardImageRect.DOScaleX(1f, duration).SetEase(Ease.OutBack).OnKill(() =>
+        {
+            _needToContinueRewardImageRect.DOScaleX(1.2f, duration * 7).SetLoops(-1, LoopType.Yoyo);
+        });
 
         _needToContinueRewardButtonRect.DOScaleX(1f, duration).SetEase(Ease.OutBack);
         _needToContinueRewardButtonRect.DOScaleY(1f, duration).SetEase(Ease.OutBack).OnKill(() => callback?.Invoke());
@@ -826,7 +841,12 @@ public class UISystem : MonoBehaviour, ISystem
 
     private void GetEndLeaderboardRewardButton(float duration, Action callback = null)
     {
-        _rewardButtonRect.DOMoveX(_rewardOriginalXPosition, duration).OnKill(() => callback?.Invoke());
+        _rewardButtonRect.DOMoveX(_rewardOriginalXPosition, duration).OnKill(() =>
+        {
+            callback?.Invoke();
+            _rewardButtonRect.DOScaleX(1.1f, duration * 7).SetLoops(-1, LoopType.Yoyo);
+            _rewardButtonRect.DOScaleY(1.1f, duration * 7).SetLoops(-1, LoopType.Yoyo);
+        });
     }
 
     private void DisappearsEndLeaderboardRewardButton(float duration, Action callback = null)
@@ -905,6 +925,8 @@ public class UISystem : MonoBehaviour, ISystem
         _newSkinUnlockedTextRect.DOScaleX(1f, duration).SetEase(Ease.OutBack);
         _newSkinUnlockedTextRect.DOScaleY(1f, duration).SetEase(Ease.OutBack).OnKill(() =>
         {
+            _newSkinUnlockedTextRect.DOScaleX(1.1f, duration).SetLoops(-1,LoopType.Yoyo);
+            _newSkinUnlockedTextRect.DOScaleY(1.1f, duration).SetLoops(-1,LoopType.Yoyo);
             GetSkinUnlockClickToContinue(duration, () => callback?.Invoke());
         });
     }
@@ -1029,6 +1051,17 @@ public class UISystem : MonoBehaviour, ISystem
             ActionSys.ResetGame?.Invoke();
         });
     }
+
+    public void ToggleSoundSystem()
+    {
+        ActionSys.ToggleSoundSystem?.Invoke();
+    }
+
+    public void ToggleVibrationSystem()
+    {
+        ActionSys.ToggleVibrationSystem?.Invoke();
+    }
+    
     public void ExtraTimeButton()
     {
         Debug.LogError("Not Implemented");
@@ -1282,6 +1315,7 @@ public class UISystem : MonoBehaviour, ISystem
         _deadScreenYourScoreText.text = "Your Score: " + LeaderboardsAbstract.Instance.GetPlayerByName("You").Score;
     }
 
+    
     #endregion
 
     #region Utilities
