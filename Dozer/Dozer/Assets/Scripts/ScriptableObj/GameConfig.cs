@@ -42,9 +42,11 @@ public class GameConfig : ScriptableObject
 
     public List<string> Names => names;
     public List<Color> Colors => colors;
+    public Color PlayerBackgroundColor => playerBackgroundColor;
     
     [Header("Leaderboard System")]
     [SerializeField] private List<string> names;
     [SerializeField] private List<Color> colors;
+    [SerializeField] private Color playerBackgroundColor;
 
 }

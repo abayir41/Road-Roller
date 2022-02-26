@@ -497,7 +497,7 @@ MonoBehaviour:
   m_text: 1-Ahmet
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cbc88d6c2436fad44bd2811acec119ad, type: 2}
-  m_sharedMaterial: {fileID: -5079814746301026327, guid: cbc88d6c2436fad44bd2811acec119ad, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: b99db3fdd3d23af428770c33db1b7623, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -8382,7 +8382,7 @@ MonoBehaviour:
   m_text: New Text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cbc88d6c2436fad44bd2811acec119ad, type: 2}
-  m_sharedMaterial: {fileID: -5079814746301026327, guid: cbc88d6c2436fad44bd2811acec119ad, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: b99db3fdd3d23af428770c33db1b7623, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -15002,7 +15002,7 @@ MonoBehaviour:
   m_text: New Text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cbc88d6c2436fad44bd2811acec119ad, type: 2}
-  m_sharedMaterial: {fileID: -5079814746301026327, guid: cbc88d6c2436fad44bd2811acec119ad, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: b99db3fdd3d23af428770c33db1b7623, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -18142,7 +18142,7 @@ MonoBehaviour:
   m_text: 2-Denem
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cbc88d6c2436fad44bd2811acec119ad, type: 2}
-  m_sharedMaterial: {fileID: -5079814746301026327, guid: cbc88d6c2436fad44bd2811acec119ad, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: b99db3fdd3d23af428770c33db1b7623, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -19387,10 +19387,11 @@ MonoBehaviour:
   levelSliderObj: {fileID: 6051487706529950452}
   destroyableObjectObj: {fileID: 924473962}
   leaderBoardObj: {fileID: 6051487706878026887}
-  fourthPartOfLeaderObj: {fileID: 175051187}
-  firstPartOfLeaderObj: {fileID: 1694110712}
-  secondPartOfLeaderObj: {fileID: 226715263}
-  thirdPartOfLeaderObj: {fileID: 2134632041}
+  leaderboardObjs:
+  - {fileID: 1694110712}
+  - {fileID: 226715263}
+  - {fileID: 2134632041}
+  - {fileID: 175051187}
   timePlayerText: {fileID: 1548816694}
   killText: {fileID: 807594292}
   destroyableObjectObjItems:

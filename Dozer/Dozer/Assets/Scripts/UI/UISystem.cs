@@ -65,21 +65,12 @@ public class UISystem : MonoBehaviour, ISystem
     private float _destroyableObjectOriginalYPosition;
     private RectTransform _leaderBoardRect;
     private Slider _levelSlider;
-    
-    [Header("Leaderboard Elements")]
-    [SerializeField] private GameObject fourthPartOfLeaderObj;
-    [SerializeField] private GameObject firstPartOfLeaderObj;
-    [SerializeField] private GameObject secondPartOfLeaderObj;
-    [SerializeField] private GameObject thirdPartOfLeaderObj;
-    private float _alphaBackgroundAmount;
-    private Image _firstLeaderBackground;
-    private Image _secondLeaderBackground;
-    private Image _thirdLeaderBackground;
-    private Image _fourthLeaderBackground;
-    private TextMeshProUGUI _firstText;
-    private TextMeshProUGUI _secondText;
-    private TextMeshProUGUI _thirdText;
-    private TextMeshProUGUI _fourthText;
+
+    [Header("Leaderboard Elements")] 
+    [SerializeField] private List<GameObject> leaderboardObjs;
+    private Color _leaderboardBackgroundColor;
+    private List<Image> _leaderboardBackground;
+    private List<TextMeshProUGUI> _leaderboardTexts;
 
     [Header("In Game Left Panel")] 
     [SerializeField] private TextMeshProUGUI timePlayerText;
@@ -164,7 +155,6 @@ public class UISystem : MonoBehaviour, ISystem
     private RectTransform _skinUnlockRect;
     private float _skinTotalScoreTextOriginalYPosition;
     
-
     private void Awake()
     {
         if(Instance == null)
@@ -217,16 +207,10 @@ public class UISystem : MonoBehaviour, ISystem
         
         _endTextRectTransform = endText.transform.GetChild(0).GetComponent<RectTransform>();
         _endTextMeshProUGUI = endText.GetComponentInChildren<TextMeshProUGUI>();
-        
-        _firstLeaderBackground = firstPartOfLeaderObj.GetComponent<Image>();
-        _secondLeaderBackground = secondPartOfLeaderObj.GetComponent<Image>();
-        _thirdLeaderBackground = thirdPartOfLeaderObj.GetComponent<Image>();
-        _fourthLeaderBackground = fourthPartOfLeaderObj.GetComponent<Image>();
-        _alphaBackgroundAmount = _firstLeaderBackground.color.a;
-        _firstText = firstPartOfLeaderObj.GetComponentInChildren<TextMeshProUGUI>();
-        _secondText = secondPartOfLeaderObj.GetComponentInChildren<TextMeshProUGUI>();
-        _thirdText = thirdPartOfLeaderObj.GetComponentInChildren<TextMeshProUGUI>();
-        _fourthText = fourthPartOfLeaderObj.GetComponentInChildren<TextMeshProUGUI>();
+
+        _leaderboardBackground = leaderboardObjs.ConvertAll(input => input.GetComponent<Image>());
+        _leaderboardBackgroundColor = _leaderboardBackground[0].color;
+        _leaderboardTexts = leaderboardObjs.ConvertAll(input => input.GetComponentInChildren<TextMeshProUGUI>());
 
         _timerPlayerRect = timerPlayerObj.GetComponent<RectTransform>();
         _killsRect = killsObj.GetComponent<RectTransform>();
@@ -286,8 +270,7 @@ public class UISystem : MonoBehaviour, ISystem
     }
     
     #endregion
-
-
+    
     private void Update()
     {
 
@@ -301,7 +284,6 @@ public class UISystem : MonoBehaviour, ISystem
         }
         #endregion
     }
-
     
     #region GameStatusChange
 
@@ -1081,10 +1063,7 @@ public class UISystem : MonoBehaviour, ISystem
     {
         for (int i = 0; i < skinsContentItems.Count; i++)
         {
-            if(i == id) 
-                skinsContentItems[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
-            else
-                skinsContentItems[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+            skinsContentItems[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(i == id);
         }
         
         ActionSys.SkinSelected?.Invoke(id);
@@ -1093,113 +1072,54 @@ public class UISystem : MonoBehaviour, ISystem
     #endregion
 
     #region GameDynamics
-
     private void UpdateLeaderboard()
     {
-        var stat = new List<Player>();
-        switch (GameController.Mode)
+        var stat = LeaderboardsAbstract.Instance.GetLeaderBoard(3);
+
+
+        for (var i = 0; i < 3; i++)
         {
-            case GameMode.TimeCounting:
-                stat = LeaderboardsAbstract.Instance.GetLeaderBoard(3);
-                break;
-            case GameMode.BeTheLast:
-                stat = LeaderboardsAbstract.Instance.GetLeaderBoard(3);
-                break;
+            if (stat.Count > i)
+            {
+                var c = _leaderboardBackgroundColor; 
+                _leaderboardBackground[i].color = new Color(c.r, c.g, c.b, _leaderboardBackgroundColor.a);
+
+                c = stat[i].PlayerColor;
+                _leaderboardTexts[i].color = new Color(c.r,c.g,c.b,1);
+                _leaderboardTexts[i].text = "Lvl " + stat[i].Level + " - " + stat[i].Name;
+            }
+            else
+            {
+                var c = _leaderboardBackgroundColor; 
+                _leaderboardBackground[i].color = new Color(c.r, c.g, c.b, 0);
+                
+                c = _leaderboardTexts[i].color;
+                _leaderboardTexts[i].color = new Color(c.r,c.g,c.b,0);
+            }
         }
 
+        var mainPlayer = LeaderboardsAbstract.Instance.GetPlayerByName("You");
+        var mainPlayerPosition = LeaderboardsAbstract.Instance.GetPlayerRank(mainPlayer);
         
-        if (stat.Count < 1)
+        if (mainPlayerPosition > 3)
         {
-            var c = _firstLeaderBackground.color;
-            _firstLeaderBackground.color = new Color(c.r, c.g, c.b, 0);
+            var c = GameController.GameConfig.PlayerBackgroundColor; 
+            _leaderboardBackground[3].color = new Color(c.r, c.g, c.b, 1);
             
-            c = _firstText.color;
-            _firstText.color = new Color(c.r, c.g, c.b, 0);
+            c = mainPlayer.PlayerColor;
+            _leaderboardTexts[3].color = new Color(c.r,c.g,c.b,1);
+            _leaderboardTexts[3].text = "Lvl " + mainPlayer.Level + " - " + mainPlayer.Name;
         }
         else
         {
-            var c = _firstLeaderBackground.color;
-            _firstLeaderBackground.color = new Color(c.r, c.g, c.b, _alphaBackgroundAmount);
+            var c = GameController.GameConfig.PlayerBackgroundColor; 
+            _leaderboardBackground[mainPlayerPosition - 1].color = new Color(c.r, c.g, c.b, 1);
             
-            c = _firstText.color;
-            _firstText.color = new Color(c.r, c.g, c.b, 1);
-            
-            _firstText.text = "1-" + stat[0].Name;
-            _firstText.color = stat[0].PlayerColor;
+            //Reset 4th rank
+            _leaderboardBackground[3].color = new Color(c.r, c.g, c.b, 0);
+            _leaderboardTexts[3].color = new Color(c.r,c.g,c.b,0);
         }
         
-        if (stat.Count < 2)
-        {
-            var c = _secondLeaderBackground.color;
-            _secondLeaderBackground.color = new Color(c.r, c.g, c.b, 0);
-            
-            c = _secondText.color;
-            _secondText.color = new Color(c.r, c.g, c.b, 0);
-        }
-        else
-        {
-            var c = _secondLeaderBackground.color;
-            _secondLeaderBackground.color = new Color(c.r, c.g, c.b, _alphaBackgroundAmount);
-            
-            c = _secondText.color;
-            _secondText.color = new Color(c.r, c.g, c.b, 1);
-            
-            _secondText.text = "2-" + stat[1].Name;
-            _secondText.color = stat[1].PlayerColor;
-        }
-        
-        
-        if (stat.Count < 3)
-        {
-            var c = _thirdLeaderBackground.color;
-            _thirdLeaderBackground.color = new Color(c.r, c.g, c.b, 0);
-            
-            c = _thirdText.color;
-            _thirdText.color = new Color(c.r, c.g, c.b, 0);
-        }
-        else
-        {
-            var c = _thirdLeaderBackground.color;
-            _thirdLeaderBackground.color = new Color(c.r, c.g, c.b, _alphaBackgroundAmount);
-            
-            c = _thirdText.color;
-            _thirdText.color = new Color(c.r, c.g, c.b, 1);
-            
-            _thirdText.text = "3-" + stat[2].Name;
-            _thirdText.color = stat[2].PlayerColor;
-        }
-        
-        if(stat.All(player => player.Name != "You"))
-        {
-            var c = _fourthLeaderBackground.color;
-            _fourthLeaderBackground.color = new Color(c.r, c.g, c.b, _alphaBackgroundAmount);
-            
-            c = _fourthText.color;
-            _fourthText.color = new Color(c.r, c.g, c.b, 1);
-            
-            var player = LeaderboardsAbstract.Instance.GetPlayerByName("You");
-            
-            switch (GameController.Mode)
-            {
-                case GameMode.TimeCounting:
-                    _fourthText.text = LeaderboardsAbstract.Instance.GetPlayerRank(player, true) + "-" + player.Name;
-                    break;
-                case GameMode.BeTheLast:
-                    _fourthText.text = LeaderboardsAbstract.Instance.GetPlayerRank(player) + "-" + player.Name;
-                    break;
-            }
-            
-            _fourthText.text = LeaderboardsAbstract.Instance.GetPlayerRank(player, true) + "-" + player.Name;
-            _fourthText.color = player.PlayerColor;
-        }
-        else
-        {
-            var c = _fourthLeaderBackground.color;
-            _fourthLeaderBackground.color = new Color(c.r, c.g, c.b, 0);
-            
-            c = _fourthText.color;
-            _fourthText.color = new Color(c.r, c.g, c.b, 0);
-        }
         
     }
 
