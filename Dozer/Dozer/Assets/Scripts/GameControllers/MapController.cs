@@ -29,7 +29,7 @@ public class MapController : MonoBehaviour
     private GameObject _fadedHouse;
     private bool _houseTriggered;
     
-    private static int MaxGrowPoint => PlayerController.Player.MaxGrow;
+    private static int MaxGrowPoint => PlayerController.MainPlayer.MaxGrow;
     
 
     
@@ -100,13 +100,13 @@ public class MapController : MonoBehaviour
 
     private void LevelUpped(int reward)
     {
-        if(PlayerController.Player.Score >= MaxGrowPoint) return;
+        if(PlayerController.MainPlayer.Score >= MaxGrowPoint) return;
         StartCoroutine(CameraDistanceIncrease(reward));
     }
     
     private void Interaction(IInteractable interactable)
     {
-        if(PlayerController.Player.Score >= MaxGrowPoint) return;
+        if(PlayerController.MainPlayer.Score >= MaxGrowPoint) return;
         StartCoroutine(CameraDistanceIncrease(interactable.ObjectHitPoint));
     }
     

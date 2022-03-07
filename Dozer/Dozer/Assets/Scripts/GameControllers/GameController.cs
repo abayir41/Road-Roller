@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour, ISystem
@@ -113,7 +113,7 @@ public class GameController : MonoBehaviour, ISystem
 
         if (status == GameStatus.Ended || status == GameStatus.Lost)
         {
-            TotalScore += PlayerController.Player.Score;
+            TotalScore += PlayerController.MainPlayer.Score;
         }
     }
     

@@ -2,15 +2,13 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public static PlayerController Player { get; private set; }
+    public static PlayerController MainPlayer { get; private set; }
 
     //Player Properties and references
     public Player PlayerProperty { get; set; }
     public string PlayerName => PlayerProperty.Name;
     public int Level => PlayerProperty.Level;
     public int Score => PlayerProperty.Score;
-    
-    //Local trigger System
     public CarActionSys ActionSysCar { get; private set; }
 
     public Transform uiPosition;
@@ -43,14 +41,12 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
-
     
-
     private void Awake()
     {
         if (isAI == false)
         {
-            Player = this;
+            MainPlayer = this;
         }
         ActionSysCar = new CarActionSys();
         GetComponent<CarController>().enabled = true;
@@ -66,7 +62,7 @@ public class PlayerController : MonoBehaviour
 
     private void LevelUpped(int obj)
     {
-        if (Player == this)
+        if (MainPlayer == this)
             ActionSys.LevelUpped?.Invoke(obj);
     }
 
@@ -77,13 +73,13 @@ public class PlayerController : MonoBehaviour
             
         _scoreSystem.AddScore(obj.ObjectHitPoint);
 
-        if (Player == this)
+        if (MainPlayer == this)
             ActionSys.ObjectGotHit?.Invoke(obj);
     }
 
     private void MaxLevelReached()
     {
-        if (Player == this)
+        if (MainPlayer == this)
             ActionSys.MaxLevelReached?.Invoke();
     }
 
@@ -94,7 +90,7 @@ public class PlayerController : MonoBehaviour
     {
         PlayerProperty.IsDead = true;
 
-        if (Player == this && GameController.Status == GameStatus.Playing)
+        if (MainPlayer == this && GameController.Status == GameStatus.Playing)
         {
             ActionSys.GameStatusChanged?.Invoke(GameStatus.Lost);
         }

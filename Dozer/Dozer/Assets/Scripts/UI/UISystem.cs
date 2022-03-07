@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -265,7 +265,7 @@ public class UISystem : MonoBehaviour, ISystem
 
     private void Interaction(IInteractable obj)
     {
-        var diffBetweenGoalAndSlide = PlayerController.Player.RatioOfBetweenLevels - _levelSlider.value;
+        var diffBetweenGoalAndSlide = PlayerController.MainPlayer.RatioOfBetweenLevels - _levelSlider.value;
         StartCoroutine(SlideAnim(diffBetweenGoalAndSlide));
     }
     
@@ -279,8 +279,7 @@ public class UISystem : MonoBehaviour, ISystem
     
     private void Update()
     {
-
-        #region Playing
+        
         if (GameController.Status == GameStatus.Playing)
         {
             UpdateTimeOrPlayerCount();
@@ -921,8 +920,8 @@ public class UISystem : MonoBehaviour, ISystem
         _newSkinUnlockedTextRect.DOScaleX(1f, duration).SetEase(Ease.OutBack);
         _newSkinUnlockedTextRect.DOScaleY(1f, duration).SetEase(Ease.OutBack).OnKill(() =>
         {
-            _newSkinUnlockedTextRect.DOScaleX(1.1f, duration).SetLoops(-1,LoopType.Yoyo);
-            _newSkinUnlockedTextRect.DOScaleY(1.1f, duration).SetLoops(-1,LoopType.Yoyo);
+            _newSkinUnlockedTextRect.DOScaleX(1.1f, duration * 7).SetLoops(-1,LoopType.Yoyo);
+            _newSkinUnlockedTextRect.DOScaleY(1.1f, duration * 7).SetLoops(-1,LoopType.Yoyo);
             GetSkinUnlockClickToContinue(duration, () => callback?.Invoke());
         });
     }
@@ -1164,17 +1163,15 @@ public class UISystem : MonoBehaviour, ISystem
             skinsContentItems[i].SetActive(true);
         }
     }
-
- 
-
+    
     private void UpdateKillCount()
     {
-        killText.text = "Kills: " + PlayerController.Player.PlayerProperty.KillCount;
+        killText.text = "Kills: " + PlayerController.MainPlayer.PlayerProperty.KillCount;
     }
 
     private void UpdateNextLevelImages()
     {
-        var currentLevel = PlayerController.Player.Level;
+        var currentLevel = PlayerController.MainPlayer.Level;
         var nextLevel = currentLevel + 1;
 
         for (int i = 0; i < MapController.Instance.mapConfig.NewDestroyableObjectImages.Count; i++)
