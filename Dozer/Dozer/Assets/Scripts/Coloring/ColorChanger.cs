@@ -3,7 +3,9 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 
-
+/// <summary>
+/// Changing the color of material without any creating instances.
+/// </summary>
 public class ColorChanger : MonoBehaviour, IColorChangerRandomly
 {
 

@@ -11,6 +11,7 @@ public class GameInitializer : MonoBehaviour, ISystem
     public static GameObject CurrentMap { get; private set; }
     private void Start()
     {
+        //PlayerPrefs.DeleteAll();
         StartCoroutine(InitializeTheGame());
     }
 

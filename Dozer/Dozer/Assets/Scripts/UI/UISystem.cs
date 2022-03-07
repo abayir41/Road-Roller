@@ -294,7 +294,7 @@ public class UISystem : MonoBehaviour, ISystem
     {
         if (GameController.Status == GameStatus.Playing)
         {
-            UpdateDozerShowers();
+            //UpdateDozerShowers();
         }
     }
 
