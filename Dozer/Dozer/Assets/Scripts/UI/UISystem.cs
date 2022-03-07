@@ -154,6 +154,10 @@ public class UISystem : MonoBehaviour, ISystem
     private RectTransform _skinTotalScoreTextRect;
     private RectTransform _skinUnlockRect;
     private float _skinTotalScoreTextOriginalYPosition;
+
+    [Header("Dozer Shower")] 
+    [SerializeField] private List<GameObject> dozerShowers;
+    private List<RectTransform> _dozerShowers;
     
     private void Awake()
     {
@@ -161,6 +165,8 @@ public class UISystem : MonoBehaviour, ISystem
             Instance = this;
 
 
+        _dozerShowers = dozerShowers.ConvertAll(input => input.GetComponent<RectTransform>());
+        
         _destroyableObjImages = destroyableObjectObjItems.ConvertAll(input => input.GetComponent<Image>());
         
         _skinUnlockNewSkinImages = skinUnlockImageObjs.ConvertAll(input => input.GetComponent<Image>());
