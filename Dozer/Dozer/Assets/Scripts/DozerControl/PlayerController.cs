@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     
     //Local trigger System
     public CarActionSys ActionSysCar { get; private set; }
+
+    public Transform uiPosition;
 
     //Dozer Properties
     public bool IsAI => isAI;

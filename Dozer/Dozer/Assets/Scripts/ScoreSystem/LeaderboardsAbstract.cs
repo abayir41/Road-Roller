@@ -27,6 +27,11 @@ public abstract class LeaderboardsAbstract : MonoBehaviour, ISystem
         PlayerList.Remove(player);
     }
 
+    public List<Player> GetAllPlayersWithoutRanking()
+    {
+        return PlayerList;
+    }
+    
     public Player GetPlayerByName(string playerName)
     {
         return PlayerList.First(player => player.Name.Equals(playerName));

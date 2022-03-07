@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -282,9 +282,17 @@ public class UISystem : MonoBehaviour, ISystem
             UpdateLeaderboard();
             UpdateNextLevelImages();
         }
-        #endregion
+        
     }
-    
+
+    private void LateUpdate()
+    {
+        if (GameController.Status == GameStatus.Playing)
+        {
+            UpdateDozerShowers();
+        }
+    }
+
     #region GameStatusChange
 
     private void GameStatusChange(GameStatus status)
@@ -1235,7 +1243,22 @@ public class UISystem : MonoBehaviour, ISystem
         _deadScreenYourScoreText.text = "Your Score: " + LeaderboardsAbstract.Instance.GetPlayerByName("You").Score;
     }
 
-    
+    private void UpdateDozerShowers()
+    {
+        var allPlayers = LeaderboardsAbstract.Instance.GetAllPlayersWithoutRanking();
+        for (var i = 0; i < allPlayers.Count; i++)
+        {
+            if (!allPlayers[i].IsDead)
+            {
+                dozerShowers[i].SetActive(true);
+                _dozerShowers[i].position = GameController.Instance.GameCamera.WorldToScreenPoint(allPlayers[i].UIPosition.position);
+            }
+            else
+            {
+                dozerShowers[i].SetActive(false);
+            }
+        }
+    }
     #endregion
 
     #region Utilities
