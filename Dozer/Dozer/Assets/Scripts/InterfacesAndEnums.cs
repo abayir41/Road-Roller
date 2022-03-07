@@ -116,9 +116,11 @@ public class Player
     public Color PlayerColor { get; }
     public int Level { get; set; }
     public bool IsDead { get; set; }
+    public Transform UIPosition { get; }
 
-    public Player(string name, int startScore, Color playerColor)
+    public Player(string name, int startScore, Color playerColor, Transform uiPosition)
     {
+        UIPosition = uiPosition;
         PlayerColor = playerColor;
         Name = name;
         Score = startScore;
