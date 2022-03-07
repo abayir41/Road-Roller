@@ -351,7 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c110685cbdffb3f42a2f356decabadff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radiusOfSteerDivider: 30
+  radiusOfSteerDivider: 10
   minThreshold: 1
 --- !u!114 &1600789546934555971
 MonoBehaviour:
@@ -404,6 +404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d597fb4d81818f14aac214b55b8b799d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiPosition: {fileID: 4465367500928109527}
   isAI: 0
   maxGrow: 50000
 --- !u!114 &7568980525874123346
@@ -455,6 +456,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88c86cc1075bd2047a3d530325f560e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &5931284300337688719
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4465367500928109527}
+  m_Layer: 0
+  m_Name: UI Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4465367500928109527
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5931284300337688719}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 14.12, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5310531986341161442}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7202637433417319207
 GameObject:
   m_ObjectHideFlags: 0
@@ -488,6 +519,7 @@ Transform:
   - {fileID: 1497456575}
   - {fileID: 3334519872367900469}
   - {fileID: 3149802817739117657}
+  - {fileID: 4465367500928109527}
   m_Father: {fileID: 6623051278530896516}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
