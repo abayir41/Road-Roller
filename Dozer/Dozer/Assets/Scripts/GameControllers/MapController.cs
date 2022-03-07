@@ -37,7 +37,7 @@ public class MapController : MonoBehaviour
     public MapConfig mapConfig;
     [Header("Map Settings")] 
     [SerializeField] private List<Transform> spawnPoints;
-    private List<Player> Players { get; set; }
+
 
 
     private void Awake()
@@ -47,12 +47,11 @@ public class MapController : MonoBehaviour
 
         RandomlyChangedMaterialsListAndColours = new Dictionary<IColorChanger, Dictionary<int, Color>>();
         _dozerFollowers = new List<Transform>();
-        Players = new List<Player>();
 
         //Caching
-        if (!(Camera.main is null)) _cameraGameObject = Camera.main.gameObject;
+        _cameraGameObject = GameController.Instance.GameCamera.gameObject;
         _cameraTrans = _cameraGameObject.transform;
-        _camera = _cameraGameObject.GetComponent<Camera>();
+        _camera = GameController.Instance.GameCamera;
         
     }
 

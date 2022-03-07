@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour, ISystem
@@ -45,6 +45,9 @@ public class GameController : MonoBehaviour, ISystem
         private set => RegisterSystem.Instance.SaveData(GameConfig.SelectedSkinIndexString, value);
     }
 
+    public Camera GameCamera => gameCamera;
+    [SerializeField] private Camera gameCamera;
+    
     public int TimeLeft => GameConfig.MatchTimeAsSecond - (int) _timer;
     private float _timer;
 
