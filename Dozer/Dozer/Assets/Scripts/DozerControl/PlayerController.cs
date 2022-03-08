@@ -92,6 +92,12 @@ public class PlayerController : MonoBehaviour
 
         if (MainPlayer == this && GameController.Status == GameStatus.Playing)
         {
+            var camTrans = GameController.Instance.GameCamera.gameObject.transform;
+            var cachedPos = camTrans.position;
+            Debug.Log(cachedPos);
+            camTrans.SetParent(null,true);
+            camTrans.position = cachedPos;
+            
             ActionSys.GameStatusChanged?.Invoke(GameStatus.Lost);
         }
     }

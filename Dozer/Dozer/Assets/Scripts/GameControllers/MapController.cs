@@ -6,7 +6,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 
-public class MapController : MonoBehaviour
+public class MapController : MonoBehaviour, ISystem
 {
     public static MapController Instance { get; private set; }
     
@@ -14,6 +14,7 @@ public class MapController : MonoBehaviour
     [Header("Dozer Settings")]
     private List<Transform> _dozerFollowers;
     private Transform _dozerTrans;
+    private GameObject _dozerRot;
     
     //Coloring Building, objects ...
     public Dictionary<IColorChanger, Dictionary<int, Color>> RandomlyChangedMaterialsListAndColours { get; private set; }
@@ -64,9 +65,9 @@ public class MapController : MonoBehaviour
     {
         if(GameController.Status != GameStatus.Playing) return;
         
-        var dozerTransPosition = _dozerTrans.position;
-        ObjectFollower(_cameraFarFromDozer,dozerTransPosition,_cameraTrans);
-
+        //ObjectFollower(_cameraFarFromDozer,dozerTransPosition,_cameraTrans);
+        //ObjectRotation(_dozerRot, _camera.gameObject);
+        
         
         _fadedHouse = Looking_Any_Big_House();
         
@@ -129,7 +130,7 @@ public class MapController : MonoBehaviour
 
             var newGrow = Vector3.Lerp(Vector3.zero, goalScale, lerpRatio);
             
-            _cameraFarFromDozer += newGrow - cachedGrow;
+            _cameraTrans.localPosition += newGrow - cachedGrow;
             cachedGrow = newGrow;
             
             timeElapsed += Time.deltaTime;
@@ -172,9 +173,16 @@ public class MapController : MonoBehaviour
         }
     }
 
-    private static void ObjectFollower(Vector3 distance, Vector3 from, Transform obj)
+    private static void ObjectFollowerGlobally(Vector3 distance, Vector3 from, Transform obj)
     {
         obj.position = distance + from;
+    }
+    
+    
+    private static void ObjectRotation(GameObject from, GameObject obj)
+    {
+        Debug.Log("from: " + from.transform.rotation.y);
+        obj.transform.rotation = Quaternion.Euler(35f, from.transform.rotation.y *100f, 0);
     }
     
     private GameObject Looking_Any_Big_House()
@@ -232,7 +240,12 @@ public class MapController : MonoBehaviour
                 normalDozer.transform.localScale = Vector3.one;//setting local scale
                 normalDozer.transform.parent = GameInitializer.CurrentMap.transform;
                 _dozerTrans = normalDozer.transform; //caching dozer transform
+                
+                _dozerRot = normalDozer;
+                _cameraTrans.SetParent(_dozerTrans);
 
+                var dozerTransPosition = _dozerTrans.position;
+                ObjectFollowerGlobally(_cameraFarFromDozer, dozerTransPosition, _cameraTrans);
                 normalDozer.GetComponent<CarController>().SetVelocity(mapConfig.MapStartVelocity,mapConfig.VelocityDivider);
                 
                 SetTheCamera();
@@ -305,5 +318,13 @@ public class MapController : MonoBehaviour
 
     #endregion
 
+    public void ResetTheSystem()
+    {
+        var camTrans = GameController.Instance.GameCamera.gameObject.transform;
+        var cachedPos = camTrans.position;
+        Debug.Log(cachedPos);
+        camTrans.SetParent(null,true);
+        camTrans.position = cachedPos;
+    }
 }
 
