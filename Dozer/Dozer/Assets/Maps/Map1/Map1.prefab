@@ -1181,6 +1181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77eb8a74faedf4d4199addf970674ba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  smoothFollowTime: 0.3
   mapConfig: {fileID: 11400000, guid: c1a6de28cf646214e94cd82d1180572d, type: 2}
   spawnPoints:
   - {fileID: 5823136723877564545}
