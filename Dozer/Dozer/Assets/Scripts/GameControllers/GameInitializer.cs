@@ -60,10 +60,7 @@ public class GameInitializer : MonoBehaviour, ISystem
 
     private IEnumerator ResetGame()
     {
-        MapController.Instance.ResetTheSystem();
 
-        yield return 0;
-        
         Destroy(CurrentMap);
 
         yield return 0;
