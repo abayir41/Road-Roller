@@ -158,6 +158,7 @@ public class UISystem : MonoBehaviour, ISystem
     [Header("Dozer Shower")] 
     [SerializeField] private List<GameObject> dozerShowers;
     private List<RectTransform> _dozerShowers;
+    private List<TextMeshProUGUI> _dozerShowerTextMesh;
     
     private void Awake()
     {
@@ -165,6 +166,7 @@ public class UISystem : MonoBehaviour, ISystem
             Instance = this;
 
 
+        _dozerShowerTextMesh = dozerShowers.ConvertAll(input => input.GetComponentInChildren<TextMeshProUGUI>());
         _dozerShowers = dozerShowers.ConvertAll(input => input.GetComponent<RectTransform>());
         
         _destroyableObjImages = destroyableObjectObjItems.ConvertAll(input => input.GetComponent<Image>());
@@ -294,7 +296,7 @@ public class UISystem : MonoBehaviour, ISystem
     {
         if (GameController.Status == GameStatus.Playing)
         {
-            //UpdateDozerShowers();
+            UpdateDozerShowers();
         }
     }
 
@@ -1255,6 +1257,8 @@ public class UISystem : MonoBehaviour, ISystem
             {
                 dozerShowers[i].SetActive(true);
                 _dozerShowers[i].position = GameController.Instance.GameCamera.WorldToScreenPoint(allPlayers[i].UIPosition.position);
+                _dozerShowerTextMesh[i].text = "Lvl - " + allPlayers[i].Level;
+                _dozerShowerTextMesh[i].color = allPlayers[i].PlayerColor;
             }
             else
             {
