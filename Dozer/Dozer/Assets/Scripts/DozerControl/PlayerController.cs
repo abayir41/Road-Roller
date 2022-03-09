@@ -16,9 +16,6 @@ public class PlayerController : MonoBehaviour
     //Dozer Properties
     public bool IsAI => isAI;
     [SerializeField] private bool isAI = true;
-    
-    public int MaxGrow => maxGrow;
-    [SerializeField] private int maxGrow;
 
     //Score System and References
     private ScoreSystem _scoreSystem;

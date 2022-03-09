@@ -14,8 +14,7 @@ public class CarSystem : MonoBehaviour
     [SerializeField] private Transform visualPoint;
 
     public Transform VisualPoint => visualPoint;
-    private int MaxGrowPoint => _playerController.MaxGrow;
-    
+
     private PlayerController _playerController;
     private CarActionSys _carActionSystem;
 
@@ -42,14 +41,12 @@ public class CarSystem : MonoBehaviour
     //Stands For Level Up
     private void Interact(int reward)
     {
-        if (_playerController.Score >= MaxGrowPoint) return;
         StartCoroutine(GrowAnim(bodyGrowingPoint,reward));
     }
     
     //Stands For normal gains
     private void Interact(IInteractable interactable)
     {
-        if (_playerController.Score >= MaxGrowPoint) return;
         StartCoroutine(GrowAnim(bodyGrowingPoint,interactable.ObjectHitPoint));
     }
 
