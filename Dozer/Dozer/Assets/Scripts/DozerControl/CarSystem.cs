@@ -17,24 +17,26 @@ public class CarSystem : MonoBehaviour
     private int MaxGrowPoint => _playerController.MaxGrow;
     
     private PlayerController _playerController;
+    private CarActionSys _carActionSystem;
 
     private void Awake()
     {
         _playerController = GetComponent<PlayerController>();
+        
     }
     
     private void OnEnable()
     {
-        _playerController.ActionSysCar.ObjectGotHit += Interact;
-        _playerController.ActionSysCar.LevelUpped += Interact;
+        _carActionSystem = _playerController.ActionSysCar;
+        _carActionSystem.ObjectGotHit += Interact;
+        _carActionSystem.LevelUpped += Interact;
     }
     
     private void OnDisable()
     {
-        _playerController.ActionSysCar.ObjectGotHit -= Interact;
-        _playerController.ActionSysCar.LevelUpped -= Interact;
+        _carActionSystem.ObjectGotHit -= Interact;
+        _carActionSystem.LevelUpped -= Interact;
     }
-
 
     
     //Stands For Level Up

@@ -44,7 +44,7 @@ public class CarController : MonoBehaviour
 
     private void Update()
     {
-        if (GameController.Status != GameStatus.Playing && GameController.Status != GameStatus.Ended)
+        if (GameController.Status != GameStatus.Playing)
         {
             _rigidbody.velocity = Vector3.zero;
             _rigidbody.angularVelocity = Vector3.zero;
