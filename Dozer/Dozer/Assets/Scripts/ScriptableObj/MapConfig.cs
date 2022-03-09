@@ -25,17 +25,13 @@ public class MapConfig : ScriptableObject
     [SerializeField] private int startScore;
     [SerializeField] private List<int> levelThresholds; //This has to begin with 0
     [SerializeField] private List<int> rewardPoints;
-
-
-    public int MatchTimeAsSecond => matchTimeAsSeconds;
     
-    [Header("Game Mode Setting")] 
-    [SerializeField] private int matchTimeAsSeconds;
-
 
     public int CameraDistanceDivider => cameraDistanceDivider;
+    public float CameraSmoothness => cameraSmoothness;
     
     [Header("CamerasSettings")]
+    [SerializeField] private float cameraSmoothness;
     [SerializeField] private int cameraDistanceDivider;
 
 

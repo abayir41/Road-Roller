@@ -4,79 +4,49 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Vector3 = UnityEngine.Vector3;
 
 
-public class MapController : MonoBehaviour, ISystem
+public class MapController : MonoBehaviour
 {
     public static MapController Instance { get; private set; }
-    
+
     //Dozer Movement and process 
     [Header("Dozer Settings")]
-    private List<Transform> _dozerFollowers;
     private Transform _dozerTrans;
-    private GameObject _dozerRot;
-    
     //Coloring Building, objects ...
     public Dictionary<IColorChanger, Dictionary<int, Color>> RandomlyChangedMaterialsListAndColours { get; private set; }
 
     //Camera Movement
-    [Header("Camera Movement")]
-    private GameObject _cameraGameObject;
-    private Transform _cameraTrans;
-    private Camera _camera;
-    private Vector3 _cameraFarFromDozer;
+    [Header("Camera Movement")] 
+    private float _smoothFollowTime;
+    private static Transform CameraTrans => GameController.Instance.GameCamera.gameObject.transform;
+    private Vector3 _dozerToCameraDirection;
+    private Transform _cameraOffsetFromDozer;
+    private Vector3 _camVelocity = Vector3.zero;
 
-    //Transparency System
-    private GameObject _fadedHouse;
-    private bool _houseTriggered;
-    
-    private static int MaxGrowPoint => PlayerController.MainPlayer.MaxGrow;
-    
-
-    
-    
     public MapConfig mapConfig;
     [Header("Map Settings")] 
     [SerializeField] private List<Transform> spawnPoints;
-
-
-
+    
     private void Awake()
     {
-        
         Instance = this;
-
         RandomlyChangedMaterialsListAndColours = new Dictionary<IColorChanger, Dictionary<int, Color>>();
-        _dozerFollowers = new List<Transform>();
-
-        //Caching
-        _cameraGameObject = GameController.Instance.GameCamera.gameObject;
-        _cameraTrans = _cameraGameObject.transform;
-        _camera = GameController.Instance.GameCamera;
-        
+        _smoothFollowTime = mapConfig.CameraSmoothness;
     }
 
     private void Start()
     {
         PrepareScene();
     }
+    
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if(GameController.Status != GameStatus.Playing) return;
+        if (GameController.Status != GameStatus.Playing) return;
         
-        //ObjectFollower(_cameraFarFromDozer,dozerTransPosition,_cameraTrans);
-        //ObjectRotation(_dozerRot, _camera.gameObject);
-        
-        
-        _fadedHouse = Looking_Any_Big_House();
-        
-        if (!(_fadedHouse is null) && !_houseTriggered)
-        {
-            _houseTriggered = true;
-            AlphaChanger(_fadedHouse,0.3f);
-        }
-        
+        SmoothCameraFollower();
     }
 
     #region Subscription
@@ -100,13 +70,11 @@ public class MapController : MonoBehaviour, ISystem
 
     private void LevelUpped(int reward)
     {
-        if(PlayerController.MainPlayer.Score >= MaxGrowPoint) return;
-        StartCoroutine(CameraDistanceIncrease(reward));
+        StartCoroutine(CameraDistanceIncrease(reward,true));
     }
     
     private void Interaction(IInteractable interactable)
     {
-        if(PlayerController.MainPlayer.Score >= MaxGrowPoint) return;
         StartCoroutine(CameraDistanceIncrease(interactable.ObjectHitPoint));
     }
     
@@ -114,13 +82,16 @@ public class MapController : MonoBehaviour, ISystem
 
     #region Animations
 
-    private IEnumerator CameraDistanceIncrease(float distance)
+    private IEnumerator CameraDistanceIncrease(float distance, bool disableSmoothness = false)
     {
         float timeElapsed = 0;
         
-        var goalScale = _cameraFarFromDozer.normalized * distance / mapConfig.CameraDistanceDivider;
+        var goalScale = _dozerToCameraDirection.normalized * distance / mapConfig.CameraDistanceDivider;
 
         var cachedGrow = Vector3.zero;
+
+        if(disableSmoothness)
+            _smoothFollowTime = 0.0001f;
 
         while (timeElapsed < 0.2f)
         {
@@ -130,98 +101,44 @@ public class MapController : MonoBehaviour, ISystem
 
             var newGrow = Vector3.Lerp(Vector3.zero, goalScale, lerpRatio);
             
-            _cameraTrans.localPosition += newGrow - cachedGrow;
+            _cameraOffsetFromDozer.localPosition += newGrow - cachedGrow;
             cachedGrow = newGrow;
             
             timeElapsed += Time.deltaTime;
 
             yield return null;
         }
-        
+
+        _smoothFollowTime = mapConfig.CameraSmoothness;
+
     }
 
     #endregion
     
     #region Game Dynamic Methods
-
-    private void AlphaChanger(GameObject obj,float alphaAmount)
+    private void SmoothCameraFollower()
     {
-
-        var randomlyChangedMaterialIndexes = new List<int>();
-        var houseRenderer = obj.GetComponent<Renderer>();
-
-        var colorChanger = obj.GetComponent<IColorChanger>();
-        if (RandomlyChangedMaterialsListAndColours.ContainsKey(colorChanger))
-        {
-            foreach (var indexColorPair in RandomlyChangedMaterialsListAndColours[colorChanger])
-            {
-                var color = indexColorPair.Value;
-                color.a = alphaAmount;
-                colorChanger.ChangeColor(color, indexColorPair.Key);
-                randomlyChangedMaterialIndexes.Add(indexColorPair.Key);
-            }
-        }
-
-        var materials = houseRenderer.sharedMaterials;
-        for (var i = 0; i < materials.Length; i++)
-        {
-            if (randomlyChangedMaterialIndexes.Contains(i)) continue;
-            var material = materials[i];
-            var color = material.color;
-            color.a = alphaAmount;
-            colorChanger.ChangeColor(color, i);
-        }
-    }
-
-    private static void ObjectFollowerGlobally(Vector3 distance, Vector3 from, Transform obj)
-    {
-        obj.position = distance + from;
+        
+        CameraTrans.position = Vector3.SmoothDamp(CameraTrans.position, _cameraOffsetFromDozer.position,
+            ref _camVelocity, _smoothFollowTime);
+        
+        var position = _dozerTrans.position;
+        CameraTrans.LookAt(position);
     }
     
-    
-    private static void ObjectRotation(GameObject from, GameObject obj)
-    {
-        Debug.Log("from: " + from.transform.rotation.y);
-        obj.transform.rotation = Quaternion.Euler(35f, from.transform.rotation.y *100f, 0);
-    }
-    
-    private GameObject Looking_Any_Big_House()
-    {
-        GameObject savedGameObject = null;
-        foreach (var ray in _dozerFollowers.Select(followerTrans => _camera.ScreenPointToRay(_camera.WorldToScreenPoint(followerTrans.position))))
-        {
-            if (Physics.Raycast(ray, out var hit) && hit.collider.gameObject.CompareTag(GameController.GameConfig.HouseTag))
-            {
-                savedGameObject = hit.collider.gameObject;
-            }
-            else
-            {
-                if (_houseTriggered)
-                {
-                    AlphaChanger(_fadedHouse,1f);
-                    _houseTriggered = false;
-                }
-                return null;
-            }
-        }
-
-        return savedGameObject;
-
-    }
-
     #endregion
     
     #region Scene Preparing
 
-        private void PrepareScene()
+    private void PrepareScene()
     {
         SpawnCars();
-        
+
         ActivateSkinSystem();
-        
+
         PaintEnvironment();
     }
-    
+
     private void SpawnCars()
     {
         for (var i = 0; i < mapConfig.PlayerCount; i++)
@@ -233,19 +150,13 @@ public class MapController : MonoBehaviour, ISystem
                 var normalDozer = Instantiate(mapConfig.PlayerDozer, spawnPoints[ranInt]);
                 
                 RegisterTheDozer(normalDozer, "You");
-                SetDozerFollowers();
-                
+
                 normalDozer.transform.localPosition = Vector3.zero;//setting position
                 normalDozer.transform.localEulerAngles = Vector3.zero;//Setting Rot
                 normalDozer.transform.localScale = Vector3.one;//setting local scale
                 normalDozer.transform.parent = GameInitializer.CurrentMap.transform;
                 _dozerTrans = normalDozer.transform; //caching dozer transform
                 
-                _dozerRot = normalDozer;
-                _cameraTrans.SetParent(_dozerTrans);
-
-                var dozerTransPosition = _dozerTrans.position;
-                ObjectFollowerGlobally(_cameraFarFromDozer, dozerTransPosition, _cameraTrans);
                 normalDozer.GetComponent<CarController>().SetVelocity(mapConfig.MapStartVelocity,mapConfig.VelocityDivider);
                 
                 SetTheCamera();
@@ -277,20 +188,13 @@ public class MapController : MonoBehaviour, ISystem
         LeaderboardsAbstract.Instance.AddPlayer(player);
     }
 
-    private void SetDozerFollowers()
-    {
-        var dozerFollowers = GameObject.Find("Dozer_Followers");
-        for (var j = 0; j < dozerFollowers.transform.childCount; j++)
-            _dozerFollowers.Add(dozerFollowers.transform.GetChild(j));
-    }
-
     private void SetTheCamera()
     {
-        var cameraPoint = GameObject.Find("Camera Point");
-        _cameraTrans.position = cameraPoint.transform.position;
+        _cameraOffsetFromDozer = GameObject.Find("Camera Point").transform;
+        CameraTrans.position = _cameraOffsetFromDozer.position;
         var position = _dozerTrans.position;
-        _cameraFarFromDozer = _cameraTrans.position - position;
-        _cameraTrans.LookAt(position);
+        _dozerToCameraDirection = CameraTrans.position - position;
+        CameraTrans.LookAt(position);
     }
 
     private void ActivateSkinSystem()
@@ -317,14 +221,5 @@ public class MapController : MonoBehaviour, ISystem
     }
 
     #endregion
-
-    public void ResetTheSystem()
-    {
-        var camTrans = GameController.Instance.GameCamera.gameObject.transform;
-        var cachedPos = camTrans.position;
-        Debug.Log(cachedPos);
-        camTrans.SetParent(null,true);
-        camTrans.position = cachedPos;
-    }
 }
 
