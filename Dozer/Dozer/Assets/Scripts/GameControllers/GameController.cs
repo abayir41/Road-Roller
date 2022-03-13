@@ -110,11 +110,11 @@ public class GameController : MonoBehaviour, ISystem
     
     private void ObjectGotHit(IInteractable obj)
     {
-        ActionSys.Vibrate(HapticTypes.Selection);
+        ActionSys.Vibrate(HapticTypes.HeavyImpact);
     }
     private void LevelUpped(int obj)
     {
-        ActionSys.Vibrate(HapticTypes.Success);
+        ActionSys.Vibrate(HapticTypes.HeavyImpact);
     }
     
     private void GameStatusChanged(GameStatus status)
