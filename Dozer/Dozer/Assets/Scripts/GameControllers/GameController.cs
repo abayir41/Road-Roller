@@ -110,11 +110,11 @@ public class GameController : MonoBehaviour, ISystem
     
     private void ObjectGotHit(IInteractable obj)
     {
-        ActionSys.Vibrate(HapticTypes.HeavyImpact);
+        ActionSys.Vibrate?.Invoke(HapticTypes.HeavyImpact);
     }
     private void LevelUpped(int obj)
     {
-        ActionSys.Vibrate(HapticTypes.HeavyImpact);
+        ActionSys.Vibrate?.Invoke(HapticTypes.HeavyImpact);
     }
     
     private void GameStatusChanged(GameStatus status)
@@ -137,7 +137,12 @@ public class GameController : MonoBehaviour, ISystem
 
         if (status == GameStatus.Lost)
         {
-            ActionSys.Vibrate(HapticTypes.Failure);
+            ActionSys.Vibrate?.Invoke(HapticTypes.Failure);
+        }
+
+        if (status == GameStatus.Ended)
+        {
+            ActionSys.PlaySound?.Invoke(GameController.GameConfig.WinSound);
         }
     }
     

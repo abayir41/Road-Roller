@@ -7,7 +7,7 @@ public class SoundSystem : MonoBehaviour
 {
     [SerializeField] private AudioSource player;
     [SerializeField] private AudioClip soundSystemOpenedSound;
-    private bool _toggleSoundSystem = false;
+    private bool _toggleSoundSystem = true;
 
     private void OnEnable()
     {

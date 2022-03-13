@@ -49,4 +49,8 @@ public class GameConfig : ScriptableObject
     [SerializeField] private List<Color> colors;
     [SerializeField] private Color playerBackgroundColor;
 
+    public AudioClip WinSound => winSound;
+    
+    [Header("Sounds")] 
+    [SerializeField] private AudioClip winSound;
 }
