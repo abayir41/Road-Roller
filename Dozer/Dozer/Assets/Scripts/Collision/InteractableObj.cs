@@ -14,6 +14,15 @@ public class InteractableObj : MonoBehaviour, IInteractable
         {
             if (IsDozer)
             {
+                if (_dozerPlayerController.IsAI && _dozerPlayerController.Level == PlayerController.MainPlayer.Level)
+                {
+                    return 0;
+                }
+
+                if (!_dozerPlayerController.IsAI && _dozerPlayerController.Level == PlayerController.MainPlayer.Level)
+                {
+                    return _dozerPlayerController.Score;
+                }
                 return _dozerPlayerController.Score;
             }
             else
@@ -36,7 +45,8 @@ public class InteractableObj : MonoBehaviour, IInteractable
             }
         }
     }
-    public int DestroyDelayWhileCollision
+
+    private int DestroyDelayWhileCollision
     {
         get
         {
@@ -77,7 +87,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
     }
     
     //Dozer Check
-    public bool IsDozer { get; set; }
+    public bool IsDozer { get; private set; }
     private PlayerController _dozerPlayerController;
     
     public Vector3 ColliderPosition => GetComponent<Collider>().bounds.center;
