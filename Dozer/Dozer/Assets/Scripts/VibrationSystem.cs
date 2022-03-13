@@ -12,8 +12,7 @@ public class VibrationSystem : MonoBehaviour
         ActionSys.Vibrate += Vibrate;
         ActionSys.ToggleVibrationSystem += ToggleVibrationSystem;
     }
-
-
+    
     private void OnDisable()
     {
         ActionSys.Vibrate -= Vibrate;

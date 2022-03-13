@@ -46,3 +46,4 @@ MonoBehaviour:
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 1, g: 1, b: 1, a: 1}
   playerBackgroundColor: {r: 0, g: 0.97121596, b: 1, a: 0}
+  winSound: {fileID: 8300000, guid: 277746dba9bb81944acaf7a3519243bf, type: 3}
