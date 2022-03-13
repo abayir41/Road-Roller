@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using MoreMountains.NiceVibrations;
 using UnityEngine;
 
 public class VibrationSystem : MonoBehaviour
@@ -23,13 +24,13 @@ public class VibrationSystem : MonoBehaviour
     {
         _toggleVibrationSystem = !_toggleVibrationSystem;
         if(_toggleVibrationSystem)
-            Vibrate();
+            Vibrate(HapticTypes.Selection);
     }
 
     
-    private void Vibrate()
+    private void Vibrate(HapticTypes type)
     {
         if(_toggleVibrationSystem)
-            Handheld.Vibrate();
+            MMVibrationManager.Haptic(type);
     }
 }

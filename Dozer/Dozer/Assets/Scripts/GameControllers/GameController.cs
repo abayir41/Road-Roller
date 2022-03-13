@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using MoreMountains.NiceVibrations;
 using UnityEngine;
 
 public class GameController : MonoBehaviour, ISystem
@@ -92,13 +94,27 @@ public class GameController : MonoBehaviour, ISystem
         ActionSys.GameStatusChanged += GameStatusChanged;
         ActionSys.GameModeChanged += GameModeChanged;
         ActionSys.SkinSelected += SelectedSkin;
+        ActionSys.LevelUpped += LevelUpped;
+        ActionSys.ObjectGotHit += ObjectGotHit;
     }
+
     
     private void OnDisable()
     {
         ActionSys.GameStatusChanged -= GameStatusChanged;
         ActionSys.GameModeChanged -= GameModeChanged;
         ActionSys.SkinSelected -= SelectedSkin;
+        ActionSys.LevelUpped -= LevelUpped;
+        ActionSys.ObjectGotHit -= ObjectGotHit;
+    }
+    
+    private void ObjectGotHit(IInteractable obj)
+    {
+        ActionSys.Vibrate(HapticTypes.HeavyImpact);
+    }
+    private void LevelUpped(int obj)
+    {
+        ActionSys.Vibrate(HapticTypes.HeavyImpact);
     }
     
     private void GameStatusChanged(GameStatus status)
@@ -117,6 +133,11 @@ public class GameController : MonoBehaviour, ISystem
         if (status == GameStatus.Ended || status == GameStatus.Lost)
         {
             TotalScore += PlayerController.MainPlayer.Score;
+        }
+
+        if (status == GameStatus.Lost)
+        {
+            ActionSys.Vibrate(HapticTypes.Failure);
         }
     }
     

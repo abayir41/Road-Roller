@@ -1,4 +1,5 @@
 ﻿using System;
+using MoreMountains.NiceVibrations;
 using UnityEngine;
 
 public static class ActionSys //These are globally called
@@ -21,7 +22,7 @@ public static class ActionSys //These are globally called
 
     public static Action<AudioClip> PlaySound;
 
-    public static Action Vibrate;
+    public static Action<HapticTypes> Vibrate;
 
     public static Action ToggleVibrationSystem;
 
