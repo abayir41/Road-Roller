@@ -106,8 +106,8 @@ public class InteractableObj : MonoBehaviour, IInteractable
     [Header("Some Configurations")] 
     [SerializeField] private Transform particleObjSpawnParent;
     [SerializeField] private BoxCollider shapeOfParticleCollider;
-    [SerializeField] public List<MeshRenderer> meshRenderers;
-    [SerializeField] private List<Collider> disableColliders;
+    [HideInInspector] public List<MeshRenderer> meshRenderers;
+    private List<Collider> _disableColliders;
     
 
     private void Awake()
@@ -117,6 +117,15 @@ public class InteractableObj : MonoBehaviour, IInteractable
             IsDozer = true;
             _dozerPlayerController = GetComponent<PlayerController>();
         }
+
+        if (!IsDozer)
+        {
+            meshRenderers = new List<MeshRenderer>(GetComponents<MeshRenderer>());
+            meshRenderers.AddRange(GetComponentsInChildren<MeshRenderer>());
+        }
+        
+        _disableColliders = new List<Collider>(GetComponents<Collider>());
+        _disableColliders.AddRange(GetComponentsInChildren<Collider>());
     }
 
     public void Interact(PlayerController playerController)
@@ -154,7 +163,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
             meshRenderer.enabled = false;
         }
         yield return new WaitForSeconds(delay);
-        foreach (var disableCollider in disableColliders)
+        foreach (var disableCollider in _disableColliders)
         {
             disableCollider.enabled = false;
         }
