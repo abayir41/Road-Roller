@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9592732}
   m_Layer: 0
   m_Name: Skull
-  m_TagString: Untagged
+  m_TagString: Destroyable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
