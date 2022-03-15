@@ -159,10 +159,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f6db4b812fd8814b9a0e5e87d43f0a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyThreshold: 0
-  objectHitPoint: 10
   objectType: 0
-  delayWhileCollision: 5
+  haveParticleDeath: 1
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   particleVolumeMultiplier: 1
   particleCount: 90
@@ -173,8 +171,6 @@ MonoBehaviour:
   shapeOfParticleCollider: {fileID: 1984333604779163597}
   meshRenderers:
   - {fileID: 8381674329219054311}
-  disableColliders:
-  - {fileID: 1984333604779163597}
 --- !u!114 &3504598661549156084
 MonoBehaviour:
   m_ObjectHideFlags: 0

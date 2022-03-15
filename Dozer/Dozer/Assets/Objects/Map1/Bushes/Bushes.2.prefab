@@ -145,6 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 0
+  haveParticleDeath: 1
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   particleVolumeMultiplier: 1
   particleCount: 150
@@ -155,8 +156,6 @@ MonoBehaviour:
   shapeOfParticleCollider: {fileID: 8599322624849221451}
   meshRenderers:
   - {fileID: 4666730629828542173}
-  disableColliders:
-  - {fileID: 8599322624849221451}
 --- !u!114 &4594543221036895630
 MonoBehaviour:
   m_ObjectHideFlags: 0
