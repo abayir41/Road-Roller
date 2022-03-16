@@ -27,7 +27,7 @@ MonoBehaviour:
   aiDozer: {fileID: 5020395865685476948, guid: bf7ef8e8c57cd894aa01941d95779835, type: 3}
   mapStartVelocity: 5
   velocityDivider: 600
-  playerCount: 5
+  playerCount: 2
   newDestroyableObjectImages:
   - {fileID: 21300000, guid: c190ebd3c6a8a904aadf2709c344b3ec, type: 3}
   - {fileID: 21300000, guid: 061aebabe3a6b404eaa3f00e7cd8489e, type: 3}
