@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -177,7 +178,6 @@ public class UISystem : MonoBehaviour, ISystem
         _skinUnlockClickToContinueText = skinUnlockClickToContinue.GetComponent<TextMeshProUGUI>();
         _skinTotalScoreTextRect = skinTotalScoreTextObj.GetComponent<RectTransform>();
         _skinUnlockRect = skinUnlockObj.GetComponent<RectTransform>();
-        _skinTotalScoreTextOriginalYPosition = _skinTotalScoreTextRect.position.y;
 
         _deadScreenYourScoreText = deadScreenScoreText.GetComponent<TextMeshProUGUI>();
         _deadScreenBackgroundImg = deadScreenBackGround.GetComponent<Image>();
@@ -188,22 +188,19 @@ public class UISystem : MonoBehaviour, ISystem
 
         _timeOutOrPlayerCountRect = timeOutOrPlayerCount.GetComponent<RectTransform>();
         _timeOutOrPlayerCountText = timeOutOrPlayerCount.GetComponent<TextMeshProUGUI>();
-        _timeOrPlayerCountOriginalXPosition = _timeOutOrPlayerCountRect.position.x;
         _rewardButtonRect = rewardButtonObject.GetComponent<RectTransform>();
-        _rewardOriginalXPosition = _rewardButtonRect.position.x;
         _clickToContinueText = clickToContinueObject.GetComponentInChildren<TextMeshProUGUI>();
         _imagesOfLeaderboardObject = leaderBoardObjects.ConvertAll(input => input.GetComponent<Image>());
         _textMeshProsOfLeaderboard =
             leaderBoardObjects.ConvertAll(input => input.GetComponentInChildren<TextMeshProUGUI>());
         _alphasOfLeaderboardObjects = _imagesOfLeaderboardObject.ConvertAll(input => input.color.a);
         
-            _loadingBackgroundImage = loadingBackground.GetComponent<Image>();
+        _loadingBackgroundImage = loadingBackground.GetComponent<Image>();
         _loadingTextMeshProUGUI = loadingText.GetComponent<TextMeshProUGUI>();
         
         _pauseBackground = pauseBackGround.GetComponent<Image>();
         _pauseAlphaAmountBackground = _pauseBackground.color.a;
         _pauseRectTransforms = pauseItems.Select(objects => objects.GetComponent<RectTransform>()).ToList();
-        _pauseRectOriginalYPositions = _pauseRectTransforms.Select(rectTransform => rectTransform.position.y).ToList();
 
         _needToContinueClickToContinueText = needToContinueClickToContinue.GetComponentInChildren<TextMeshProUGUI>();
         _needToContinueBackground = needToContinueBackGround.GetComponent<Image>();
@@ -211,8 +208,7 @@ public class UISystem : MonoBehaviour, ISystem
         _needToContinueRewardButtonRect = needToContinueRewardButton.GetComponent<RectTransform>();
         _needToContinueRewardImageRect = needToContinueRewardImage.GetComponent<RectTransform>();
         _needToContinueTimeOutRect = needToContinueTimeOut.GetComponent<RectTransform>();
-        _needToContinueTimeOutOriginalYPosition = _needToContinueTimeOutRect.position.y;
-        
+
         _endTextRectTransform = endText.transform.GetChild(0).GetComponent<RectTransform>();
         _endTextMeshProUGUI = endText.GetComponentInChildren<TextMeshProUGUI>();
 
@@ -224,10 +220,9 @@ public class UISystem : MonoBehaviour, ISystem
         _killsRect = killsObj.GetComponent<RectTransform>();
         _levelSliderRect = levelSliderObj.GetComponent<RectTransform>();
         _destroyableObjectRect = destroyableObjectObj.GetComponent<RectTransform>();
-        _destroyableObjectOriginalYPosition = _destroyableObjectRect.position.y;
         _leaderBoardRect = leaderBoardObj.GetComponent<RectTransform>();
         _levelSlider = levelSliderObj.GetComponent<Slider>();
-        _levelSliderOriginalYPosition = _levelSliderRect.position.y;
+       
         
         _settingsPanel = settingsPanel.GetComponent<RectTransform>();
         
@@ -238,6 +233,18 @@ public class UISystem : MonoBehaviour, ISystem
         _clickToPlayText = clickToPlayButton.GetComponentInChildren<TextMeshProUGUI>();
         _waitingMenuUIObjectsRectTransforms =
             waitingMenuUIObjects.ConvertAll(objects => objects.GetComponent<RectTransform>());
+       
+    }
+
+    public void CachePositions()
+    {
+        _skinTotalScoreTextOriginalYPosition = _skinTotalScoreTextRect.position.y;
+        _timeOrPlayerCountOriginalXPosition = _timeOutOrPlayerCountRect.position.x;
+        _rewardOriginalXPosition = _rewardButtonRect.position.x;
+        _pauseRectOriginalYPositions = _pauseRectTransforms.Select(rectTransform => rectTransform.position.y).ToList();
+        _destroyableObjectOriginalYPosition = _destroyableObjectRect.position.y;
+        _needToContinueTimeOutOriginalYPosition = _needToContinueTimeOutRect.position.y;
+        _levelSliderOriginalYPosition = _levelSliderRect.position.y;
         _waitingMenuOriginalXPositions = _waitingMenuUIObjectsRectTransforms.ConvertAll(objects => objects.position.x);
     }
 
@@ -1096,8 +1103,8 @@ public class UISystem : MonoBehaviour, ISystem
         {
             if (stat.Count > i)
             {
-                var c = _leaderboardBackgroundColor; 
-                _leaderboardBackground[i].color = new Color(c.r, c.g, c.b, _leaderboardBackgroundColor.a);
+                var c = _leaderboardBackground[i].color; 
+                _leaderboardBackground[i].color = new Color(c.r, c.g, c.b, 1);
 
                 c = stat[i].PlayerColor;
                 _leaderboardTexts[i].color = new Color(c.r,c.g,c.b,1);
@@ -1105,7 +1112,7 @@ public class UISystem : MonoBehaviour, ISystem
             }
             else
             {
-                var c = _leaderboardBackgroundColor; 
+                var c = _leaderboardBackground[i].color; 
                 _leaderboardBackground[i].color = new Color(c.r, c.g, c.b, 0);
                 
                 c = _leaderboardTexts[i].color;
@@ -1118,7 +1125,7 @@ public class UISystem : MonoBehaviour, ISystem
         
         if (mainPlayerPosition > 3)
         {
-            var c = GameController.GameConfig.PlayerBackgroundColor; 
+            var c = _leaderboardBackground[3].color; 
             _leaderboardBackground[3].color = new Color(c.r, c.g, c.b, 1);
             
             c = mainPlayer.PlayerColor;
@@ -1127,8 +1134,8 @@ public class UISystem : MonoBehaviour, ISystem
         }
         else
         {
-            var c = GameController.GameConfig.PlayerBackgroundColor; 
-            _leaderboardBackground[mainPlayerPosition - 1].color = new Color(c.r, c.g, c.b, 1);
+            var c = _leaderboardBackground[3].color; 
+            //_leaderboardBackground[mainPlayerPosition - 1].color = new Color(c.r, c.g, c.b, 1);
             
             //Reset 4th rank
             _leaderboardBackground[3].color = new Color(c.r, c.g, c.b, 0);
