@@ -20,7 +20,7 @@ GameObject:
   m_TagString: Destroyable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &481610
 Transform:
@@ -29,7 +29,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 157452}
-  m_LocalRotation: {x: -0.00000003774895, y: 0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -64.70505, y: 84.800575, z: -187.93408}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -111,10 +111,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectType: 0
   haveParticleDeath: 1
-  particleEffect: {fileID: 0}
+  particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   particleVolumeMultiplier: 1
-  particleCount: 0
-  particleSize: 0
+  particleCount: 263.37036
+  particleSize: 0.38042384
   crashGameObject: {fileID: 0}
   crashPos: {fileID: 0}
   particleObjSpawnParent: {fileID: 481610}

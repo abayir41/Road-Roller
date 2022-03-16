@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &469658
 Transform:
@@ -98,7 +98,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &429644
 Transform:
@@ -198,7 +198,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &424112
 Transform:
@@ -280,7 +280,7 @@ GameObject:
   m_TagString: Destroyable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &441252
 Transform:
@@ -330,12 +330,12 @@ MonoBehaviour:
   haveParticleDeath: 1
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   particleVolumeMultiplier: 1
-  particleCount: 893.487
-  particleSize: 1.2905922
+  particleCount: 473.22272
+  particleSize: 0.6835439
   crashGameObject: {fileID: 0}
   crashPos: {fileID: 0}
   particleObjSpawnParent: {fileID: 485446}
-  shapeOfParticleCollider: {fileID: 2230018831922633523}
+  shapeOfParticleCollider: {fileID: 7403236781558266435}
   meshRenderers:
   - {fileID: 2304138}
   - {fileID: 2383904}
@@ -370,12 +370,13 @@ GameObject:
   - component: {fileID: 454702}
   - component: {fileID: 3374896}
   - component: {fileID: 2373712}
+  - component: {fileID: 1116856936141492562}
   m_Layer: 0
   m_Name: TreeSign
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &454702
 Transform:
@@ -440,6 +441,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &1116856936141492562
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182364}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5908518, y: 3.9598467, z: 0.76993036}
+  m_Center: {x: 0.2812052, y: 1.9795771, z: 0.00026398897}
 --- !u!1 &187308
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,7 +470,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &424122
 Transform:
@@ -532,13 +546,13 @@ GameObject:
   - component: {fileID: 485446}
   - component: {fileID: 3392858}
   - component: {fileID: 2387158}
-  - component: {fileID: 2230018831922633523}
+  - component: {fileID: 7403236781558266435}
   m_Layer: 0
   m_Name: Pawn_Shop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &485446
 Transform:
@@ -603,7 +617,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2230018831922633523
+--- !u!65 &7403236781558266435
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -615,4 +629,4 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 5.0935616, y: 4.6807942, z: 4.379476}
-  m_Center: {x: -0.2530973, y: 2.3398879, z: 0.3646233}
+  m_Center: {x: -0.2530973, y: 2.3398879, z: 0.36462712}

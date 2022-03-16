@@ -17,7 +17,7 @@ GameObject:
   m_TagString: Destroyable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &405808
 Transform:
@@ -63,12 +63,12 @@ MonoBehaviour:
   haveParticleDeath: 1
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   particleVolumeMultiplier: 1
-  particleCount: 481.68085
-  particleSize: 0.69576114
+  particleCount: 602.8071
+  particleSize: 0.8707214
   crashGameObject: {fileID: 0}
   crashPos: {fileID: 0}
-  particleObjSpawnParent: {fileID: 468670}
-  shapeOfParticleCollider: {fileID: -535486439221090801}
+  particleObjSpawnParent: {fileID: 406900}
+  shapeOfParticleCollider: {fileID: 4575247748394055763}
   meshRenderers: []
 --- !u!54 &-1729975165977985536
 Rigidbody:
@@ -97,12 +97,13 @@ GameObject:
   - component: {fileID: 406900}
   - component: {fileID: 3350836}
   - component: {fileID: 2349500}
+  - component: {fileID: 4575247748394055763}
   m_Layer: 0
   m_Name: Tree_Fruits_Apples
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &406900
 Transform:
@@ -167,6 +168,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4575247748394055763
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107384}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.7274733, y: 3.9540012, z: 2.7274733}
+  m_Center: {x: 0.026740909, y: 1.9827336, z: -0.01434648}
 --- !u!1 &128560
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,13 +192,12 @@ GameObject:
   - component: {fileID: 468670}
   - component: {fileID: 3371396}
   - component: {fileID: 2376368}
-  - component: {fileID: -535486439221090801}
   m_Layer: 0
   m_Name: Apples
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &468670
 Transform:
@@ -249,16 +262,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &-535486439221090801
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 128560}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.9225664, y: 1.5364432, z: 2.9291844}
-  m_Center: {x: 0.01730436, y: 3.0152154, z: -0.0014240146}

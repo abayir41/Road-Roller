@@ -11,13 +11,12 @@ GameObject:
   - component: {fileID: 447120}
   - component: {fileID: 3386458}
   - component: {fileID: 2342596}
-  - component: {fileID: -8724727431393623191}
   m_Layer: 0
   m_Name: Bubbles_Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &447120
 Transform:
@@ -82,19 +81,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &-8724727431393623191
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 117668}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.5759509, y: 2.8075366, z: 2.3483076}
-  m_Center: {x: 0.057411313, y: 2.2642472, z: 0.09811771}
 --- !u!1 &127600
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,12 +92,13 @@ GameObject:
   - component: {fileID: 435008}
   - component: {fileID: 3349230}
   - component: {fileID: 2313890}
+  - component: {fileID: 6361727728242802221}
   m_Layer: 0
   m_Name: Tree_Bubbles_Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &435008
 Transform:
@@ -176,6 +163,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6361727728242802221
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127600}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.4961448, y: 3.889756, z: 2.4961448}
+  m_Center: {x: 0.05403298, y: 1.6745297, z: 0.081558704}
 --- !u!1 &193886
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,7 +193,7 @@ GameObject:
   m_TagString: Destroyable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &410990
 Transform:
@@ -239,12 +239,12 @@ MonoBehaviour:
   haveParticleDeath: 1
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   particleVolumeMultiplier: 1
-  particleCount: 488.43457
-  particleSize: 0.7055165
+  particleCount: 573.23096
+  particleSize: 0.82800025
   crashGameObject: {fileID: 0}
   crashPos: {fileID: 0}
-  particleObjSpawnParent: {fileID: 447120}
-  shapeOfParticleCollider: {fileID: -8724727431393623191}
+  particleObjSpawnParent: {fileID: 435008}
+  shapeOfParticleCollider: {fileID: 6361727728242802221}
   meshRenderers: []
 --- !u!54 &3048732988703566852
 Rigidbody:

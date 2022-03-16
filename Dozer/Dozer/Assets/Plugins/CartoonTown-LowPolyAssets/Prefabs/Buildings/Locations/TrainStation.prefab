@@ -17,7 +17,7 @@ GameObject:
   m_TagString: Destroyable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &472752
 Transform:
@@ -63,12 +63,12 @@ MonoBehaviour:
   haveParticleDeath: 1
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   particleVolumeMultiplier: 1
-  particleCount: 648.47845
-  particleSize: 0.93669105
+  particleCount: 788.7315
+  particleSize: 1.1392788
   crashGameObject: {fileID: 0}
   crashPos: {fileID: 0}
-  particleObjSpawnParent: {fileID: 422724}
-  shapeOfParticleCollider: {fileID: 3365870171286562371}
+  particleObjSpawnParent: {fileID: 430746}
+  shapeOfParticleCollider: {fileID: 38565616898125307}
   meshRenderers:
   - {fileID: 2381466}
   - {fileID: 2330436}
@@ -99,12 +99,13 @@ GameObject:
   - component: {fileID: 430746}
   - component: {fileID: 3356476}
   - component: {fileID: 2381466}
+  - component: {fileID: 38565616898125307}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &430746
 Transform:
@@ -169,6 +170,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &38565616898125307
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132238}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6.0000005, y: 0.50002456, z: 3.9983537}
+  m_Center: {x: 0, y: 0.24998719, z: -0.8028742}
 --- !u!1 &164926
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,13 +194,12 @@ GameObject:
   - component: {fileID: 422724}
   - component: {fileID: 3388066}
   - component: {fileID: 2330436}
-  - component: {fileID: 3365870171286562371}
   m_Layer: 0
   m_Name: Station
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &422724
 Transform:
@@ -252,16 +265,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3365870171286562371
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 164926}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.088961, y: 2.2447789, z: 2.0915124}
-  m_Center: {x: 0.031508684, y: 1.5921658, z: -0.23988974}

@@ -11,13 +11,13 @@ GameObject:
   - component: {fileID: 400116}
   - component: {fileID: 3339816}
   - component: {fileID: 2364006}
-  - component: {fileID: 4776543663378336521}
+  - component: {fileID: 6677137638291276266}
   m_Layer: 0
   m_Name: RealEstate_Shop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &400116
 Transform:
@@ -82,7 +82,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4776543663378336521
+--- !u!65 &6677137638291276266
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,7 +94,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 4.361805, y: 5.204963, z: 4.1070547}
-  m_Center: {x: 0.0015286207, y: 2.6024725, z: 0.30727297}
+  m_Center: {x: 0.0015286207, y: 2.6024725, z: 0.30727264}
 --- !u!1 &123698
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,7 +112,7 @@ GameObject:
   m_TagString: Destroyable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &403730
 Transform:
@@ -159,12 +159,12 @@ MonoBehaviour:
   haveParticleDeath: 1
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   particleVolumeMultiplier: 1
-  particleCount: 866.0816
-  particleSize: 1.2510067
+  particleCount: 242.32126
+  particleSize: 0.35001957
   crashGameObject: {fileID: 0}
   crashPos: {fileID: 0}
   particleObjSpawnParent: {fileID: 400116}
-  shapeOfParticleCollider: {fileID: 4776543663378336521}
+  shapeOfParticleCollider: {fileID: 6677137638291276266}
   meshRenderers:
   - {fileID: 2324916}
   - {fileID: 2364006}
@@ -196,12 +196,13 @@ GameObject:
   - component: {fileID: 493010}
   - component: {fileID: 3393556}
   - component: {fileID: 2385778}
+  - component: {fileID: 2319710111691323648}
   m_Layer: 0
   m_Name: Sign
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &493010
 Transform:
@@ -266,6 +267,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &2319710111691323648
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150132}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.86012006, y: 1.9367815, z: 0.6630943}
+  m_Center: {x: -0.15178554, y: 0.9684749, z: 0.00069636106}
 --- !u!1 &197820
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,7 +296,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &495268
 Transform:

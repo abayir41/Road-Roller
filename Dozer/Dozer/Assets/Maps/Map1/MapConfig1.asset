@@ -25,6 +25,7 @@ MonoBehaviour:
   cameraDistanceDivider: 50
   playerDozer: {fileID: 5810240144904009790, guid: 790b01b7606da304197450acf4585446, type: 3}
   aiDozer: {fileID: 5020395865685476948, guid: bf7ef8e8c57cd894aa01941d95779835, type: 3}
+  cornerDistanceThreshold: 1.5
   mapStartVelocity: 3
   velocityDivider: 600
   playerCount: 9

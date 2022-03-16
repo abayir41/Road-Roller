@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &493132
 Transform:
@@ -98,7 +98,7 @@ GameObject:
   m_TagString: Destroyable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &411950
 Transform:
@@ -148,12 +148,12 @@ MonoBehaviour:
   haveParticleDeath: 1
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   particleVolumeMultiplier: 1
-  particleCount: 1002.67847
-  particleSize: 1.4483132
+  particleCount: 157.97066
+  particleSize: 0.22817984
   crashGameObject: {fileID: 0}
   crashPos: {fileID: 0}
   particleObjSpawnParent: {fileID: 489464}
-  shapeOfParticleCollider: {fileID: 8583869217198601942}
+  shapeOfParticleCollider: {fileID: 8147060626097511319}
   meshRenderers:
   - {fileID: 2348970}
   - {fileID: 2353754}
@@ -193,7 +193,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &488328
 Transform:
@@ -269,12 +269,13 @@ GameObject:
   - component: {fileID: 445182}
   - component: {fileID: 3348952}
   - component: {fileID: 2337904}
+  - component: {fileID: 6118080244855520527}
   m_Layer: 0
   m_Name: Spider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &445182
 Transform:
@@ -339,6 +340,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6118080244855520527
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 159840}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.72465503, y: 1.1919627, z: 0.386682}
+  m_Center: {x: -0.0019662678, y: 0.38290524, z: -0.029521465}
 --- !u!1 &162218
 GameObject:
   m_ObjectHideFlags: 0
@@ -355,7 +369,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &448102
 Transform:
@@ -436,7 +450,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &421902
 Transform:
@@ -512,13 +526,13 @@ GameObject:
   - component: {fileID: 489464}
   - component: {fileID: 3309502}
   - component: {fileID: 2378808}
-  - component: {fileID: 8583869217198601942}
+  - component: {fileID: 8147060626097511319}
   m_Layer: 0
   m_Name: Magig_Shop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &489464
 Transform:
@@ -583,7 +597,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8583869217198601942
+--- !u!65 &8147060626097511319
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -594,5 +608,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4.2944603, y: 6.20182, z: 5.2454185}
-  m_Center: {x: 0, y: 1.5942209, z: 0.7256499}
+  m_Size: {x: 4.2944603, y: 6.20182, z: 5.528713}
+  m_Center: {x: -0.00000011920929, y: 1.5942209, z: 0.5839976}

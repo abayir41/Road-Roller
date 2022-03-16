@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -16,7 +16,7 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
     private GameObject _target;
     
     //Path Setting
-    [SerializeField]
+    private float cornerDistanceThreshold => MapController.Instance.mapConfig.CornerDistanceThreshold;
     private float cornerDistanceThreshold;
     
     //Path Finding
@@ -51,6 +51,7 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
             _target = ObjectSelector();
             if (_target == null) return;
             
+            _timerForChangeTarget = 0;
             
             // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
             var targetInteractableObj = _target.GetComponent<InteractableObj>();
@@ -128,7 +129,7 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
             return _target.GetComponent<InteractableObj>().ColliderPosition;
         }
          
-        if (Vector3.Distance(_destination, _selfTransform.position) < cornerDistanceThreshold)
+        if (Vector2.Distance(new Vector2(_destination.x,_destination.z), new Vector2(_selfTransform.position.x,_selfTransform.position.z)) < cornerDistanceThreshold)
         {
             _timerForChangeTarget = 0;
             _cornerIndexer += 1;

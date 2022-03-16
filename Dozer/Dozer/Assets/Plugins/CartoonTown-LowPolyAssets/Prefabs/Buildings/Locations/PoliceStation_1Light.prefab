@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &458768
 Transform:
@@ -98,7 +98,7 @@ GameObject:
   m_TagString: Destroyable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &442604
 Transform:
@@ -146,12 +146,12 @@ MonoBehaviour:
   haveParticleDeath: 1
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   particleVolumeMultiplier: 1
-  particleCount: 1008.4813
-  particleSize: 1.4566951
+  particleCount: 242.4963
+  particleSize: 0.35027245
   crashGameObject: {fileID: 0}
   crashPos: {fileID: 0}
-  particleObjSpawnParent: {fileID: 405024}
-  shapeOfParticleCollider: {fileID: -8009614715400722574}
+  particleObjSpawnParent: {fileID: 442604}
+  shapeOfParticleCollider: {fileID: 7742360199077662273}
   meshRenderers:
   - {fileID: 2343948}
   - {fileID: 2326754}
@@ -184,12 +184,13 @@ GameObject:
   - component: {fileID: 477334}
   - component: {fileID: 3399536}
   - component: {fileID: 2390546}
+  - component: {fileID: 8297757256426803966}
   m_Layer: 0
   m_Name: Sign
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &477334
 Transform:
@@ -254,6 +255,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &8297757256426803966
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 145190}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8849929, y: 1.92838, z: 0.6602179}
+  m_Center: {x: 0.06886217, y: 0.9635155, z: -0.011375785}
 --- !u!1 &194800
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,7 +285,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &413986
 Transform:
@@ -366,13 +380,13 @@ GameObject:
   - component: {fileID: 405024}
   - component: {fileID: 3392768}
   - component: {fileID: 2303044}
-  - component: {fileID: -8009614715400722574}
+  - component: {fileID: 7742360199077662273}
   m_Layer: 0
   m_Name: PoliceStation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &405024
 Transform:
@@ -437,7 +451,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &-8009614715400722574
+--- !u!65 &7742360199077662273
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -449,4 +463,4 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 5.565166, y: 5.5065236, z: 4.909833}
-  m_Center: {x: -0.021031618, y: 2.713845, z: 0.16617346}
+  m_Center: {x: -0.021031618, y: 2.7138453, z: 0.16617727}

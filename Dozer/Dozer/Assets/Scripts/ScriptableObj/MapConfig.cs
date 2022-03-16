@@ -37,10 +37,12 @@ public class MapConfig : ScriptableObject
 
     public GameObject PlayerDozer => playerDozer;
     public GameObject AIDozer => aiDozer;
+    public float CornerDistanceThreshold => cornerDistanceThreshold;
     
     [Header("Dozer Settings")]
     [SerializeField] private GameObject playerDozer;
     [SerializeField] private GameObject aiDozer;
+    [SerializeField] private float cornerDistanceThreshold;
 
 
     public float MapStartVelocity => mapStartVelocity;

@@ -11,13 +11,12 @@ GameObject:
   - component: {fileID: 403054}
   - component: {fileID: 3369150}
   - component: {fileID: 2366178}
-  - component: {fileID: 2441692323749046180}
   m_Layer: 0
   m_Name: Bubbles_Pink
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &403054
 Transform:
@@ -82,19 +81,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2441692323749046180
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 158020}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.5759506, y: 2.8075366, z: 2.3483074}
-  m_Center: {x: 0.057411313, y: 2.2642472, z: 0.09811771}
 --- !u!1 &160194
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,7 +98,7 @@ GameObject:
   m_TagString: Destroyable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &463774
 Transform:
@@ -158,12 +144,12 @@ MonoBehaviour:
   haveParticleDeath: 1
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   particleVolumeMultiplier: 1
-  particleCount: 488.4345
-  particleSize: 0.70551646
+  particleCount: 573.23096
+  particleSize: 0.82800025
   crashGameObject: {fileID: 0}
   crashPos: {fileID: 0}
-  particleObjSpawnParent: {fileID: 403054}
-  shapeOfParticleCollider: {fileID: 2441692323749046180}
+  particleObjSpawnParent: {fileID: 447534}
+  shapeOfParticleCollider: {fileID: 7285877593166039470}
   meshRenderers: []
 --- !u!54 &-3054190573791431784
 Rigidbody:
@@ -192,12 +178,13 @@ GameObject:
   - component: {fileID: 447534}
   - component: {fileID: 3381524}
   - component: {fileID: 2313170}
+  - component: {fileID: 7285877593166039470}
   m_Layer: 0
   m_Name: Tree_Bubbles_Pink
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &447534
 Transform:
@@ -262,3 +249,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &7285877593166039470
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169842}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.4961448, y: 3.889756, z: 2.4961445}
+  m_Center: {x: 0.05403298, y: 1.6745301, z: 0.08155489}
