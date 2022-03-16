@@ -1,0 +1,165 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7155392348968226163
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7155392348968226165}
+  - component: {fileID: 7155392348968226164}
+  m_Layer: 0
+  m_Name: UIController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7155392348968226165
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7155392348968226163}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1087.346, y: 2215.1445, z: 214.1934}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7155392348968226164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7155392348968226163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ba5183f82e5e6e4892e9578deb02e8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationDuration: 0.2
+  loadingScreenParent: {fileID: 0}
+  loadingBackground: {fileID: 0}
+  loadingText: {fileID: 0}
+  waitingMenuUI: {fileID: 0}
+  clickToPlayButton: {fileID: 0}
+  waitingMenuUIObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  waitingMenuButtons:
+  - {fileID: 0}
+  goNegativeMove: 0000000101
+  skinSelectMenuParent: {fileID: 0}
+  skinSelectMenu: {fileID: 0}
+  skinsContentItems:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  modeSelectMenuParent: {fileID: 0}
+  modeSelectMenu: {fileID: 0}
+  settingsPanelParent: {fileID: 0}
+  settingsPanel: {fileID: 0}
+  gameUI: {fileID: 0}
+  timerPlayerObj: {fileID: 0}
+  killsObj: {fileID: 0}
+  levelSliderObj: {fileID: 0}
+  destroyableObjectObj: {fileID: 0}
+  leaderBoardObj: {fileID: 0}
+  leaderboardObjs:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  timePlayerText: {fileID: 0}
+  killText: {fileID: 0}
+  destroyableObjectObjItems:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  endOfSliderImage: {fileID: 0}
+  endText: {fileID: 0}
+  pauseParent: {fileID: 0}
+  pauseItems:
+  - {fileID: 0}
+  - {fileID: 0}
+  pauseBackGround: {fileID: 0}
+  needToContinueParent: {fileID: 0}
+  needToContinueTimeOut: {fileID: 0}
+  needToContinueRewardImage: {fileID: 0}
+  needToContinueRewardButton: {fileID: 0}
+  needToContinueBackGround: {fileID: 0}
+  needToContinueClickToContinue: {fileID: 0}
+  endLeaderboardParent: {fileID: 0}
+  timeOutOrPlayerCount: {fileID: 0}
+  leaderBoardObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  rewardButtonObject: {fileID: 0}
+  clickToContinueObject: {fileID: 0}
+  deadScreenParent: {fileID: 0}
+  deadScreenBackGround: {fileID: 0}
+  deadScreenYouLostText: {fileID: 0}
+  deadScreenScoreText: {fileID: 0}
+  deadScreenClickToContinue: {fileID: 0}
+  skinUnlockParent: {fileID: 0}
+  skinTotalScoreTextObj: {fileID: 0}
+  skinUnlockObj: {fileID: 0}
+  newSkinUnlockedText: {fileID: 0}
+  skinUnlockClickToContinue: {fileID: 0}
+  skinUnlockScript: {fileID: 0}
+  skinUnlockImageObjs:
+  - {fileID: 0}
+  - {fileID: 0}
+  dozerShowers:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

@@ -11,7 +11,7 @@ public class GameInitializer : MonoBehaviour, ISystem
     public static GameObject CurrentMap { get; private set; }
     private void Start()
     {
-        //PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteAll();
         StartCoroutine(InitializeTheGame());
     }
 
@@ -19,6 +19,10 @@ public class GameInitializer : MonoBehaviour, ISystem
     {
         ActionSys.GameStatusChanged?.Invoke(GameStatus.Loading);
         
+        yield return 0;
+        
+        UISystem.Instance.CachePositions();
+
         yield return 0;
         
         UISystem.Instance.ResetTheSystem();
