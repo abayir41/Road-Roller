@@ -82,8 +82,11 @@ public class GameController : MonoBehaviour, ISystem
                 }
             }
 
-            if(LeaderboardsAbstract.Instance.AlivePlayerCount == 1) 
-                ActionSys.GameStatusChanged?.Invoke(GameStatus.Ended);
+            if (Mode == GameMode.BeTheLast)
+            {
+                if(LeaderboardsAbstract.Instance.AlivePlayerCount == 1) 
+                    ActionSys.GameStatusChanged?.Invoke(GameStatus.Ended);
+            }
         }
     }
 

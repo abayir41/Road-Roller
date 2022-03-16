@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 424482}
   - component: {fileID: 3389608}
   - component: {fileID: 2339896}
+  - component: {fileID: 4407203593856464301}
   m_Layer: 0
   m_Name: Windmill
   m_TagString: Untagged
@@ -81,6 +82,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4407203593856464301
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121984}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.163815, y: 6.8422527, z: 4.5530725}
+  m_Center: {x: -0.000012874603, y: 3.4211173, z: -0.03160453}
 --- !u!1 &172184
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,16 +236,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f6db4b812fd8814b9a0e5e87d43f0a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectType: 0
+  objectType: 1
   haveParticleDeath: 1
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   particleVolumeMultiplier: 1
-  particleCount: 748.51904
-  particleSize: 1.0811942
+  particleCount: 1005.43536
+  particleSize: 1.4522954
   crashGameObject: {fileID: 0}
   crashPos: {fileID: 0}
-  particleObjSpawnParent: {fileID: 472242}
-  shapeOfParticleCollider: {fileID: 629106131525865978}
+  particleObjSpawnParent: {fileID: 424482}
+  shapeOfParticleCollider: {fileID: 4407203593856464301}
   meshRenderers:
   - {fileID: 2360668}
   - {fileID: 2361844}

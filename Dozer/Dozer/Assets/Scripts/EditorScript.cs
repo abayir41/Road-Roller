@@ -137,6 +137,19 @@ public class EditorScript : MonoBehaviour
         return x;
     }
 
+    [ContextMenu("SetParticles")]
+    private void SetParticles()
+    {
+        foreach (var asd in Objects)
+        {
+            
+            if (asd.GetComponent<InteractableObj>() != null)
+            {
+                if(asd.GetComponent<InteractableObj>().haveParticleDeath)
+                    setParticle(asd,asd.GetComponent<InteractableObj>().shapeOfParticleCollider);
+            }
+        }
+    }
     private void setParticle(GameObject obj, BoxCollider refCollider)
     {
         var a = obj.GetComponent<InteractableObj>();
