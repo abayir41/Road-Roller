@@ -148,8 +148,8 @@ MonoBehaviour:
   haveParticleDeath: 1
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   particleVolumeMultiplier: 1
-  particleCount: 1002.6784
-  particleSize: 1.4483131
+  particleCount: 1002.67847
+  particleSize: 1.4483132
   crashGameObject: {fileID: 0}
   crashPos: {fileID: 0}
   particleObjSpawnParent: {fileID: 489464}

@@ -599,7 +599,7 @@ MonoBehaviour:
   crashGameObject: {fileID: 0}
   crashPos: {fileID: 0}
   particleObjSpawnParent: {fileID: 417624}
-  shapeOfParticleCollider: {fileID: -6183533930677180696}
+  shapeOfParticleCollider: {fileID: 640125184528018233}
   meshRenderers: []
 --- !u!54 &-4795836423104153367
 Rigidbody:
@@ -628,7 +628,7 @@ GameObject:
   - component: {fileID: 424044}
   - component: {fileID: 3397168}
   - component: {fileID: 2314298}
-  - component: {fileID: -6183533930677180696}
+  - component: {fileID: 640125184528018233}
   m_Layer: 0
   m_Name: Light_Green.L
   m_TagString: Untagged
@@ -699,7 +699,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &-6183533930677180696
+--- !u!65 &640125184528018233
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
