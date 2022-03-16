@@ -248,8 +248,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.1
-      minScalar: 0.5
+      scalar: 1.3
+      minScalar: 0.29999995
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -521,9 +521,9 @@ ParticleSystem:
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
-    m_Position: {x: 0, y: 0, z: 0}
+    m_Position: {x: 0.18849981, y: 2.5790281, z: 0.51232344}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 5.55, y: 3.65, z: 4.01}
+    m_Scale: {x: 4.644186, y: 5.1580563, z: 4.454307}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -720,9 +720,9 @@ ParticleSystem:
     serializedVersion: 4
     rateOverTime:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 50000
-      minScalar: 10
+      minMaxState: 3
+      scalar: 900
+      minScalar: 899
       maxCurve:
         serializedVersion: 2
         m_Curve:

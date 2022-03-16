@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class InteractableObj : MonoBehaviour, IInteractable
 {
+    
     [Header("Collision Configurations")]
     [SerializeField] private ObjectType objectType = ObjectType.Small;
 
@@ -92,31 +93,41 @@ public class InteractableObj : MonoBehaviour, IInteractable
     
     public Vector3 ColliderPosition => GetComponent<Collider>().bounds.center;
     public ObjectType ObjectType => objectType;
-    
-    [Header("Particle Effect Settings")]
-    [SerializeField] private GameObject particleEffect;
-    [SerializeField] private float particleVolumeMultiplier = 1f;
-    [SerializeField] private float particleCount;
-    [SerializeField] private float particleSize;
+
+    [Header("Particle Effect Settings")] 
+    [SerializeField] public bool haveParticleDeath;
+    [SerializeField] public GameObject particleEffect;
+    [SerializeField] public float particleVolumeMultiplier = 1f;
+    [SerializeField] public float particleCount;
+    [SerializeField] public float particleSize;
     
     [Header("After Collision Object")]
-    [SerializeField] private GameObject crashGameObject;
-    [SerializeField] private Transform crashPos;
+    [SerializeField] public GameObject crashGameObject;
+    [SerializeField] public Transform crashPos;
 
     [Header("Some Configurations")] 
-    [SerializeField] private Transform particleObjSpawnParent;
-    [SerializeField] private BoxCollider shapeOfParticleCollider;
-    [SerializeField] public List<MeshRenderer> meshRenderers;
-    [SerializeField] private List<Collider> disableColliders;
+    [SerializeField] public Transform particleObjSpawnParent;
+    [SerializeField] public BoxCollider shapeOfParticleCollider;
+    [HideInInspector] public List<MeshRenderer> meshRenderers;
+    private List<Collider> _disableColliders;
     
 
-    private void Awake()
+    public void Awake()
     {
         if (GetComponent<PlayerController>() != null)
         {
             IsDozer = true;
             _dozerPlayerController = GetComponent<PlayerController>();
         }
+
+        if (!IsDozer)
+        {
+            meshRenderers = new List<MeshRenderer>(GetComponents<MeshRenderer>());
+            meshRenderers.AddRange(GetComponentsInChildren<MeshRenderer>());
+        }
+        
+        _disableColliders = new List<Collider>(GetComponents<Collider>());
+        _disableColliders.AddRange(GetComponentsInChildren<Collider>());
     }
 
     public void Interact(PlayerController playerController)
@@ -154,7 +165,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
             meshRenderer.enabled = false;
         }
         yield return new WaitForSeconds(delay);
-        foreach (var disableCollider in disableColliders)
+        foreach (var disableCollider in _disableColliders)
         {
             disableCollider.enabled = false;
         }
@@ -164,6 +175,7 @@ public class InteractableObj : MonoBehaviour, IInteractable
     }
     private GameObject SpawnParticle()
     {
+        if (!haveParticleDeath) return null;
         if (particleEffect == null) return null;
         var particle = Instantiate(particleEffect,particleObjSpawnParent);
         particle.transform.localPosition = Vector3.zero;

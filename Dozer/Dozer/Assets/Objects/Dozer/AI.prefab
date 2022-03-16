@@ -272,7 +272,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiPosition: {fileID: 2216268045290752277}
   isAI: 1
-  maxGrow: 50000
 --- !u!114 &7724753583948637852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,6 +313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 0
+  haveParticleDeath: 1
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   particleVolumeMultiplier: 2
   particleCount: 200
@@ -323,9 +323,6 @@ MonoBehaviour:
   particleObjSpawnParent: {fileID: 7566706222891853917}
   shapeOfParticleCollider: {fileID: 5276326485410541350}
   meshRenderers: []
-  disableColliders:
-  - {fileID: 6631306516094977259}
-  - {fileID: 5276326485410541350}
 --- !u!114 &3389896659274365675
 MonoBehaviour:
   m_ObjectHideFlags: 0
