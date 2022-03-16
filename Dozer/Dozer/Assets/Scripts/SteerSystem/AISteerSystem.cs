@@ -16,8 +16,9 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
     private GameObject _target;
     
     //Path Setting
-    private float cornerDistanceThreshold => MapController.Instance.mapConfig.CornerDistanceThreshold;
+    private float CornerDistanceThreshold => MapController.Instance.mapConfig.CornerDistanceThreshold;
 
+    
     //Path Finding
     [SerializeField] private Transform rightTurn;
     [SerializeField] private Transform leftTurn;
