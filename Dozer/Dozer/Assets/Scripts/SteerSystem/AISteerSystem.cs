@@ -13,7 +13,7 @@ public class AISteerSystem : MonoBehaviour, ISteerSystem
     private PlayerController _playerController;
     private IObjectScanner _objectScanner;
     [SerializeField] private ObjectScanner objectScanner;
-    private GameObject _target;
+    [SerializeField] private GameObject _target;
     
     //Path Setting
     private float cornerDistanceThreshold => MapController.Instance.mapConfig.CornerDistanceThreshold;
