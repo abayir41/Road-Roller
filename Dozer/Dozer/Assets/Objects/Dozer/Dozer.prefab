@@ -325,7 +325,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 84
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &1847414479957000116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,6 +431,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 0
+  haveParticleDeath: 0
   particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   particleVolumeMultiplier: 1.2
   particleCount: 200
@@ -440,9 +441,6 @@ MonoBehaviour:
   particleObjSpawnParent: {fileID: 8938606119862310455}
   shapeOfParticleCollider: {fileID: 6644884416975016268}
   meshRenderers: []
-  disableColliders:
-  - {fileID: 6644884416975016268}
-  - {fileID: 6155144836655381853}
 --- !u!114 &947974457557461837
 MonoBehaviour:
   m_ObjectHideFlags: 0

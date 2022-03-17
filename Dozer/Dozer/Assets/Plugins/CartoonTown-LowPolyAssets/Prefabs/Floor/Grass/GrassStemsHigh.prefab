@@ -110,6 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectType: 0
+  haveParticleDeath: 0
   particleEffect: {fileID: 0}
   particleVolumeMultiplier: 1
   particleCount: 0
@@ -119,7 +120,6 @@ MonoBehaviour:
   particleObjSpawnParent: {fileID: 410720}
   shapeOfParticleCollider: {fileID: -8119757992073107746}
   meshRenderers: []
-  TestScript: 
 --- !u!54 &8777275354285984690
 Rigidbody:
   m_ObjectHideFlags: 0
