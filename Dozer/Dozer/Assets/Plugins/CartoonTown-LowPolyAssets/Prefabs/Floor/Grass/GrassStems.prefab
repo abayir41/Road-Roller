@@ -111,10 +111,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectType: 0
   haveParticleDeath: 1
-  particleEffect: {fileID: 0}
+  particleEffect: {fileID: 3585722245553550237, guid: 710e8105f9eb0eb429fb753b2abd18c3, type: 3}
   particleVolumeMultiplier: 1
-  particleCount: 0
-  particleSize: 0
+  particleCount: 335.9789
+  particleSize: 0.48530287
   crashGameObject: {fileID: 0}
   crashPos: {fileID: 0}
   particleObjSpawnParent: {fileID: 498820}
