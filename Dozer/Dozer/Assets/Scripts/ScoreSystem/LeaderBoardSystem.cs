@@ -1,18 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using RandomNameGeneratorLibrary;
 using UnityEngine;
 using Random = System.Random;
 using UnityRandom = UnityEngine.Random;
 
 public class LeaderBoardSystem : LeaderboardsAbstract
 {
-    private List<string> names => GameController.GameConfig.Names;
+    private List<string> names;
     private List<Color> colors => GameController.GameConfig.Colors;
 
     protected override void Awake()
     {
         base.Awake();
         Instance = this;
+        var pGen = new PersonNameGenerator();
+        names = pGen.GenerateMultipleMaleFirstNames(15).ToList();
     }
 
     public override List<Player> GetLeaderBoard(bool addDeadPlayers = false)
@@ -40,6 +43,7 @@ public class LeaderBoardSystem : LeaderboardsAbstract
 
     public string GetRandomName()
     {
+        
         var suitableNames = names.Where(player => PlayerList.All(player1 => player1.Name != player)).ToArray();
         if (suitableNames.Length == 0)
         {
