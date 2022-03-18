@@ -53,5 +53,20 @@ public class CarController : MonoBehaviour
 
         _rigidbody.velocity = transform.forward * _velocityMultiplier;
         _rigidbody.angularVelocity = Vector3.up * (_steerSystem.Angle / angularVelocityDivider);
+        
+        if(_rigidbody.angularVelocity.x != 0 || _rigidbody.angularVelocity.z != 0)
+            Correction();
     }
+
+    public void Correction()
+    {
+        _rigidbody.angularVelocity = Vector3.zero;
+        transform.rotation = Quaternion.Euler(0, transform.rotation.y, 0);
+    }
+    public void Correction(int y)
+    {
+        _rigidbody.angularVelocity = Vector3.zero;
+        transform.rotation = Quaternion.Euler(0, y, 0);
+    }
+
 }

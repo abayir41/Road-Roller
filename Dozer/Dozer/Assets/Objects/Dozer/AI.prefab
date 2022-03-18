@@ -205,7 +205,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 84
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &913470403476554206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,7 +285,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectScanner: {fileID: 7836060985482088359}
-  cornerDistanceThreshold: 1.5
   rightTurn: {fileID: 2384139638912779326}
   leftTurn: {fileID: 6320369452665663272}
 --- !u!114 &4730062077394250478

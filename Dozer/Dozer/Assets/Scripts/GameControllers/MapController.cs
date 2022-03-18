@@ -27,7 +27,7 @@ public class MapController : MonoBehaviour
 
     public MapConfig mapConfig;
     [Header("Map Settings")] 
-    [SerializeField] private List<Transform> spawnPoints;
+    [SerializeField] public List<Transform> spawnPoints;
     
     private void Awake()
     {
