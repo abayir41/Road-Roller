@@ -1,15 +1,17 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class SkinSystem : MonoBehaviour
 {
     private GameObject _spawnedSkin;
     private Transform _visualPoint;
+    private InteractableObj _obj;
     private void Start()
     {
         _visualPoint = GetComponent<CarSystem>().VisualPoint;
         var isAI = GetComponent<PlayerController>().IsAI;
-        var interactableObj = GetComponent<InteractableObj>();
+        _obj = GetComponent<InteractableObj>();
         if (isAI)
         {
             var ranInt = Random.Range(0, GameController.GameConfig.DozerSkins.Count);
@@ -27,11 +29,7 @@ public class SkinSystem : MonoBehaviour
         _spawnedSkin.transform.localEulerAngles = Vector3.zero;
         _spawnedSkin.transform.localScale = Vector3.one;
         
-        var meshRenderers = _spawnedSkin.GetComponentsInChildren<MeshRenderer>();
-        foreach (var meshRenderer in meshRenderers)
-        {
-            interactableObj.meshRenderers.Add(meshRenderer);
-        }
+        _obj.meshRenderers = _spawnedSkin.GetComponentsInChildren<MeshRenderer>().ToList();
     }
 
     private void OnEnable()
@@ -54,5 +52,10 @@ public class SkinSystem : MonoBehaviour
     {
         Destroy(_spawnedSkin);
         _spawnedSkin = Instantiate(GameController.GameConfig.DozerSkins[id].DozerSkin, _visualPoint);
+        _spawnedSkin.transform.localPosition = Vector3.zero;
+        _spawnedSkin.transform.localEulerAngles = Vector3.zero;
+        _spawnedSkin.transform.localScale = Vector3.one;
+        
+        _obj.meshRenderers = _spawnedSkin.GetComponentsInChildren<MeshRenderer>().ToList();
     }
 }
